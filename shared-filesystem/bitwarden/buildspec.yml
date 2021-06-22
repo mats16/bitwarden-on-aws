@@ -1,0 +1,15 @@
+version: 0.2
+phases:
+  pre_build:
+    commands:
+      - chown -R $LOCAL_UID:$LOCAL_GID ./
+      - cp -R -f -a ./ /mnt/bitwarden/
+  build:
+    commands:
+      - cd /mnt/bitwarden/identity
+      - "[ -f identity.key -a -f identity.crt  ] && echo 'identity.key and identity.crt already exist' || openssl req -x509 -newkey rsa:4096 -sha256 -nodes -keyout identity.key -out identity.crt -subj '/CN=Bitwarden IdentityServer' -days 36500"
+      - "[ -f identity.pfx ] && echo 'identity.pfx already exists' || openssl pkcs12 -export -out identity.pfx -inkey identity.key -in identity.crt -certfile identity.crt -passout pass:$IDENTITY_CERT_PASSWORD"
+  post_build:
+    commands:
+      - chown -R $LOCAL_UID:$LOCAL_GID /mnt/
+      - ls -l /mnt/bitwarden/identity

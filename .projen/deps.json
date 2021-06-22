@@ -1,12 +1,20 @@
 {
   "dependencies": [
     {
+      "name": "@types/aws-lambda",
+      "type": "build"
+    },
+    {
       "name": "@types/jest",
       "type": "build"
     },
     {
       "name": "@types/node",
       "version": "^10.17.0",
+      "type": "build"
+    },
+    {
+      "name": "@types/tedious",
       "type": "build"
     },
     {
@@ -20,6 +28,11 @@
     {
       "name": "aws-cdk",
       "version": "^1.109.0",
+      "type": "build"
+    },
+    {
+      "name": "esbuild",
+      "version": "0",
       "type": "build"
     },
     {
@@ -79,8 +92,120 @@
       "type": "runtime"
     },
     {
+      "name": "@aws-cdk/aws-appmesh",
+      "version": "^1.109.0",
+      "type": "runtime"
+    },
+    {
+      "name": "@aws-cdk/aws-certificatemanager",
+      "version": "^1.109.0",
+      "type": "runtime"
+    },
+    {
+      "name": "@aws-cdk/aws-codebuild",
+      "version": "^1.109.0",
+      "type": "runtime"
+    },
+    {
+      "name": "@aws-cdk/aws-ec2",
+      "version": "^1.109.0",
+      "type": "runtime"
+    },
+    {
+      "name": "@aws-cdk/aws-ecr-assets",
+      "version": "^1.109.0",
+      "type": "runtime"
+    },
+    {
+      "name": "@aws-cdk/aws-ecs",
+      "version": "^1.109.0",
+      "type": "runtime"
+    },
+    {
+      "name": "@aws-cdk/aws-efs",
+      "version": "^1.109.0",
+      "type": "runtime"
+    },
+    {
+      "name": "@aws-cdk/aws-elasticloadbalancingv2",
+      "version": "^1.109.0",
+      "type": "runtime"
+    },
+    {
+      "name": "@aws-cdk/aws-iam",
+      "version": "^1.109.0",
+      "type": "runtime"
+    },
+    {
+      "name": "@aws-cdk/aws-lambda-nodejs",
+      "version": "^1.109.0",
+      "type": "runtime"
+    },
+    {
+      "name": "@aws-cdk/aws-lambda",
+      "version": "^1.109.0",
+      "type": "runtime"
+    },
+    {
+      "name": "@aws-cdk/aws-logs",
+      "version": "^1.109.0",
+      "type": "runtime"
+    },
+    {
+      "name": "@aws-cdk/aws-rds",
+      "version": "^1.109.0",
+      "type": "runtime"
+    },
+    {
+      "name": "@aws-cdk/aws-route53-targets",
+      "version": "^1.109.0",
+      "type": "runtime"
+    },
+    {
+      "name": "@aws-cdk/aws-route53",
+      "version": "^1.109.0",
+      "type": "runtime"
+    },
+    {
+      "name": "@aws-cdk/aws-s3-assets",
+      "version": "^1.109.0",
+      "type": "runtime"
+    },
+    {
+      "name": "@aws-cdk/aws-secretsmanager",
+      "version": "^1.109.0",
+      "type": "runtime"
+    },
+    {
+      "name": "@aws-cdk/aws-servicediscovery",
+      "version": "^1.109.0",
+      "type": "runtime"
+    },
+    {
       "name": "@aws-cdk/core",
       "version": "^1.109.0",
+      "type": "runtime"
+    },
+    {
+      "name": "@aws-cdk/custom-resources",
+      "version": "^1.109.0",
+      "type": "runtime"
+    },
+    {
+      "name": "@aws-sdk/client-secrets-manager",
+      "type": "runtime"
+    },
+    {
+      "name": "axios",
+      "type": "runtime"
+    },
+    {
+      "name": "cdk-ses-helpers",
+      "version": "^0.0.2",
+      "type": "runtime"
+    },
+    {
+      "name": "tedious",
       "type": "runtime"
     }
   ],
