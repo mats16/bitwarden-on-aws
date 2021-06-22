@@ -48,7 +48,7 @@ export class VirtualService extends cdk.Construct {
         listeners: [
           appmesh.VirtualNodeListener.tcp({
             port: this.trafficPort,
-            connectionPool: { maxConnections: 1024 }
+            connectionPool: { maxConnections: 1024 },
           }),
         ],
         accessLog: appmesh.AccessLog.fromFilePath('/dev/stdout'),
@@ -71,7 +71,7 @@ export class VirtualService extends cdk.Construct {
       this.virtualNodes = [];
       this.virtualRouter = new appmesh.VirtualRouter(this, 'VirtualRouter', {
         listeners: [
-          appmesh.VirtualRouterListener.http(this.trafficPort)
+          appmesh.VirtualRouterListener.http(this.trafficPort),
         ],
         mesh,
       });
@@ -258,8 +258,8 @@ export class FargateVirtualService extends VirtualService {
           port: this.trafficPort,
           connectionPool: {
             maxConnections: 1024,
-            maxPendingRequests: 1024
-          }
+            maxPendingRequests: 1024,
+          },
         }),
       ],
       accessLog: appmesh.AccessLog.fromFilePath('/dev/stdout'),
