@@ -136,16 +136,11 @@ export class FargateVirtualService extends VirtualService {
           appPorts: [this.trafficPort],
           proxyIngressPort: 15000,
           proxyEgressPort: 15001,
-          egressIgnoredPorts: [
-            //1433, // SQL Server - https://github.com/aws/aws-app-mesh-roadmap/issues/270
-            2049, // EFS
-          ],
+          egressIgnoredPorts: [2049], // EFS
           egressIgnoredIPs: ['169.254.170.2', '169.254.169.254'],
         },
       }),
-      volumes: [{
-        name: 'LogVolume',
-      }],
+      volumes: [{ name: 'LogVolume' }],
     });
 
     const applicationContainerOptions = {
