@@ -11,6 +11,7 @@ export interface VirtualServiceProps {
   readonly environment: Environment;
   readonly virtualServiceName: string;
   readonly listenerPort?: number;
+  readonly protocol?: 'http' | 'http2' | 'tcp' | 'grpc';
 };
 
 export interface FargateVirtualServiceProps extends VirtualServiceProps {
@@ -21,6 +22,7 @@ export interface FargateVirtualServiceProps extends VirtualServiceProps {
 
 export class VirtualService extends cdk.Construct {
   listenerPort: number;
+  protocol: 'http' | 'http2' | 'tcp' | 'grpc';
   virtualService: appmesh.VirtualService;
   virtualRouter: appmesh.VirtualRouter;
   virtualNodes: appmesh.VirtualNode[];
@@ -34,11 +36,21 @@ export class VirtualService extends cdk.Construct {
     const namespaceName = namespace.namespaceName
 
     this.listenerPort = props.listenerPort || 5000;
+    this.protocol = props.protocol || 'http';
 
     this.virtualNodes = [];
 
+    const virtualRouterListener = (() => {
+      switch (this.protocol) {
+        case 'grpc': return appmesh.VirtualRouterListener.grpc(this.listenerPort);
+        case 'http2': return appmesh.VirtualRouterListener.http2(this.listenerPort);
+        case 'tcp': return appmesh.VirtualRouterListener.tcp(this.listenerPort);
+        default : return appmesh.VirtualRouterListener.http(this.listenerPort);
+      }
+    })();
+
     this.virtualRouter = new appmesh.VirtualRouter(this, 'VirtualRouter', {
-      listeners: [ appmesh.VirtualRouterListener.http(this.listenerPort) ],
+      listeners: [ virtualRouterListener ],
       mesh
     });
 
@@ -58,9 +70,11 @@ export class VirtualService extends cdk.Construct {
     };
   };
 
-  addBackend(otherService: VirtualService) {
+  addBackends(backendServices: VirtualService[]) {
     this.virtualNodes.forEach((virtualNode) => {
-      virtualNode.addBackend(appmesh.Backend.virtualService(otherService.virtualService));
+      backendServices.forEach((backendService) => {
+        virtualNode.addBackend(appmesh.Backend.virtualService(backendService.virtualService));
+      });
     });
   };
 };
@@ -194,7 +208,7 @@ export class FargateVirtualService extends VirtualService {
       readOnly: false,
     });
 
-    const ecsService = new ecs.FargateService(this, `${imageTag}-Service`, {
+    const ecsService = new ecs.FargateService(this, 'DefaultService', {
       cluster,
       taskDefinition: this.ecsTaskDefinition,
       securityGroups: [securityGroup],
@@ -214,7 +228,8 @@ export class FargateVirtualService extends VirtualService {
     });
 
     // Create a virtual node for the name service
-    const virtualNode = new appmesh.VirtualNode(this, 'DefaultVirtualNode', {
+    const virtualNode = new appmesh.VirtualNode(this, 'VirtualNode', {
+      virtualNodeName: `${serviceName}-${imageTag}`,
       serviceDiscovery: appmesh.ServiceDiscovery.cloudMap({
         service: ecsService.cloudMapService!,
       }),
@@ -293,7 +308,7 @@ export class FargateVirtualService extends VirtualService {
 };
 
 export interface ExternalVirtualServiceProps extends VirtualServiceProps {
-  readonly protocol?: 'http' | 'http2' | 'tcp' | 'grpc';
+
 };
 
 export class ExternalVirtualService extends VirtualService {
@@ -302,14 +317,21 @@ export class ExternalVirtualService extends VirtualService {
     super(scope, id, props);
 
     const mesh = props.environment.mesh;
-    const protocol = props.protocol || 'tcp';
+
+    const connectionPool: appmesh.HttpConnectionPool = {
+      maxConnections: 1024,
+      maxPendingRequests: 1024,
+    };
+    const http2ConnectionPool: appmesh.Http2ConnectionPool = {
+      maxRequests: 1024
+    };
 
     const virtualNodeListener = (() => {
-      switch (protocol) {
-          case 'http': return appmesh.VirtualNodeListener.http({ port: this.listenerPort })
-          case 'http2': return appmesh.VirtualNodeListener.http2({ port: this.listenerPort })
-          //case 'grpc': return appmesh.RouteSpec.grpc({ weightedTargets: [{ virtualNode: virtualNode }] });
-          default : return appmesh.VirtualNodeListener.tcp({ port: this.listenerPort })
+      switch (this.protocol) {
+        case 'grpc': return appmesh.VirtualNodeListener.grpc({ port: this.listenerPort, connectionPool: http2ConnectionPool });
+        case 'http2': return appmesh.VirtualNodeListener.http2({ port: this.listenerPort, connectionPool: http2ConnectionPool });
+        case 'tcp': return appmesh.VirtualNodeListener.tcp({ port: this.listenerPort, connectionPool });
+        default : return appmesh.VirtualNodeListener.http({ port: this.listenerPort, connectionPool });
       }
     })();
 
@@ -317,25 +339,16 @@ export class ExternalVirtualService extends VirtualService {
       serviceDiscovery: appmesh.ServiceDiscovery.dns(this.virtualService.virtualServiceName),
       accessLog: appmesh.AccessLog.fromFilePath('/dev/stdout'),
       listeners: [virtualNodeListener],
-      //listeners: [
-      //  appmesh.VirtualNodeListener.http({
-      //    port: this.listenerPort,
-      //    //connectionPool: {
-      //    //  maxConnections: 1024,
-      //    //  maxPendingRequests: 1024,
-      //    //},
-      //  }),
-      //],
       mesh,
     });
     this.virtualNodes.push(virtualNode);
 
     const routeSpec = (() => {
-      switch (protocol) {
-          case 'http': return appmesh.RouteSpec.http({ weightedTargets: [{ virtualNode: virtualNode }] });
-          case 'http2': return appmesh.RouteSpec.http2({ weightedTargets: [{ virtualNode: virtualNode }] });
-          //case 'grpc': return appmesh.RouteSpec.grpc({ weightedTargets: [{ virtualNode: virtualNode }] });
-          default : return appmesh.RouteSpec.tcp({ weightedTargets: [{ virtualNode: virtualNode }] });
+      switch (this.protocol) {
+        case 'grpc': return appmesh.RouteSpec.grpc({ weightedTargets: [{ virtualNode: virtualNode }], match: { serviceName: this.virtualService.virtualServiceName } });
+        case 'http2': return appmesh.RouteSpec.http2({ weightedTargets: [{ virtualNode: virtualNode }] });
+        case 'tcp': return appmesh.RouteSpec.tcp({ weightedTargets: [{ virtualNode: virtualNode }] });
+        default : return appmesh.RouteSpec.http({ weightedTargets: [{ virtualNode: virtualNode }] });
       }
     })();
 

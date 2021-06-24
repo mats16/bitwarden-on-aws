@@ -239,19 +239,20 @@ export class BitwardenStack extends cdk.Stack {
       environment,
       virtualServiceName: 'push.bitwarden.com',
       listenerPort: 443,
-      protocol: 'http',
     });
 
     const dbService = new ExternalVirtualService(this, 'Database', {
       environment,
       virtualServiceName: db.dbInstanceEndpointAddress,
       listenerPort: 1433,
+      protocol: 'tcp',
     });
 
     const emailService = new ExternalVirtualService(this, 'Email', {
       environment,
       virtualServiceName: `email-smtp.${this.region}.amazonaws.com`,
       listenerPort: 587,
+      protocol: 'tcp',
     });
 
     const webService = new FargateVirtualService(this, 'Web', {
@@ -287,7 +288,7 @@ export class BitwardenStack extends cdk.Stack {
     });
     identityService.addVolume(coreAccessPoint, '/etc/bitwarden/core');
     identityService.addVolume(identityAccessPoint, '/etc/bitwarden/identity');
-    identityService.addBackend(dbService);
+    identityService.addBackends([dbService]);
 
     const apiService = new FargateVirtualService(this, 'Api', {
       environment,
@@ -300,9 +301,7 @@ export class BitwardenStack extends cdk.Stack {
       },
     });
     apiService.addVolume(coreAccessPoint, '/etc/bitwarden/core');
-    apiService.addBackend(identityService);
-    apiService.addBackend(dbService);
-    apiService.addBackend(emailService);
+    apiService.addBackends([identityService, dbService, emailService]);
 
     const ssoService = new FargateVirtualService(this, 'SSO', {
       environment,
@@ -316,7 +315,7 @@ export class BitwardenStack extends cdk.Stack {
     });
     ssoService.addVolume(coreAccessPoint, '/etc/bitwarden/core');
     ssoService.addVolume(identityAccessPoint, '/etc/bitwarden/identity');
-    ssoService.addBackend(dbService);
+    ssoService.addBackends([dbService]);
 
     const adminService = new FargateVirtualService(this, 'Admin', {
       environment,
@@ -330,9 +329,7 @@ export class BitwardenStack extends cdk.Stack {
       desiredCount: 1,
     });
     adminService.addVolume(coreAccessPoint, '/etc/bitwarden/core');
-    adminService.addBackend(webService);
-    adminService.addBackend(dbService);
-    adminService.addBackend(emailService);
+    adminService.addBackends([webService, dbService, emailService]);
 
     const portalService = new FargateVirtualService(this, 'Portal', {
       environment,
@@ -345,7 +342,7 @@ export class BitwardenStack extends cdk.Stack {
       },
     });
     portalService.addVolume(coreAccessPoint, '/etc/bitwarden/core');
-    portalService.addBackend(dbService);
+    portalService.addBackends([dbService]);
 
     const iconsService = new FargateVirtualService(this, 'Icons', {
       environment,
@@ -367,10 +364,7 @@ export class BitwardenStack extends cdk.Stack {
         secrets: globalOverrideEnv,
       },
     });
-    notificationsService.addBackend(identityService);
-    notificationsService.addBackend(dbService);
-    notificationsService.addBackend(emailService);
-    notificationsService.addBackend(pushService);
+    notificationsService.addBackends([identityService, dbService, emailService, pushService]);
 
     const eventsService = new FargateVirtualService(this, 'Events', {
       environment,
@@ -382,7 +376,7 @@ export class BitwardenStack extends cdk.Stack {
         secrets: globalOverrideEnv,
       },
     });
-    eventsService.addBackend(dbService);
+    eventsService.addBackends([dbService]);
 
     const hostedZone = (domainSettings.zoneDomainName !== 'example.com')
       ? route53.HostedZone.fromLookup(this, 'HostedZone', { domainName: domainSettings.zoneDomainName })

@@ -36,6 +36,10 @@ export class FargateVirtualGateway extends cdk.Construct {
       accessLog: appmesh.AccessLog.fromFilePath('/dev/stdout'),
       listeners: [appmesh.VirtualNodeListener.http({
         port: this.listenerPort,
+        connectionPool: {
+          maxConnections: 1024,
+          maxPendingRequests: 1024,
+        },
       })],
       mesh,
     });
@@ -130,7 +134,7 @@ export class FargateVirtualGateway extends cdk.Construct {
         dnsRecordType: servicediscovery.DnsRecordType.A,
         dnsTtl: cdk.Duration.seconds(10),
         failureThreshold: 2,
-        name: [serviceName, 'svc'].join('.'),
+        name: serviceName,
       },
       capacityProviderStrategies: [
         { capacityProvider: 'FARGATE', base: 1, weight: 0 },

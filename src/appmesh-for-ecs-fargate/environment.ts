@@ -45,6 +45,9 @@ export class Environment extends cdk.Construct {
       removalPolicy: cdk.RemovalPolicy.DESTROY,
     });
 
-    this.mesh = props?.mesh || new appmesh.Mesh(this, 'Mesh', { egressFilter: appmesh.MeshFilterType.ALLOW_ALL });
+    this.mesh = props?.mesh || new appmesh.Mesh(this, 'Mesh', {
+      meshName: 'Bitwarden',
+      egressFilter: appmesh.MeshFilterType.ALLOW_ALL,
+    });
   };
 };
