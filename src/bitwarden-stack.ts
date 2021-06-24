@@ -17,6 +17,7 @@ import * as cr from '@aws-cdk/custom-resources';
 import { SmtpSecret, ManagedIdentity } from 'cdk-ses-helpers';
 
 import { Environment, FargateVirtualGateway, ExternalVirtualService, FargateVirtualService } from './appmesh-for-ecs-fargate';
+import { WAF } from './aws-waf-v2'
 import { domainSettings, globalSettings, adminSettings } from './settings';
 import { Database } from './sql-server';
 
@@ -217,6 +218,8 @@ export class BitwardenStack extends cdk.Stack {
       globalSettings__mail__replyToEmail: `no-reply@${sesIdentity.domainName}`,
       globalSettings__mail__smtp__port: '587',
       globalSettings__mail__smtp__ssl: 'false',
+      globalSettings__mail__smtp__startTls: 'true',
+      globalSettings__mail__smtp__trustServer: 'true',
       // Base Service URI
       globalSettings__baseServiceUri__vault: baseServiceUri__vault,
       globalSettings__baseServiceUri__api: `${baseServiceUri__vault}/api`,
@@ -288,7 +291,6 @@ export class BitwardenStack extends cdk.Stack {
     });
     identityService.addVolume(coreAccessPoint, '/etc/bitwarden/core');
     identityService.addVolume(identityAccessPoint, '/etc/bitwarden/identity');
-    identityService.addBackends([dbService]);
 
     const apiService = new FargateVirtualService(this, 'Api', {
       environment,
@@ -301,7 +303,6 @@ export class BitwardenStack extends cdk.Stack {
       },
     });
     apiService.addVolume(coreAccessPoint, '/etc/bitwarden/core');
-    apiService.addBackends([identityService, dbService, emailService]);
 
     const ssoService = new FargateVirtualService(this, 'SSO', {
       environment,
@@ -315,7 +316,6 @@ export class BitwardenStack extends cdk.Stack {
     });
     ssoService.addVolume(coreAccessPoint, '/etc/bitwarden/core');
     ssoService.addVolume(identityAccessPoint, '/etc/bitwarden/identity');
-    ssoService.addBackends([dbService]);
 
     const adminService = new FargateVirtualService(this, 'Admin', {
       environment,
@@ -329,7 +329,6 @@ export class BitwardenStack extends cdk.Stack {
       desiredCount: 1,
     });
     adminService.addVolume(coreAccessPoint, '/etc/bitwarden/core');
-    adminService.addBackends([webService, dbService, emailService]);
 
     const portalService = new FargateVirtualService(this, 'Portal', {
       environment,
@@ -342,7 +341,6 @@ export class BitwardenStack extends cdk.Stack {
       },
     });
     portalService.addVolume(coreAccessPoint, '/etc/bitwarden/core');
-    portalService.addBackends([dbService]);
 
     const iconsService = new FargateVirtualService(this, 'Icons', {
       environment,
@@ -364,7 +362,6 @@ export class BitwardenStack extends cdk.Stack {
         secrets: globalOverrideEnv,
       },
     });
-    notificationsService.addBackends([identityService, dbService, emailService, pushService]);
 
     const eventsService = new FargateVirtualService(this, 'Events', {
       environment,
@@ -376,7 +373,28 @@ export class BitwardenStack extends cdk.Stack {
         secrets: globalOverrideEnv,
       },
     });
-    eventsService.addBackends([dbService]);
+    
+    const gateway = new FargateVirtualGateway(this, 'Gateway', { environment });
+
+    apiService.addBackends([dbService, emailService, webService, notificationsService, identityService, adminService]);
+    identityService.addBackends([dbService, webService, apiService, notificationsService, adminService]);
+    ssoService.addBackends([dbService, webService, apiService, notificationsService, identityService, adminService]);
+    adminService.addBackends([dbService, emailService, webService, apiService, notificationsService, identityService]);
+    portalService.addBackends([dbService, webService, apiService, notificationsService, identityService, adminService]);
+    notificationsService.addBackends([dbService, emailService, pushService, webService, apiService, identityService, adminService]);
+    eventsService.addBackends([dbService, emailService, pushService, webService, apiService, notificationsService, identityService, adminService]);
+
+    gateway.addGatewayRoute('/', webService);
+    gateway.addGatewayRoute('/attachments/', attachmentsService);
+    gateway.addGatewayRoute('/api/', apiService);
+    gateway.addGatewayRoute('/icons/', iconsService);
+    gateway.addGatewayRoute('/notifications/', notificationsService);
+    gateway.addGatewayRoute('/events/', eventsService);
+    // need to add rewrite options
+    gateway.addGatewayRoute('/sso/', ssoService);
+    gateway.addGatewayRoute('/identity/', identityService);
+    gateway.addGatewayRoute('/admin/', adminService);
+    gateway.addGatewayRoute('/portal/', portalService);
 
     const hostedZone = (domainSettings.zoneDomainName !== 'example.com')
       ? route53.HostedZone.fromLookup(this, 'HostedZone', { domainName: domainSettings.zoneDomainName })
@@ -385,8 +403,6 @@ export class BitwardenStack extends cdk.Stack {
     const certificate = (hostedZone)
       ? new acm.DnsValidatedCertificate(this, 'Certificate', { domainName: [domainSettings.subDomainName, domainSettings.zoneDomainName].join('.'), hostedZone: hostedZone })
       : undefined ;
-
-    const gateway = new FargateVirtualGateway(this, 'Gateway', { environment });
 
     const loadBalancer = new elb.ApplicationLoadBalancer(this, 'LoadBalancer', { internetFacing: true, vpc });
     loadBalancer.connections.allowTo(gateway.ecsService, ec2.Port.tcp(9901), 'for HealthCheck');
@@ -400,23 +416,39 @@ export class BitwardenStack extends cdk.Stack {
       },
       vpc,
     });
-    loadBalancer.addListener('Listner', {
+    const listner = loadBalancer.addListener('Listner', {
       port: (certificate) ? 443 : 80,
       certificates: (certificate) ? [certificate] : [],
       defaultTargetGroups: [targetGroup]
-    }); 
+    });
+    listner.addAction('app-id', {
+      priority: 1,
+      conditions: [
+        elb.ListenerCondition.pathPatterns([
+          '/app-id.json'
+        ])
+      ],
+      action: elb.ListenerAction.fixedResponse(200, {
+        contentType: 'application/json',
+        messageBody: JSON.stringify({
+          "trustedFacets": [
+            {
+              "version": {
+                "major": 1,
+                "minor": 0
+              },
+              "ids": [
+                baseServiceUri__vault,
+                "ios:bundle-id:com.8bit.bitwarden",
+                "android:apk-key-hash:dUGFzUzf3lmHSLBDBIv+WaFyZMI"
+              ]
+            }
+          ]
+        })
+      })
+    });
 
-    gateway.addGatewayRoute('/', webService);
-    gateway.addGatewayRoute('/attachments/', attachmentsService);
-    gateway.addGatewayRoute('/api/', apiService);
-    gateway.addGatewayRoute('/icons/', iconsService);
-    gateway.addGatewayRoute('/notifications/', notificationsService);
-    gateway.addGatewayRoute('/events/', eventsService);
-
-    gateway.addGatewayRoute('/sso/', ssoService);
-    gateway.addGatewayRoute('/identity/', identityService);
-    gateway.addGatewayRoute('/admin/', adminService);
-    gateway.addGatewayRoute('/portal/', portalService);
+    new WAF(this, 'BitwardenWAF', { resourceArn: loadBalancer.loadBalancerArn })
 
     if (hostedZone) {
       new route53.ARecord(this, 'ARecord', {

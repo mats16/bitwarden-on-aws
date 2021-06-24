@@ -22,6 +22,7 @@ const project = new AwsCdkTypeScriptApp({
     '@aws-cdk/aws-s3-assets',
     '@aws-cdk/aws-secretsmanager',
     '@aws-cdk/aws-servicediscovery',
+    '@aws-cdk/aws-wafv2',
     '@aws-cdk/custom-resources',
   ],
   deps: [

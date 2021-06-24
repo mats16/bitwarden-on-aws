@@ -2,7 +2,6 @@ import * as appmesh from '@aws-cdk/aws-appmesh';
 import * as acm from '@aws-cdk/aws-certificatemanager';
 import * as ec2 from '@aws-cdk/aws-ec2';
 import * as ecs from '@aws-cdk/aws-ecs';
-import * as elb from '@aws-cdk/aws-elasticloadbalancingv2';
 import * as iam from '@aws-cdk/aws-iam';
 import * as servicediscovery from '@aws-cdk/aws-servicediscovery';
 import * as cdk from '@aws-cdk/core';

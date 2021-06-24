@@ -182,6 +182,11 @@
       "type": "runtime"
     },
     {
+      "name": "@aws-cdk/aws-wafv2",
+      "version": "^1.109.0",
+      "type": "runtime"
+    },
+    {
       "name": "@aws-cdk/core",
       "version": "^1.109.0",
       "type": "runtime"
