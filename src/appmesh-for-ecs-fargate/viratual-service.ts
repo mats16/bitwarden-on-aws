@@ -1,4 +1,3 @@
-
 import * as appmesh from '@aws-cdk/aws-appmesh';
 import * as ec2 from '@aws-cdk/aws-ec2';
 import * as ecs from '@aws-cdk/aws-ecs';
@@ -10,9 +9,8 @@ import { Environment, envoyImage, xrayImage, cloudwatchImage } from './';
 
 export interface VirtualServiceProps {
   readonly environment: Environment;
-  readonly trafficPort?: number;
-  readonly endpoint?: string;
-  readonly connectable?: ec2.IConnectable;
+  readonly virtualServiceName: string;
+  readonly listenerPort?: number;
 };
 
 export interface FargateVirtualServiceProps extends VirtualServiceProps {
@@ -22,63 +20,41 @@ export interface FargateVirtualServiceProps extends VirtualServiceProps {
 };
 
 export class VirtualService extends cdk.Construct {
-  serviceName: string;
-  trafficPort: number;
+  listenerPort: number;
   virtualService: appmesh.VirtualService;
-  virtualRouter?: appmesh.VirtualRouter;
+  virtualRouter: appmesh.VirtualRouter;
   virtualNodes: appmesh.VirtualNode[];
-  connectable?: ec2.IConnectable;
 
   constructor(scope: cdk.Construct, id: string, props: VirtualServiceProps) {
     super(scope, id);
 
-    this.serviceName = id.toLowerCase();
-    this.trafficPort = props.trafficPort || 5000;
-    this.connectable = props.connectable;
-
-    const namespace = props.environment.namespace;
+    const virtualServiceName = props.virtualServiceName;  // FQDN
     const mesh = props.environment.mesh;
-    const endpoint = props.endpoint;
+    const namespace = props.environment.namespace;
+    const namespaceName = namespace.namespaceName
 
-    if (endpoint) {
-      const virtualServiceName = endpoint;
-      const virtualNode = new appmesh.VirtualNode(this, 'VirtualNode', {
-        mesh,
-        serviceDiscovery: appmesh.ServiceDiscovery.dns(endpoint),
-        listeners: [
-          appmesh.VirtualNodeListener.tcp({
-            port: this.trafficPort,
-            connectionPool: { maxConnections: 1024 },
-          }),
-        ],
-        accessLog: appmesh.AccessLog.fromFilePath('/dev/stdout'),
-      });
-      this.virtualNodes = [virtualNode];
-      this.virtualService = new appmesh.VirtualService(this, 'VirtualService', {
-        virtualServiceName,
-        virtualServiceProvider: appmesh.VirtualServiceProvider.virtualNode(virtualNode),
-      });
-    } else {
+    this.listenerPort = props.listenerPort || 5000;
+
+    this.virtualNodes = [];
+
+    this.virtualRouter = new appmesh.VirtualRouter(this, 'VirtualRouter', {
+      listeners: [ appmesh.VirtualRouterListener.http(this.listenerPort) ],
+      mesh
+    });
+
+    this.virtualService = new appmesh.VirtualService(this, 'VirtualService', {
+      virtualServiceName,
+      virtualServiceProvider: appmesh.VirtualServiceProvider.virtualRouter(this.virtualRouter)
+    });
+
+    if (virtualServiceName.endsWith(namespaceName)) {
       // https://docs.aws.amazon.com/app-mesh/latest/userguide/troubleshoot-connectivity.html#ts-connectivity-dns-resolution-virtual-service
-      const service = new servicediscovery.Service(this, 'DummyService', {
+      new servicediscovery.Service(this, 'DummyService', {
         namespace: namespace,
-        name: [this.serviceName, 'svc'].join('.'),
+        name: virtualServiceName.replace(`.${namespaceName}`, ''),
         dnsRecordType: servicediscovery.DnsRecordType.A,
         description: 'The dummy for App Mesh',
-      });
-      service.registerIpInstance('DummyInstance', { ipv4: '10.10.10.10' });
-
-      this.virtualNodes = [];
-      this.virtualRouter = new appmesh.VirtualRouter(this, 'VirtualRouter', {
-        listeners: [
-          appmesh.VirtualRouterListener.http(this.trafficPort),
-        ],
-        mesh,
-      });
-      this.virtualService = new appmesh.VirtualService(this, 'VirtualService', {
-        virtualServiceName: [service.serviceName, namespace.namespaceName].join('.'),
-        virtualServiceProvider: appmesh.VirtualServiceProvider.virtualRouter(this.virtualRouter),
-      });
+      }).registerIpInstance('DummyInstance', { ipv4: '10.10.10.10' });
     };
   };
 
@@ -86,30 +62,27 @@ export class VirtualService extends cdk.Construct {
     this.virtualNodes.forEach((virtualNode) => {
       virtualNode.addBackend(appmesh.Backend.virtualService(otherService.virtualService));
     });
-    if (this.connectable && otherService.connectable) {
-      this.connectable.connections.allowTo( otherService.connectable, ec2.Port.tcp(otherService.trafficPort) );
-    };
   };
 };
 
 export class FargateVirtualService extends VirtualService {
-  //virtualRouter: appmesh.VirtualRouter;
   ecsTaskDefinition: ecs.FargateTaskDefinition;
   applicationContainer: ecs.ContainerDefinition;
 
   constructor(scope: cdk.Construct, id: string, props: FargateVirtualServiceProps) {
     super(scope, id, props);
 
-    const cluster = props.environment.cluster;
-    const vpc = cluster.vpc;
-    //const namespace = props.environment.namespace;
+    const serviceName = id.toLowerCase();
+    const desiredCount = props.desiredCount ?? 2;
     const mesh = props.environment.mesh;
-
+    const namespace = props.environment.namespace;
+    const cluster = props.environment.cluster;
+    const securityGroup = props.environment.securityGroup;
     const logGroup = props.environment.logGroup;
-    const awsLogDriver = new ecs.AwsLogDriver({ logGroup: logGroup, streamPrefix: this.serviceName });
+    const awsLogDriver = new ecs.AwsLogDriver({ logGroup: logGroup, streamPrefix: serviceName });
 
     const healthCheckPath = props.healthCheckPath || '/';
-    const desiredCount = props.desiredCount ?? 2;
+
     const imageName: string = JSON.parse(JSON.stringify(props.applicationContainer.image)).imageName;
     const imageTag: string = (imageName.split(':')[1] || 'latest').replace(/\./g, '-');
 
@@ -133,7 +106,7 @@ export class FargateVirtualService extends VirtualService {
         properties: {
           ignoredUID: 1337,
           ignoredGID: 1338,
-          appPorts: [this.trafficPort],
+          appPorts: [this.listenerPort],
           proxyIngressPort: 15000,
           proxyEgressPort: 15001,
           egressIgnoredPorts: [2049], // EFS
@@ -145,10 +118,10 @@ export class FargateVirtualService extends VirtualService {
 
     const applicationContainerOptions = {
       ...props.applicationContainer,
-      portMappings: [{ containerPort: this.trafficPort }],
+      portMappings: [{ containerPort: this.listenerPort }],
       logging: awsLogDriver,
       healthCheck: {
-        command: ['CMD-SHELL', `curl -f http://localhost:${this.trafficPort}${healthCheckPath} || exit 1`],
+        command: ['CMD-SHELL', `curl -f http://localhost:${this.listenerPort}${healthCheckPath} || exit 1`],
         startPeriod: cdk.Duration.seconds(10),
         interval: cdk.Duration.seconds(5),
         timeout: cdk.Duration.seconds(2),
@@ -206,7 +179,7 @@ export class FargateVirtualService extends VirtualService {
                   file_path: '/etc/bitwarden/logs/**.txt',
                   auto_removal: true,
                   log_group_name: logGroup.logGroupName,
-                  log_stream_name: `etc/bitwarden/logs/${this.serviceName}`,
+                  log_stream_name: `etc/bitwarden/logs/${serviceName}`,
                   timestamp_format: '%Y-%m-%d %H:%M:%S.',
                 }],
               },
@@ -221,9 +194,6 @@ export class FargateVirtualService extends VirtualService {
       readOnly: false,
     });
 
-    const securityGroup = new ec2.SecurityGroup(this, 'SecurityGroup', { vpc });
-    this.connectable = securityGroup;
-
     const ecsService = new ecs.FargateService(this, `${imageTag}-Service`, {
       cluster,
       taskDefinition: this.ecsTaskDefinition,
@@ -231,10 +201,11 @@ export class FargateVirtualService extends VirtualService {
       desiredCount: desiredCount,
       enableECSManagedTags: true,
       cloudMapOptions: {
+        cloudMapNamespace: namespace,
         dnsRecordType: servicediscovery.DnsRecordType.A,
         dnsTtl: cdk.Duration.seconds(10),
         failureThreshold: 2,
-        name: [imageTag, this.serviceName, 'node'].join('.'),
+        name: [imageTag, serviceName, 'node'].join('.'),
       },
       capacityProviderStrategies: [
         { capacityProvider: 'FARGATE', base: 1, weight: 0 },
@@ -244,24 +215,24 @@ export class FargateVirtualService extends VirtualService {
 
     // Create a virtual node for the name service
     const virtualNode = new appmesh.VirtualNode(this, 'DefaultVirtualNode', {
-      mesh: mesh,
       serviceDiscovery: appmesh.ServiceDiscovery.cloudMap({
         service: ecsService.cloudMapService!,
       }),
+      accessLog: appmesh.AccessLog.fromFilePath('/dev/stdout'),
       listeners: [
         appmesh.VirtualNodeListener.http({
-          port: this.trafficPort,
+          port: this.listenerPort,
           connectionPool: {
             maxConnections: 1024,
             maxPendingRequests: 1024,
           },
         }),
       ],
-      accessLog: appmesh.AccessLog.fromFilePath('/dev/stdout'),
+      mesh,
     });
     this.virtualNodes.push(virtualNode);
 
-    this.virtualRouter?.addRoute(imageTag, {
+    this.virtualRouter.addRoute('DefaultRoute', {
       routeSpec: appmesh.RouteSpec.http({
         weightedTargets: [{ virtualNode: virtualNode }],
       }),
@@ -318,8 +289,58 @@ export class FargateVirtualService extends VirtualService {
       containerPath: containerPath,
       readOnly: false,
     });
-    if (this.connectable) {
-      this.connectable.connections.allowTo(accessPoint.fileSystem, ec2.Port.tcp(2049));
-    }
+  };
+};
+
+export interface ExternalVirtualServiceProps extends VirtualServiceProps {
+  readonly protocol?: 'http' | 'http2' | 'tcp' | 'grpc';
+};
+
+export class ExternalVirtualService extends VirtualService {
+
+  constructor(scope: cdk.Construct, id: string, props: ExternalVirtualServiceProps) {
+    super(scope, id, props);
+
+    const mesh = props.environment.mesh;
+    const protocol = props.protocol || 'tcp';
+
+    const virtualNodeListener = (() => {
+      switch (protocol) {
+          case 'http': return appmesh.VirtualNodeListener.http({ port: this.listenerPort })
+          case 'http2': return appmesh.VirtualNodeListener.http2({ port: this.listenerPort })
+          //case 'grpc': return appmesh.RouteSpec.grpc({ weightedTargets: [{ virtualNode: virtualNode }] });
+          default : return appmesh.VirtualNodeListener.tcp({ port: this.listenerPort })
+      }
+    })();
+
+    const virtualNode = new appmesh.VirtualNode(this, 'DefaultVirtualNode', {
+      serviceDiscovery: appmesh.ServiceDiscovery.dns(this.virtualService.virtualServiceName),
+      accessLog: appmesh.AccessLog.fromFilePath('/dev/stdout'),
+      listeners: [virtualNodeListener],
+      //listeners: [
+      //  appmesh.VirtualNodeListener.http({
+      //    port: this.listenerPort,
+      //    //connectionPool: {
+      //    //  maxConnections: 1024,
+      //    //  maxPendingRequests: 1024,
+      //    //},
+      //  }),
+      //],
+      mesh,
+    });
+    this.virtualNodes.push(virtualNode);
+
+    const routeSpec = (() => {
+      switch (protocol) {
+          case 'http': return appmesh.RouteSpec.http({ weightedTargets: [{ virtualNode: virtualNode }] });
+          case 'http2': return appmesh.RouteSpec.http2({ weightedTargets: [{ virtualNode: virtualNode }] });
+          //case 'grpc': return appmesh.RouteSpec.grpc({ weightedTargets: [{ virtualNode: virtualNode }] });
+          default : return appmesh.RouteSpec.tcp({ weightedTargets: [{ virtualNode: virtualNode }] });
+      }
+    })();
+
+    this.virtualRouter.addRoute('DefaultRoute', {
+      routeSpec: routeSpec,
+    });
   };
 };

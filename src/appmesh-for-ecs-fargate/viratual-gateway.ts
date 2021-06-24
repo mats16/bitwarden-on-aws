@@ -1,4 +1,3 @@
-
 import * as appmesh from '@aws-cdk/aws-appmesh';
 import * as acm from '@aws-cdk/aws-certificatemanager';
 import * as ec2 from '@aws-cdk/aws-ec2';
@@ -9,39 +8,39 @@ import * as servicediscovery from '@aws-cdk/aws-servicediscovery';
 import * as cdk from '@aws-cdk/core';
 import { Environment, VirtualService, envoyImage, xrayImage, cloudwatchImage } from './';
 
-interface NetworkLoadBalancedVirtualGatewayProps {
+interface FargateVirtualGatewayProps {
   readonly environment: Environment;
+  readonly listenerPort?: number;
   readonly desiredCount?: number;
-  readonly internetFacing?: boolean;
-  readonly certificate?: acm.ICertificate;
 }
 
-export class NetworkLoadBalancedVirtualGateway extends cdk.Construct {
+export class FargateVirtualGateway extends cdk.Construct {
   virtualGateway: appmesh.VirtualGateway;
-  connectable?: ec2.IConnectable;
-  loadBalancer: elb.INetworkLoadBalancer;
+  listenerPort: number;
+  ecsService: ecs.FargateService;
 
-  constructor(scope: cdk.Construct, id: string, props: NetworkLoadBalancedVirtualGatewayProps) {
+  constructor(scope: cdk.Construct, id: string, props: FargateVirtualGatewayProps) {
     super(scope, id);
 
-    const serviceName = id;
-    const desiredCount = props.desiredCount || 2;
-    const internetFacing = props.internetFacing || false;
-    const certificate = props.certificate;
+    this.listenerPort = props.listenerPort || 8080;
 
+    const serviceName = id.toLowerCase();
+    const desiredCount = props.desiredCount || 2;
+    const mesh = props.environment.mesh;
+    const cluster = props.environment.cluster;
+    const appSecurityGroup = props.environment.securityGroup;
     const logGroup = props.environment.logGroup;
     const awsLogDriver = new ecs.AwsLogDriver({ logGroup: logGroup, streamPrefix: serviceName });
 
-    const mesh = props.environment.mesh;
-    const cluster = props.environment.cluster;
-    const vpc = cluster.vpc;
-
     this.virtualGateway = new appmesh.VirtualGateway(this, 'VirtualGateway', {
-      listeners: [appmesh.VirtualNodeListener.http({ port: 8080 })],
+      accessLog: appmesh.AccessLog.fromFilePath('/dev/stdout'),
+      listeners: [appmesh.VirtualNodeListener.http({
+        port: this.listenerPort,
+      })],
       mesh,
     });
 
-    const ecsTaskDefinition = new ecs.FargateTaskDefinition(this, 'TaskDefinition', {
+    const taskDefinition = new ecs.FargateTaskDefinition(this, 'TaskDefinition', {
       taskRole: new iam.Role(this, 'TaskRole', {
         assumedBy: new iam.ServicePrincipal('ecs-tasks.amazonaws.com'),
         managedPolicies: [
@@ -56,12 +55,12 @@ export class NetworkLoadBalancedVirtualGateway extends cdk.Construct {
       }),
     });
 
-    ecsTaskDefinition.addContainer('envoy', {
+    taskDefinition.addContainer('envoy', {
       image: envoyImage,
       user: '1337',
       memoryLimitMiB: 500,
       portMappings: [
-        { containerPort: 8080 },
+        { containerPort: this.listenerPort },
         { containerPort: 9901 },
       ],
       essential: true,
@@ -86,7 +85,7 @@ export class NetworkLoadBalancedVirtualGateway extends cdk.Construct {
       softLimit: 1024000,
     });
 
-    ecsTaskDefinition.addContainer('xray-daemon', {
+    taskDefinition.addContainer('xray-daemon', {
       image: xrayImage,
       cpu: 32,
       memoryReservationMiB: 256,
@@ -98,7 +97,7 @@ export class NetworkLoadBalancedVirtualGateway extends cdk.Construct {
       logging: awsLogDriver,
     });
 
-    ecsTaskDefinition.addContainer('cw-agent', {
+    taskDefinition.addContainer('cw-agent', {
       image: cloudwatchImage,
       //cpu: 32,
       //memoryReservationMiB: 256,
@@ -122,40 +121,23 @@ export class NetworkLoadBalancedVirtualGateway extends cdk.Construct {
       logging: awsLogDriver,
     });
 
-    const ecsService = new ecs.FargateService(this, 'Service', {
-      cluster: cluster,
-      taskDefinition: ecsTaskDefinition,
-      desiredCount: desiredCount,
+    this.ecsService = new ecs.FargateService(this, 'Service', {
+      cluster,
+      taskDefinition,
+      desiredCount,
       enableECSManagedTags: true,
       cloudMapOptions: {
         dnsRecordType: servicediscovery.DnsRecordType.A,
         dnsTtl: cdk.Duration.seconds(10),
         failureThreshold: 2,
-        name: `${serviceName.toLowerCase()}.gw`,
+        name: [serviceName, 'svc'].join('.'),
       },
       capacityProviderStrategies: [
         { capacityProvider: 'FARGATE', base: 1, weight: 0 },
         { capacityProvider: 'FARGATE_SPOT', base: 0, weight: 1 },
       ],
     });
-    this.connectable = ecsService;
-
-    const targetGroup = new elb.NetworkTargetGroup(this, 'TargetGroup', { port: 8080, targets: [ecsService], vpc });
-    this.loadBalancer = new elb.NetworkLoadBalancer(this, 'LoadBalancer', { internetFacing, vpc });
-    if (certificate) {
-      this.loadBalancer.addListener('Listener', {
-        port: 443,
-        certificates: [elb.ListenerCertificate.fromCertificateManager(certificate)],
-        defaultTargetGroups: [targetGroup],
-      });
-    } else {
-      this.loadBalancer.addListener('Listener', {
-        port: 80,
-        defaultTargetGroups: [targetGroup],
-      });
-    }
-    // for HealthCheck
-    ecsService.connections.allowFrom(ec2.Peer.ipv4(vpc.vpcCidrBlock), ec2.Port.tcp(8080), 'Accept inbound traffic from NLB.');
+    this.ecsService.connections.allowTo(appSecurityGroup, ec2.Port.tcp(5000))
   };
 
   addGatewayRoute(prefixPath: string, otherService: VirtualService) {
@@ -163,10 +145,8 @@ export class NetworkLoadBalancedVirtualGateway extends cdk.Construct {
       routeSpec: appmesh.GatewayRouteSpec.http({
         match: { prefixPath },
         routeTarget: otherService.virtualService,
+        // need to add rewrite options
       }),
     });
-    if (this.connectable && otherService.connectable) {
-      this.connectable.connections.allowTo( otherService.connectable, ec2.Port.tcp(otherService.trafficPort) );
-    };
   };
 };

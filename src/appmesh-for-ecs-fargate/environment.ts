@@ -8,6 +8,7 @@ import * as cdk from '@aws-cdk/core';
 export interface EnvironmentProps {
   readonly namespaceName?: string;
   readonly vpc?: ec2.IVpc;
+  readonly securityGroup?: ec2.SecurityGroup;
   readonly cluster?: ecs.Cluster;
   readonly logGroup?: logs.ILogGroup;
   readonly mesh?: appmesh.Mesh;
@@ -15,19 +16,23 @@ export interface EnvironmentProps {
 
 export class Environment extends cdk.Construct {
   vpc: ec2.IVpc
+  securityGroup: ec2.SecurityGroup
   cluster: ecs.Cluster
   logGroup: logs.ILogGroup
   namespace: servicediscovery.INamespace
   mesh: appmesh.Mesh;
 
-  constructor(scope: cdk.Construct, id: string, props: EnvironmentProps) {
+  constructor(scope: cdk.Construct, id: string, props?: EnvironmentProps) {
     super(scope, id);
 
-    const namespaceName = props.namespaceName || 'local';
+    const namespaceName = props?.namespaceName || 'local';
 
-    this.vpc = props.vpc || new ec2.Vpc(this, 'VPC');
+    this.vpc = props?.vpc || new ec2.Vpc(this, 'VPC');
 
-    this.cluster = props.cluster || new ecs.Cluster(this, 'Cluster', {
+    this.securityGroup = props?.securityGroup || new ec2.SecurityGroup(this, 'SecurityGroup', { vpc: this.vpc });
+    this.securityGroup.connections.allowInternally(ec2.Port.tcp(5000));
+
+    this.cluster = props?.cluster || new ecs.Cluster(this, 'Cluster', {
       enableFargateCapacityProviders: true,
       containerInsights: true,
       vpc: this.vpc,
@@ -35,11 +40,11 @@ export class Environment extends cdk.Construct {
 
     this.namespace = this.cluster.addDefaultCloudMapNamespace({ name: namespaceName });
 
-    this.logGroup = props.logGroup || new logs.LogGroup(this, 'LogGroup', {
+    this.logGroup = props?.logGroup || new logs.LogGroup(this, 'LogGroup', {
       retention: logs.RetentionDays.ONE_MONTH,
       removalPolicy: cdk.RemovalPolicy.DESTROY,
     });
 
-    this.mesh = props.mesh || new appmesh.Mesh(this, 'Mesh', { egressFilter: appmesh.MeshFilterType.ALLOW_ALL });
+    this.mesh = props?.mesh || new appmesh.Mesh(this, 'Mesh', { egressFilter: appmesh.MeshFilterType.ALLOW_ALL });
   };
 };
