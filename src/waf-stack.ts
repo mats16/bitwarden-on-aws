@@ -48,12 +48,12 @@ export class WafStack extends cdk.Stack {
           },
         },
         {
-          name: 'AWS-AWSManagedRulesAdminProtectionRuleSet',
+          name: 'AWS-AWSManagedRulesCommonRuleSet',
           priority: 2,
           statement: {
             managedRuleGroupStatement: {
               vendorName: 'AWS',
-              name: 'AWSManagedRulesAdminProtectionRuleSet',
+              name: 'AWSManagedRulesCommonRuleSet',
             },
           },
           overrideAction: {
@@ -62,12 +62,30 @@ export class WafStack extends cdk.Stack {
           visibilityConfig: {
             sampledRequestsEnabled: true,
             cloudWatchMetricsEnabled: true,
-            metricName: 'AWS-AWSManagedRulesAdminProtectionRuleSet',
+            metricName: 'AWS-AWSManagedRulesCommonRuleSet',
+          },
+        },
+        {
+          name: 'AWS-AWSManagedRulesKnownBadInputsRuleSet',
+          priority: 3,
+          statement: {
+            managedRuleGroupStatement: {
+              vendorName: 'AWS',
+              name: 'AWSManagedRulesKnownBadInputsRuleSet',
+            },
+          },
+          overrideAction: {
+            none: {},
+          },
+          visibilityConfig: {
+            sampledRequestsEnabled: true,
+            cloudWatchMetricsEnabled: true,
+            metricName: 'AWS-AWSManagedRulesKnownBadInputsRuleSet',
           },
         },
         {
           name: 'AWS-AWSManagedRulesSQLiRuleSet',
-          priority: 3,
+          priority: 4,
           statement: {
             managedRuleGroupStatement: {
               vendorName: 'AWS',
