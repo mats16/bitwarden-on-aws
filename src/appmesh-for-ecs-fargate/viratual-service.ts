@@ -89,9 +89,9 @@ export class FargateVirtualService extends VirtualService {
     super(scope, id, props);
 
     const serviceName = id.toLowerCase();
-    const desiredCount = props.desiredCount || 2;
-    const minHealthyPercent = props.minHealthyPercent || 50;
-    const maxHealthyPercent = props.maxHealthyPercent || 200;
+    const desiredCount = props.desiredCount ?? 2;
+    const minHealthyPercent = props.minHealthyPercent ?? 50;
+    const maxHealthyPercent = props.maxHealthyPercent ?? 200;
     const mesh = props.environment.mesh;
     const namespace = props.environment.namespace;
     const cluster = props.environment.cluster;

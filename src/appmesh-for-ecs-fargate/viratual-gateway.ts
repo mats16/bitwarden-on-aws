@@ -26,9 +26,9 @@ export class FargateVirtualGateway extends cdk.Construct {
     this.listenerPort = props.listenerPort || 8080;
 
     const serviceName = id.toLowerCase();
-    const desiredCount = props.desiredCount || 2;
-    const minHealthyPercent = props.minHealthyPercent || 50;
-    const maxHealthyPercent = props.maxHealthyPercent || 200;
+    const desiredCount = props.desiredCount ?? 2;
+    const minHealthyPercent = props.minHealthyPercent ?? 50;
+    const maxHealthyPercent = props.maxHealthyPercent ?? 200;
     const mesh = props.environment.mesh;
     const cluster = props.environment.cluster;
     const capacityProviderStrategies = props.environment.defaultCapacityProviderStrategies;
