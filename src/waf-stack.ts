@@ -1,19 +1,12 @@
 import * as wafv2 from '@aws-cdk/aws-wafv2';
 import * as cdk from '@aws-cdk/core';
 
-interface WAFProps {
-  readonly resourceArn: string;
-}
-  
-export class WAF extends cdk.Construct {
-  
-  constructor(scope: cdk.Construct, id: string, props: WAFProps) {
-    super(scope, id);
+export class WafStack extends cdk.Stack {
+  constructor(scope: cdk.Construct, id: string, props: cdk.StackProps) {
+    super(scope, id, props);
 
-    const resourceArn = props.resourceArn;
-
-    const webACL = new wafv2.CfnWebACL(this, 'WebACL', {
-      scope: 'REGIONAL',
+    const webACL = new wafv2.CfnWebACL(this, 'BitwardenWebACL', {
+      scope: 'CLOUDFRONT',
       rules: [
         {
           name: 'AWS-AWSManagedRulesBotControlRuleSet',
@@ -21,8 +14,11 @@ export class WAF extends cdk.Construct {
           statement: {
             managedRuleGroupStatement: {
               vendorName: 'AWS',
-              name: 'AWSManagedRulesBotControlRuleSet'
-            }
+              name: 'AWSManagedRulesBotControlRuleSet',
+              excludedRules: [
+                { name: 'SignalNonBrowserUserAgent' },
+              ],
+            },
           },
           overrideAction: {
             none: {},
@@ -30,7 +26,7 @@ export class WAF extends cdk.Construct {
           visibilityConfig: {
             sampledRequestsEnabled: true,
             cloudWatchMetricsEnabled: true,
-            metricName: 'AWS-AWSManagedRulesBotControlRuleSet'
+            metricName: 'AWS-AWSManagedRulesBotControlRuleSet',
           },
         },
         {
@@ -39,8 +35,8 @@ export class WAF extends cdk.Construct {
           statement: {
             managedRuleGroupStatement: {
               vendorName: 'AWS',
-              name: 'AWSManagedRulesAmazonIpReputationList'
-            }
+              name: 'AWSManagedRulesAmazonIpReputationList',
+            },
           },
           overrideAction: {
             none: {},
@@ -48,7 +44,7 @@ export class WAF extends cdk.Construct {
           visibilityConfig: {
             sampledRequestsEnabled: true,
             cloudWatchMetricsEnabled: true,
-            metricName: 'AWS-AWSManagedRulesAmazonIpReputationList'
+            metricName: 'AWS-AWSManagedRulesAmazonIpReputationList',
           },
         },
         {
@@ -57,8 +53,8 @@ export class WAF extends cdk.Construct {
           statement: {
             managedRuleGroupStatement: {
               vendorName: 'AWS',
-              name: 'AWSManagedRulesAdminProtectionRuleSet'
-            }
+              name: 'AWSManagedRulesAdminProtectionRuleSet',
+            },
           },
           overrideAction: {
             none: {},
@@ -66,7 +62,7 @@ export class WAF extends cdk.Construct {
           visibilityConfig: {
             sampledRequestsEnabled: true,
             cloudWatchMetricsEnabled: true,
-            metricName: 'AWS-AWSManagedRulesAdminProtectionRuleSet'
+            metricName: 'AWS-AWSManagedRulesAdminProtectionRuleSet',
           },
         },
         {
@@ -75,8 +71,8 @@ export class WAF extends cdk.Construct {
           statement: {
             managedRuleGroupStatement: {
               vendorName: 'AWS',
-              name: 'AWSManagedRulesSQLiRuleSet'
-            }
+              name: 'AWSManagedRulesSQLiRuleSet',
+            },
           },
           overrideAction: {
             none: {},
@@ -84,7 +80,7 @@ export class WAF extends cdk.Construct {
           visibilityConfig: {
             sampledRequestsEnabled: true,
             cloudWatchMetricsEnabled: true,
-            metricName: 'AWS-AWSManagedRulesSQLiRuleSet'
+            metricName: 'AWS-AWSManagedRulesSQLiRuleSet',
           },
         },
       ],
@@ -92,15 +88,11 @@ export class WAF extends cdk.Construct {
       visibilityConfig: {
         cloudWatchMetricsEnabled: true,
         metricName: `${id}-WebACL`,
-        sampledRequestsEnabled: false
+        sampledRequestsEnabled: false,
       },
     });
 
-    new wafv2.CfnWebACLAssociation(this, 'WebACLAssociation', {
-      resourceArn: resourceArn,
-      webAclArn: webACL.attrArn,
-    });
-  }
-}
+    this.exportValue(webACL.attrArn, { name: 'BitwardenWebAclArn' });
 
-
+  };
+};

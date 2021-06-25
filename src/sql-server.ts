@@ -11,16 +11,15 @@ interface DatabaseProps {
   readonly databaseName: string;
 };
 
-export class Database extends cdk.Construct {
+export class Database extends cdk.CustomResource {
 
   constructor(scope: cdk.Construct, id: string, props: DatabaseProps) {
-    super(scope, id);
 
     const databaseName = props.databaseName;
     const db = props.db;
-    const dbSecretArn: string = db.secret?.secretFullArn || '';
+    const dbSecretArn: string = db.secret!.secretFullArn!;
 
-    const createDatabaseFunction = new NodejsFunction(this, 'CreateDatabaseFunction', {
+    const createDatabaseFunction = new NodejsFunction(scope, 'CreateDatabaseFunction', {
       entry: path.resolve(__dirname, '..', 'lambda-packages', 'create_database_handler', 'index.ts'),
       handler: 'handler',
       runtime: lambda.Runtime.NODEJS_14_X,
@@ -35,7 +34,7 @@ export class Database extends cdk.Construct {
       resources: [dbSecretArn],
     }));
 
-    new cdk.CustomResource(this, databaseName, {
+    super(scope, id, {
       serviceToken: createDatabaseFunction.functionArn,
       properties: {
         DatabaseName: databaseName,

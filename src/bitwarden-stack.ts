@@ -1,26 +1,22 @@
 import * as path from 'path';
 
-import * as acm from '@aws-cdk/aws-certificatemanager';
+import * as cf from '@aws-cdk/aws-cloudfront';
+import { LoadBalancerV2Origin } from '@aws-cdk/aws-cloudfront-origins';
 import * as codebuild from '@aws-cdk/aws-codebuild';
 import * as ec2 from '@aws-cdk/aws-ec2';
 import * as ecs from '@aws-cdk/aws-ecs';
 import * as efs from '@aws-cdk/aws-efs';
 import * as elb from '@aws-cdk/aws-elasticloadbalancingv2';
 import * as rds from '@aws-cdk/aws-rds';
-import * as route53 from '@aws-cdk/aws-route53';
-import { LoadBalancerTarget } from '@aws-cdk/aws-route53-targets';
 import { Asset as s3Asset } from '@aws-cdk/aws-s3-assets';
 import * as secretsmanager from '@aws-cdk/aws-secretsmanager';
 import * as cdk from '@aws-cdk/core';
 import * as cr from '@aws-cdk/custom-resources';
 
 import { SmtpSecret, ManagedIdentity } from 'cdk-ses-helpers';
-
-import { Environment, FargateVirtualGateway, ExternalVirtualService, FargateVirtualService } from './appmesh-for-ecs-fargate';
-import { WAF } from './aws-waf-v2'
-import { domainSettings, globalSettings, adminSettings } from './settings';
 import { Database } from './sql-server';
-
+import { Environment, FargateVirtualGateway, ExternalVirtualService, FargateVirtualService } from './appmesh-for-ecs-fargate';
+import { globalSettings, adminSettings } from './settings';
 
 const namespaceName = 'bitwarden.local';
 const databaseName = 'vault';
@@ -65,7 +61,7 @@ export class BitwardenStack extends cdk.Stack {
     });
 
     const smtpSecret = new SmtpSecret(this, 'SmtpSecret', { sesRegion: this.region });
-    const sesIdentity = new ManagedIdentity(this, 'SesIdentity', { sesRegion: this.region });
+    const sesIdentity = new ManagedIdentity(this, 'SesIdentity', { sesRegion: this.region, subDomainName: `bitwarden-${cdk.Aws.ACCOUNT_ID}` });
 
     const vpc = new ec2.Vpc(this, 'VPC', { natGateways: 1 });
 
@@ -205,11 +201,75 @@ export class BitwardenStack extends cdk.Stack {
       adminSettings__admins: ecs.Secret.fromSecretsManager(globalSettingsSecret, 'adminSettings__admins'),
     };
 
+    const environment = new Environment(this, 'App', { namespaceName, vpc });
+    environment.securityGroup.connections.allowToDefaultPort(db);
+    environment.securityGroup.connections.allowToDefaultPort(fileSystem);
+
+    const gateway = new FargateVirtualGateway(this, 'Gateway', { environment });
+
+    const loadBalancer = new elb.ApplicationLoadBalancer(this, 'LoadBalancer', { internetFacing: true, vpc });
+    const targetGroup = new elb.ApplicationTargetGroup(this, 'TargetGroup', {
+      protocol: elb.ApplicationProtocol.HTTP,
+      port: gateway.listenerPort,
+      targets: [gateway.ecsService],
+      healthCheck: {
+        port: '9901',
+        path: '/server_info',
+      },
+      vpc,
+    });
+    loadBalancer.connections.allowTo(gateway.ecsService, ec2.Port.tcp(+targetGroup.healthCheck.port!), 'for HealthCheck');
+    const listner = loadBalancer.addListener('Listner', {
+      port: 8080,
+      defaultTargetGroups: [targetGroup],
+    });
+
+    const cdn = new cf.Distribution(this, 'Distribution', {
+      defaultBehavior: {
+        origin: new LoadBalancerV2Origin(loadBalancer, {
+          protocolPolicy: cf.OriginProtocolPolicy.HTTP_ONLY,
+          httpPort: 8080, // listner.connections.defaultPort
+        }),
+        viewerProtocolPolicy: cf.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
+        allowedMethods: cf.AllowedMethods.ALLOW_ALL,
+        cachePolicy: cf.CachePolicy.CACHING_OPTIMIZED,
+        originRequestPolicy: cf.OriginRequestPolicy.ALL_VIEWER,
+      },
+      enableIpv6: true,
+    });
+
+
+    listner.addAction('app-id', {
+      priority: 1,
+      conditions: [
+        elb.ListenerCondition.pathPatterns([
+          '/app-id.json',
+        ]),
+      ],
+      action: elb.ListenerAction.fixedResponse(200, {
+        contentType: 'application/json',
+        messageBody: JSON.stringify({
+          trustedFacets: [
+            {
+              version: {
+                major: 1,
+                minor: 0,
+              },
+              ids: [
+                `https://${cdn.distributionDomainName}`,
+                'ios:bundle-id:com.8bit.bitwarden',
+                'android:apk-key-hash:dUGFzUzf3lmHSLBDBIv+WaFyZMI',
+              ],
+            },
+          ],
+        }),
+      }),
+    });
+
     const uidEnv = {
       LOCAL_UID: LOCAL_UID,
       LOCAL_GID: LOCAL_GID,
     };
-    const baseServiceUri__vault = `https://${domainSettings.subDomainName}.${domainSettings.zoneDomainName}`
     const globalEnv = {
       ASPNETCORE_ENVIRONMENT: 'Production',
       globalSettings__selfHosted: 'true',
@@ -221,11 +281,11 @@ export class BitwardenStack extends cdk.Stack {
       globalSettings__mail__smtp__startTls: 'true',
       globalSettings__mail__smtp__trustServer: 'true',
       // Base Service URI
-      globalSettings__baseServiceUri__vault: baseServiceUri__vault,
-      globalSettings__baseServiceUri__api: `${baseServiceUri__vault}/api`,
-      globalSettings__baseServiceUri__notifications: `${baseServiceUri__vault}/notifications`,
-      globalSettings__baseServiceUri__identity: `${baseServiceUri__vault}/identity`,
-      globalSettings__baseServiceUri__admin: `${baseServiceUri__vault}/admin`,
+      globalSettings__baseServiceUri__vault: `https://${cdn.distributionDomainName}`,
+      globalSettings__baseServiceUri__api: `https://${cdn.distributionDomainName}/api`,
+      globalSettings__baseServiceUri__notifications: `https://${cdn.distributionDomainName}/notifications`,
+      globalSettings__baseServiceUri__identity: `https://${cdn.distributionDomainName}/identity`,
+      globalSettings__baseServiceUri__admin: `https://${cdn.distributionDomainName}/admin`,
       // internal Base Service URI
       globalSettings__baseServiceUri__internalVault: `http://web.svc.${namespaceName}:5000`,
       globalSettings__baseServiceUri__internalApi: `http://api.svc.${namespaceName}:5000`,
@@ -233,10 +293,6 @@ export class BitwardenStack extends cdk.Stack {
       globalSettings__baseServiceUri__internalIdentity: `http://identity.svc.${namespaceName}:5000`,
       globalSettings__baseServiceUri__internalAdmin: `http://admin.svc.${namespaceName}:5000`,
     };
-
-    const environment = new Environment(this, 'App', { namespaceName, vpc });
-    environment.securityGroup.connections.allowToDefaultPort(db);
-    environment.securityGroup.connections.allowToDefaultPort(fileSystem);
 
     const pushService = new ExternalVirtualService(this, 'Push', {
       environment,
@@ -373,8 +429,6 @@ export class BitwardenStack extends cdk.Stack {
         secrets: globalOverrideEnv,
       },
     });
-    
-    const gateway = new FargateVirtualGateway(this, 'Gateway', { environment });
 
     apiService.addBackends([dbService, emailService, webService, notificationsService, identityService, adminService]);
     identityService.addBackends([dbService, webService, apiService, notificationsService, adminService]);
@@ -396,67 +450,7 @@ export class BitwardenStack extends cdk.Stack {
     gateway.addGatewayRoute('/admin/', adminService);
     gateway.addGatewayRoute('/portal/', portalService);
 
-    const hostedZone = (domainSettings.zoneDomainName !== 'example.com')
-      ? route53.HostedZone.fromLookup(this, 'HostedZone', { domainName: domainSettings.zoneDomainName })
-      : undefined ;
-
-    const certificate = (hostedZone)
-      ? new acm.DnsValidatedCertificate(this, 'Certificate', { domainName: [domainSettings.subDomainName, domainSettings.zoneDomainName].join('.'), hostedZone: hostedZone })
-      : undefined ;
-
-    const loadBalancer = new elb.ApplicationLoadBalancer(this, 'LoadBalancer', { internetFacing: true, vpc });
-    loadBalancer.connections.allowTo(gateway.ecsService, ec2.Port.tcp(9901), 'for HealthCheck');
-    const targetGroup = new elb.ApplicationTargetGroup(this, 'TargetGroup', {
-      protocol: elb.ApplicationProtocol.HTTP,
-      port: gateway.listenerPort,
-      targets: [gateway.ecsService],
-      healthCheck: {
-        port: '9901',
-        path: '/server_info',
-      },
-      vpc,
-    });
-    const listner = loadBalancer.addListener('Listner', {
-      port: (certificate) ? 443 : 80,
-      certificates: (certificate) ? [certificate] : [],
-      defaultTargetGroups: [targetGroup]
-    });
-    listner.addAction('app-id', {
-      priority: 1,
-      conditions: [
-        elb.ListenerCondition.pathPatterns([
-          '/app-id.json'
-        ])
-      ],
-      action: elb.ListenerAction.fixedResponse(200, {
-        contentType: 'application/json',
-        messageBody: JSON.stringify({
-          "trustedFacets": [
-            {
-              "version": {
-                "major": 1,
-                "minor": 0
-              },
-              "ids": [
-                baseServiceUri__vault,
-                "ios:bundle-id:com.8bit.bitwarden",
-                "android:apk-key-hash:dUGFzUzf3lmHSLBDBIv+WaFyZMI"
-              ]
-            }
-          ]
-        })
-      })
-    });
-
-    new WAF(this, 'BitwardenWAF', { resourceArn: loadBalancer.loadBalancerArn })
-
-    if (hostedZone) {
-      new route53.ARecord(this, 'ARecord', {
-        zone: hostedZone,
-        recordName: domainSettings.subDomainName,
-        target: { aliasTarget: new LoadBalancerTarget(loadBalancer) },
-      });
-    };
+    this.exportValue(cdn.distributionDomainName, { name: 'BitwardenDistributionDomain' });
 
   };
 };

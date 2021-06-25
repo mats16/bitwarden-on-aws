@@ -1,8 +1,3 @@
-export const domainSettings = {
-  zoneDomainName: 'example.com',
-  subDomainName: 'bitwarden',
-};
-
 export const globalSettings = {
   globalSettings__installation__id: '00000000-0000-0000-0000-000000000000',
   globalSettings__installation__key: 'XXXXXXXXXXXXXXXXXXXX',

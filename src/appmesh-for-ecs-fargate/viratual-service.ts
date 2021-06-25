@@ -14,12 +14,6 @@ export interface VirtualServiceProps {
   readonly protocol?: 'http' | 'http2' | 'tcp' | 'grpc';
 };
 
-export interface FargateVirtualServiceProps extends VirtualServiceProps {
-  readonly applicationContainer: ecs.ContainerDefinitionOptions;
-  readonly desiredCount?: number;
-  readonly healthCheckPath?: string;
-};
-
 export class VirtualService extends cdk.Construct {
   listenerPort: number;
   protocol: 'http' | 'http2' | 'tcp' | 'grpc';
@@ -30,10 +24,10 @@ export class VirtualService extends cdk.Construct {
   constructor(scope: cdk.Construct, id: string, props: VirtualServiceProps) {
     super(scope, id);
 
-    const virtualServiceName = props.virtualServiceName;  // FQDN
+    const virtualServiceName = props.virtualServiceName; // FQDN
     const mesh = props.environment.mesh;
     const namespace = props.environment.namespace;
-    const namespaceName = namespace.namespaceName
+    const namespaceName = namespace.namespaceName;
 
     this.listenerPort = props.listenerPort || 5000;
     this.protocol = props.protocol || 'http';
@@ -50,13 +44,13 @@ export class VirtualService extends cdk.Construct {
     })();
 
     this.virtualRouter = new appmesh.VirtualRouter(this, 'VirtualRouter', {
-      listeners: [ virtualRouterListener ],
-      mesh
+      listeners: [virtualRouterListener],
+      mesh,
     });
 
     this.virtualService = new appmesh.VirtualService(this, 'VirtualService', {
       virtualServiceName,
-      virtualServiceProvider: appmesh.VirtualServiceProvider.virtualRouter(this.virtualRouter)
+      virtualServiceProvider: appmesh.VirtualServiceProvider.virtualRouter(this.virtualRouter),
     });
 
     if (virtualServiceName.endsWith(namespaceName)) {
@@ -79,6 +73,14 @@ export class VirtualService extends cdk.Construct {
   };
 };
 
+export interface FargateVirtualServiceProps extends VirtualServiceProps {
+  readonly applicationContainer: ecs.ContainerDefinitionOptions;
+  readonly healthCheckPath?: string;
+  readonly desiredCount?: number;
+  readonly minHealthyPercent?: number;
+  readonly maxHealthyPercent?: number;
+};
+
 export class FargateVirtualService extends VirtualService {
   ecsTaskDefinition: ecs.FargateTaskDefinition;
   applicationContainer: ecs.ContainerDefinition;
@@ -87,10 +89,13 @@ export class FargateVirtualService extends VirtualService {
     super(scope, id, props);
 
     const serviceName = id.toLowerCase();
-    const desiredCount = props.desiredCount ?? 2;
+    const desiredCount = props.desiredCount || 2;
+    const minHealthyPercent = props.minHealthyPercent || 50;
+    const maxHealthyPercent = props.maxHealthyPercent || 200;
     const mesh = props.environment.mesh;
     const namespace = props.environment.namespace;
     const cluster = props.environment.cluster;
+    const capacityProviderStrategies = props.environment.defaultCapacityProviderStrategies;
     const securityGroup = props.environment.securityGroup;
     const logGroup = props.environment.logGroup;
     const awsLogDriver = new ecs.AwsLogDriver({ logGroup: logGroup, streamPrefix: serviceName });
@@ -222,10 +227,7 @@ export class FargateVirtualService extends VirtualService {
         name: `${imageTag}.${serviceName}.node`,
         containerPort: this.listenerPort,
       },
-      capacityProviderStrategies: [
-        { capacityProvider: 'FARGATE', base: 1, weight: 0 },
-        { capacityProvider: 'FARGATE_SPOT', base: 0, weight: 1 },
-      ],
+      capacityProviderStrategies,
     });
 
     // Create a virtual node for the name service
@@ -324,7 +326,7 @@ export class ExternalVirtualService extends VirtualService {
       maxPendingRequests: 1024,
     };
     const http2ConnectionPool: appmesh.Http2ConnectionPool = {
-      maxRequests: 1024
+      maxRequests: 1024,
     };
 
     const virtualNodeListener = (() => {

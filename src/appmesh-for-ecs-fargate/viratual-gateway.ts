@@ -11,6 +11,8 @@ interface FargateVirtualGatewayProps {
   readonly environment: Environment;
   readonly listenerPort?: number;
   readonly desiredCount?: number;
+  readonly minHealthyPercent?: number;
+  readonly maxHealthyPercent?: number;
 }
 
 export class FargateVirtualGateway extends cdk.Construct {
@@ -25,8 +27,11 @@ export class FargateVirtualGateway extends cdk.Construct {
 
     const serviceName = id.toLowerCase();
     const desiredCount = props.desiredCount || 2;
+    const minHealthyPercent = props.minHealthyPercent || 50;
+    const maxHealthyPercent = props.maxHealthyPercent || 200;
     const mesh = props.environment.mesh;
     const cluster = props.environment.cluster;
+    const capacityProviderStrategies = props.environment.defaultCapacityProviderStrategies;
     const appSecurityGroup = props.environment.securityGroup;
     const logGroup = props.environment.logGroup;
     const awsLogDriver = new ecs.AwsLogDriver({ logGroup: logGroup, streamPrefix: serviceName });
@@ -128,6 +133,8 @@ export class FargateVirtualGateway extends cdk.Construct {
       cluster,
       taskDefinition,
       desiredCount,
+      minHealthyPercent,
+      maxHealthyPercent,
       enableECSManagedTags: true,
       cloudMapOptions: {
         dnsRecordType: servicediscovery.DnsRecordType.SRV,
@@ -136,12 +143,9 @@ export class FargateVirtualGateway extends cdk.Construct {
         name: serviceName,
         containerPort: this.listenerPort,
       },
-      capacityProviderStrategies: [
-        { capacityProvider: 'FARGATE', base: 1, weight: 0 },
-        { capacityProvider: 'FARGATE_SPOT', base: 0, weight: 1 },
-      ],
+      capacityProviderStrategies,
     });
-    this.ecsService.connections.allowTo(appSecurityGroup, ec2.Port.tcp(5000))
+    this.ecsService.connections.allowTo(appSecurityGroup, ec2.Port.tcp(5000));
   };
 
   addGatewayRoute(prefixPath: string, otherService: VirtualService) {

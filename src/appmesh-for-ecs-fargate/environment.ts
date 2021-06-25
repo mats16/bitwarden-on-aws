@@ -18,6 +18,7 @@ export class Environment extends cdk.Construct {
   vpc: ec2.IVpc
   securityGroup: ec2.SecurityGroup
   cluster: ecs.Cluster
+  defaultCapacityProviderStrategies: ecs.CapacityProviderStrategy[];
   logGroup: logs.ILogGroup
   namespace: servicediscovery.INamespace
   mesh: appmesh.Mesh;
@@ -37,6 +38,11 @@ export class Environment extends cdk.Construct {
       containerInsights: true,
       vpc: this.vpc,
     });
+
+    this.defaultCapacityProviderStrategies = [
+      { capacityProvider: 'FARGATE', base: 0, weight: 0 },
+      { capacityProvider: 'FARGATE_SPOT', base: 0, weight: 1 },
+    ],
 
     this.namespace = this.cluster.addDefaultCloudMapNamespace({ name: namespaceName });
 
