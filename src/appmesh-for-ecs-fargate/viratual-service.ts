@@ -106,8 +106,8 @@ export class FargateVirtualService extends VirtualService {
     const imageTag: string = (imageName.split(':')[1] || 'latest').replace(/\./g, '-');
 
     this.ecsTaskDefinition = new ecs.FargateTaskDefinition(this, 'TaskDefinition', {
-      cpu: 512,
-      memoryLimitMiB: 1024,
+      cpu: 256,
+      memoryLimitMiB: 512,
       taskRole: new iam.Role(this, 'TaskRole', {
         assumedBy: new iam.ServicePrincipal('ecs-tasks.amazonaws.com'),
         managedPolicies: [
@@ -137,6 +137,8 @@ export class FargateVirtualService extends VirtualService {
 
     const applicationContainerOptions = {
       ...props.applicationContainer,
+      cpu: 128,
+      memoryReservationMiB: 256,
       portMappings: [{ containerPort: this.listenerPort }],
       logging: awsLogDriver,
       healthCheck: {
@@ -162,8 +164,8 @@ export class FargateVirtualService extends VirtualService {
 
     this.ecsTaskDefinition.addContainer('xray-daemon', {
       image: xrayImage,
-      cpu: 32,
-      memoryReservationMiB: 256,
+      cpu: 16,
+      memoryReservationMiB: 128,
       essential: true,
       portMappings: [{
         containerPort: 2000,
@@ -174,8 +176,8 @@ export class FargateVirtualService extends VirtualService {
 
     this.ecsTaskDefinition.addContainer('cw-agent', {
       image: cloudwatchImage,
-      //cpu: 32,
-      //memoryReservationMiB: 256,
+      cpu: 16,
+      memoryReservationMiB: 64,
       essential: true,
       portMappings: [{
         containerPort: 8125,
@@ -217,7 +219,9 @@ export class FargateVirtualService extends VirtualService {
       cluster,
       taskDefinition: this.ecsTaskDefinition,
       securityGroups: [securityGroup],
-      desiredCount: desiredCount,
+      desiredCount,
+      minHealthyPercent,
+      maxHealthyPercent,
       enableECSManagedTags: true,
       cloudMapOptions: {
         cloudMapNamespace: namespace,
@@ -259,7 +263,7 @@ export class FargateVirtualService extends VirtualService {
     const proxyContainer = this.ecsTaskDefinition.addContainer('envoy', {
       image: envoyImage,
       user: '1337',
-      cpu: 256,
+      cpu: 96,
       memoryReservationMiB: 64,
       essential: true,
       healthCheck: {

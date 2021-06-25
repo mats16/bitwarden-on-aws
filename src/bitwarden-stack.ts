@@ -228,16 +228,15 @@ export class BitwardenStack extends cdk.Stack {
       defaultBehavior: {
         origin: new LoadBalancerV2Origin(loadBalancer, {
           protocolPolicy: cf.OriginProtocolPolicy.HTTP_ONLY,
-          httpPort: 8080, // listner.connections.defaultPort
+          httpPort: 8080,
         }),
         viewerProtocolPolicy: cf.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
         allowedMethods: cf.AllowedMethods.ALLOW_ALL,
-        cachePolicy: cf.CachePolicy.CACHING_OPTIMIZED,
+        cachePolicy: cf.CachePolicy.CACHING_DISABLED,
         originRequestPolicy: cf.OriginRequestPolicy.ALL_VIEWER,
       },
       enableIpv6: true,
     });
-
 
     listner.addAction('app-id', {
       priority: 1,
