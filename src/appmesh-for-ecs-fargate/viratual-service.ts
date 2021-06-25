@@ -216,10 +216,11 @@ export class FargateVirtualService extends VirtualService {
       enableECSManagedTags: true,
       cloudMapOptions: {
         cloudMapNamespace: namespace,
-        dnsRecordType: servicediscovery.DnsRecordType.A,
+        dnsRecordType: servicediscovery.DnsRecordType.SRV,
         dnsTtl: cdk.Duration.seconds(10),
         failureThreshold: 2,
-        name: [imageTag, serviceName, 'node'].join('.'),
+        name: `${imageTag}.${serviceName}.node`,
+        containerPort: this.listenerPort,
       },
       capacityProviderStrategies: [
         { capacityProvider: 'FARGATE', base: 1, weight: 0 },

@@ -130,10 +130,11 @@ export class FargateVirtualGateway extends cdk.Construct {
       desiredCount,
       enableECSManagedTags: true,
       cloudMapOptions: {
-        dnsRecordType: servicediscovery.DnsRecordType.A,
+        dnsRecordType: servicediscovery.DnsRecordType.SRV,
         dnsTtl: cdk.Duration.seconds(10),
         failureThreshold: 2,
         name: serviceName,
+        containerPort: this.listenerPort,
       },
       capacityProviderStrategies: [
         { capacityProvider: 'FARGATE', base: 1, weight: 0 },
