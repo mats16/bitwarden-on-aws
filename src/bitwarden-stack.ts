@@ -224,16 +224,23 @@ export class BitwardenStack extends cdk.Stack {
       defaultTargetGroups: [targetGroup],
     });
 
+    const defaultBehavior = {
+      origin: new LoadBalancerV2Origin(loadBalancer, { protocolPolicy: cf.OriginProtocolPolicy.HTTP_ONLY, httpPort: 8080 }),
+      viewerProtocolPolicy: cf.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
+      allowedMethods: cf.AllowedMethods.ALLOW_ALL,
+      cachePolicy: cf.CachePolicy.CACHING_DISABLED,
+      originRequestPolicy: cf.OriginRequestPolicy.ALL_VIEWER,
+    };
     const cdn = new cf.Distribution(this, 'Distribution', {
-      defaultBehavior: {
-        origin: new LoadBalancerV2Origin(loadBalancer, {
-          protocolPolicy: cf.OriginProtocolPolicy.HTTP_ONLY,
-          httpPort: 8080,
-        }),
-        viewerProtocolPolicy: cf.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
-        allowedMethods: cf.AllowedMethods.ALLOW_ALL,
-        cachePolicy: cf.CachePolicy.CACHING_DISABLED,
-        originRequestPolicy: cf.OriginRequestPolicy.ALL_VIEWER,
+      comment: 'Bitwarden',
+      defaultBehavior,
+      additionalBehaviors: {
+        '*.css': { ...defaultBehavior, cachePolicy: cf.CachePolicy.CACHING_OPTIMIZED },
+        '*.png': { ...defaultBehavior, cachePolicy: cf.CachePolicy.CACHING_OPTIMIZED },
+        '*.svg': { ...defaultBehavior, cachePolicy: cf.CachePolicy.CACHING_OPTIMIZED },
+        '*.woff': { ...defaultBehavior, cachePolicy: cf.CachePolicy.CACHING_OPTIMIZED },
+        '*.woff2': { ...defaultBehavior, cachePolicy: cf.CachePolicy.CACHING_OPTIMIZED },
+        '*.js': { ...defaultBehavior, cachePolicy: cf.CachePolicy.CACHING_OPTIMIZED },
       },
       enableIpv6: true,
     });
@@ -382,6 +389,8 @@ export class BitwardenStack extends cdk.Stack {
         secrets: globalOverrideEnv,
       },
       desiredCount: 1,
+      minHealthyPercent: 0,
+      maxHealthyPercent: 100,
     });
     adminService.addVolume(coreAccessPoint, '/etc/bitwarden/core');
 
@@ -444,10 +453,10 @@ export class BitwardenStack extends cdk.Stack {
     gateway.addGatewayRoute('/notifications/', notificationsService);
     gateway.addGatewayRoute('/events/', eventsService);
     // need to add rewrite options
-    gateway.addGatewayRoute('/sso/', ssoService);
     gateway.addGatewayRoute('/identity/', identityService);
-    gateway.addGatewayRoute('/admin/', adminService);
+    gateway.addGatewayRoute('/sso/', ssoService);
     gateway.addGatewayRoute('/portal/', portalService);
+    gateway.addGatewayRoute('/admin/', adminService);
 
     this.exportValue(cdn.distributionDomainName, { name: 'BitwardenDistributionDomain' });
 

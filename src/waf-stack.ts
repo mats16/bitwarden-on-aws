@@ -16,7 +16,7 @@ export class WafStack extends cdk.Stack {
               vendorName: 'AWS',
               name: 'AWSManagedRulesBotControlRuleSet',
               excludedRules: [
-                { name: 'SignalNonBrowserUserAgent' },
+                { name: 'SignalNonBrowserUserAgent' }, // for mobile app
               ],
             },
           },
@@ -54,6 +54,9 @@ export class WafStack extends cdk.Stack {
             managedRuleGroupStatement: {
               vendorName: 'AWS',
               name: 'AWSManagedRulesCommonRuleSet',
+              excludedRules: [
+                { name: 'GenericRFI_QUERYARGUMENTS' }, // for webauth
+              ],
             },
           },
           overrideAction: {

@@ -143,7 +143,7 @@ export class FargateVirtualService extends VirtualService {
       logging: awsLogDriver,
       healthCheck: {
         command: ['CMD-SHELL', `curl -f http://localhost:${this.listenerPort}${healthCheckPath} || exit 1`],
-        startPeriod: cdk.Duration.seconds(10),
+        startPeriod: cdk.Duration.seconds(20),
         interval: cdk.Duration.seconds(5),
         timeout: cdk.Duration.seconds(2),
         retries: 3,
