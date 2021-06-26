@@ -16,4 +16,4 @@ export const adminSettings = {
   admins: '',
 };
 
-export const webAclArn = 'REPLACE'
+export const webAclArn: string = 'REPLACE'
