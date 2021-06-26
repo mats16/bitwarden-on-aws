@@ -16,6 +16,7 @@ import * as cr from '@aws-cdk/custom-resources';
 import { SmtpSecret, ManagedIdentity } from 'cdk-ses-helpers';
 import { Database } from './sql-server';
 import { Environment, FargateVirtualGateway, ExternalVirtualService, FargateVirtualService } from './appmesh-for-ecs-fargate';
+import { OriginWaf } from './waf-for-origin'
 import { globalSettings, adminSettings } from './settings';
 
 const namespaceName = 'bitwarden.local';
@@ -224,8 +225,26 @@ export class BitwardenStack extends cdk.Stack {
       defaultTargetGroups: [targetGroup],
     });
 
-    const defaultBehavior = {
-      origin: new LoadBalancerV2Origin(loadBalancer, { protocolPolicy: cf.OriginProtocolPolicy.HTTP_ONLY, httpPort: 8080 }),
+    const cloudFrontOriginCustomHeaderValue = new secretsmanager.Secret(this, 'CloudFrontOriginCustomHeaderValue', {
+      description: '[Bitwarden] CloudFront origin custom header',
+      generateSecretString: {
+        passwordLength: 50,
+        excludePunctuation: true,
+      },
+    });
+
+    new OriginWaf(this, 'BitwardenOriginWaf', {
+      preSharedKeyValue: cloudFrontOriginCustomHeaderValue.secretValue.toString(),
+      resourceArn: loadBalancer.loadBalancerArn,
+    })
+
+    const defaultBehavior: cf.BehaviorOptions = {
+      origin: new LoadBalancerV2Origin(loadBalancer, {
+        protocolPolicy: cf.OriginProtocolPolicy.HTTP_ONLY, httpPort: 8080,
+        customHeaders: {
+          'X-Pre-Shared-Key': cloudFrontOriginCustomHeaderValue.secretValue.toString()
+        }
+      }),
       viewerProtocolPolicy: cf.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
       allowedMethods: cf.AllowedMethods.ALLOW_ALL,
       cachePolicy: cf.CachePolicy.CACHING_DISABLED,

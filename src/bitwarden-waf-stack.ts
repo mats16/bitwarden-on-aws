@@ -1,7 +1,7 @@
 import * as wafv2 from '@aws-cdk/aws-wafv2';
 import * as cdk from '@aws-cdk/core';
 
-export class WafStack extends cdk.Stack {
+export class BitwardenWafStack extends cdk.Stack {
   constructor(scope: cdk.Construct, id: string, props: cdk.StackProps) {
     super(scope, id, props);
 
