@@ -34,19 +34,19 @@ export class OriginWaf extends cdk.Construct {
                 byteMatchStatement: {
                   fieldToMatch: {
                     singleHeader: {
-                      name: props.customHeaderKey
-                    }
+                      name: props.customHeaderKey,
+                    },
                   },
                   searchString: this.customHeaderValue,
                   textTransformations: [
                     {
                       priority: 0,
-                      type: 'NONE'
-                    }
+                      type: 'NONE',
+                    },
                   ],
-                  positionalConstraint: 'EXACTLY'
-                }  
-              }
+                  positionalConstraint: 'EXACTLY',
+                },
+              },
             },
           },
           action: { block: {} },
@@ -67,6 +67,6 @@ export class OriginWaf extends cdk.Construct {
     new wafv2.CfnWebACLAssociation(this, 'WebACLAssociation', {
       webAclArn: webACL.attrArn,
       resourceArn: props.resourceArn,
-    })
+    });
   };
 };

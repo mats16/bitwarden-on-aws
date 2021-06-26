@@ -14,10 +14,10 @@ import * as cdk from '@aws-cdk/core';
 import * as cr from '@aws-cdk/custom-resources';
 
 import { SmtpSecret, ManagedIdentity } from 'cdk-ses-helpers';
-import { Database } from './sql-server';
 import { Environment, FargateVirtualGateway, ExternalVirtualService, FargateVirtualService } from './appmesh-for-ecs-fargate';
-import { OriginWaf } from './waf-for-origin'
 import { globalSettings, adminSettings } from './settings';
+import { Database } from './sql-server';
+import { OriginWaf } from './waf-for-origin';
 
 const namespaceName = 'bitwarden.local';
 const databaseName = 'vault';
@@ -227,15 +227,16 @@ export class BitwardenStack extends cdk.Stack {
 
     const originWaf = new OriginWaf(this, 'BitwardenOriginWaf', {
       resourceArn: loadBalancer.loadBalancerArn.toString(),
-      customHeaderKey: 'X-Pre-Shared-Key'
+      customHeaderKey: 'X-Pre-Shared-Key',
     });
 
     const defaultBehavior: cf.BehaviorOptions = {
       origin: new LoadBalancerV2Origin(loadBalancer, {
-        protocolPolicy: cf.OriginProtocolPolicy.HTTP_ONLY, httpPort: 8080,
+        protocolPolicy: cf.OriginProtocolPolicy.HTTP_ONLY,
+        httpPort: 8080,
         customHeaders: {
-          'X-Pre-Shared-Key': originWaf.customHeaderValue
-        }
+          'X-Pre-Shared-Key': originWaf.customHeaderValue,
+        },
       }),
       viewerProtocolPolicy: cf.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
       allowedMethods: cf.AllowedMethods.ALLOW_ALL,

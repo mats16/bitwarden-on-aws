@@ -6,6 +6,7 @@ export class BitwardenWafStack extends cdk.Stack {
     super(scope, id, props);
 
     const webACL = new wafv2.CfnWebACL(this, 'BitwardenWebACL', {
+      description: 'self-hosted Bitwarden Web ACL',
       scope: 'CLOUDFRONT',
       rules: [
         {
@@ -112,6 +113,10 @@ export class BitwardenWafStack extends cdk.Stack {
         metricName: `${id}-WebACL`,
         sampledRequestsEnabled: false,
       },
+      tags: [{
+        key: 'cfn-stack-for',
+        value: 'BitwardenStack',
+      }],
     });
 
     this.exportValue(webACL.attrArn, { name: 'BitwardenWebAclArn' });
