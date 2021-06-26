@@ -15,3 +15,5 @@ export const adminSettings = {
   // Email addresses which may access the System Administrator Portal.
   admins: '',
 };
+
+export const webAclArn = 'REPLACE'

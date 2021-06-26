@@ -15,7 +15,7 @@ import * as cr from '@aws-cdk/custom-resources';
 
 import { SmtpSecret, ManagedIdentity } from 'cdk-ses-helpers';
 import { Environment, FargateVirtualGateway, ExternalVirtualService, FargateVirtualService } from './appmesh-for-ecs-fargate';
-import { globalSettings, adminSettings } from './settings';
+import { globalSettings, adminSettings, webAclArn } from './settings';
 import { Database } from './sql-server';
 import { OriginWaf } from './waf-for-origin';
 
@@ -72,6 +72,7 @@ export class BitwardenStack extends cdk.Stack {
       }),
       instanceType: ec2.InstanceType.of(ec2.InstanceClass.BURSTABLE3, ec2.InstanceSize.SMALL),
       credentials: rds.Credentials.fromGeneratedSecret('sa'),
+      enablePerformanceInsights: true,
       vpc,
     });
     new Database(this, 'DefaultDatabase', {
@@ -255,6 +256,7 @@ export class BitwardenStack extends cdk.Stack {
         '*.js': { ...defaultBehavior, cachePolicy: cf.CachePolicy.CACHING_OPTIMIZED },
       },
       enableIpv6: true,
+      webAclId: (webAclArn === 'REPLACE') ? undefined : webAclArn,
     });
 
     listner.addAction('app-id', {
