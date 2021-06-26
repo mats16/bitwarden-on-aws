@@ -55,7 +55,8 @@ export class WafStack extends cdk.Stack {
               vendorName: 'AWS',
               name: 'AWSManagedRulesCommonRuleSet',
               excludedRules: [
-                { name: 'GenericRFI_QUERYARGUMENTS' }, // for webauth
+                { name: 'GenericRFI_QUERYARGUMENTS' }, // for FIDO2 WebAuthn
+                { name: 'SizeRestrictions_BODY' }, // for Bitwarden Send (file)
               ],
             },
           },
