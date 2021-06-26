@@ -1,16 +1,17 @@
 export const globalSettings = {
-  globalSettings__installation__id: '00000000-0000-0000-0000-000000000000',
-  globalSettings__installation__key: 'XXXXXXXXXXXXXXXXXXXX',
   // retrieved from https://bitwarden.com/host.
+  installation__id: '00000000-0000-0000-0000-000000000000',
+  installation__key: 'XXXXXXXXXXXXXXXXXXXX',
   // for YubiCloud Validation Service or Self-hosted Yubico Validation Server.
-  globalSettings__yubico__clientId: 'REPLACE',
-  globalSettings__yubico__key: 'REPLACE',
-  globalSettings__disableUserRegistration: false,
+  yubico__clientId: 'REPLACE',
+  yubico__key: 'REPLACE',
+  //yubico__validationUrls__0: 'https://your.url.com/wsapi/2.0/verify',
+  disableUserRegistration: false,
   // HaveIBeenPwned, available from https://haveibeenpwned.com/API/Key
-  globalSettings__hibpApiKey: 'REPLACE',
+  hibpApiKey: 'REPLACE',
 };
 
 export const adminSettings = {
-  adminSettings__admins: '',
   // Email addresses which may access the System Administrator Portal.
+  admins: '',
 };

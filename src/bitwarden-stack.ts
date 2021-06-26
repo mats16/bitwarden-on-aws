@@ -167,39 +167,39 @@ export class BitwardenStack extends cdk.Stack {
       generateSecretString: {
         passwordLength: 64,
         excludePunctuation: true,
-        generateStringKey: 'globalSettings__internalIdentityKey',
+        generateStringKey: 'internalIdentityKey',
         secretStringTemplate: JSON.stringify({
-          globalSettings__sqlServer__connectionString: `Data Source=tcp:${db.dbInstanceEndpointAddress},${db.dbInstanceEndpointPort};Initial Catalog=${databaseName};Persist Security Info=False;User ID=${db.secret?.secretValueFromJson('username')};Password=${db.secret?.secretValueFromJson('password')};MultipleActiveResultSets=False;Connect Timeout=30;Encrypt=True;TrustServerCertificate=True`,
-          globalSettings__installation__id: globalSettings.globalSettings__installation__id,
-          globalSettings__installation__key: globalSettings.globalSettings__installation__key,
-          globalSettings__yubico__clientId: globalSettings.globalSettings__yubico__clientId,
-          globalSettings__yubico__key: globalSettings.globalSettings__yubico__key,
-          globalSettings__disableUserRegistration: globalSettings.globalSettings__disableUserRegistration,
-          globalSettings__hibpApiKey: globalSettings.globalSettings__hibpApiKey,
-          adminSettings__admins: adminSettings.adminSettings__admins,
+          sqlServer__connectionString: `Data Source=tcp:${db.dbInstanceEndpointAddress},${db.dbInstanceEndpointPort};Initial Catalog=${databaseName};Persist Security Info=False;User ID=${db.secret?.secretValueFromJson('username')};Password=${db.secret?.secretValueFromJson('password')};MultipleActiveResultSets=False;Connect Timeout=30;Encrypt=True;TrustServerCertificate=True`,
+          installation__id: globalSettings.installation__id,
+          installation__key: globalSettings.installation__key,
+          yubico__clientId: globalSettings.yubico__clientId,
+          yubico__key: globalSettings.yubico__key,
+          disableUserRegistration: globalSettings.disableUserRegistration,
+          hibpApiKey: globalSettings.hibpApiKey,
+          admins: adminSettings.admins,
         }),
       },
     });
 
-    const globalOverrideEnv: {[key: string]: ecs.Secret} = {
-      globalSettings__sqlServer__connectionString: ecs.Secret.fromSecretsManager(globalSettingsSecret, 'globalSettings__sqlServer__connectionString'),
-      globalSettings__internalIdentityKey: ecs.Secret.fromSecretsManager(globalSettingsSecret, 'globalSettings__internalIdentityKey'),
+    const globalEnvSecrets: {[key: string]: ecs.Secret} = {
+      globalSettings__sqlServer__connectionString: ecs.Secret.fromSecretsManager(globalSettingsSecret, 'sqlServer__connectionString'),
+      globalSettings__internalIdentityKey: ecs.Secret.fromSecretsManager(globalSettingsSecret, 'internalIdentityKey'),
       globalSettings__identityServer__certificatePassword: ecs.Secret.fromSecretsManager(identityServerCertificatePasswordSecret),
       globalSettings__oidcIdentityClientKey: ecs.Secret.fromSecretsManager(oidcIdentityClientKeySecret),
       globalSettings__duo__aKey: ecs.Secret.fromSecretsManager(duoAKeySecret),
       // installation
-      globalSettings__installation__id: ecs.Secret.fromSecretsManager(globalSettingsSecret, 'globalSettings__installation__id'),
-      globalSettings__installation__key: ecs.Secret.fromSecretsManager(globalSettingsSecret, 'globalSettings__installation__key'),
-      globalSettings__yubico__clientId: ecs.Secret.fromSecretsManager(globalSettingsSecret, 'globalSettings__yubico__clientId'),
-      globalSettings__yubico__key: ecs.Secret.fromSecretsManager(globalSettingsSecret, 'globalSettings__yubico__key'),
+      globalSettings__installation__id: ecs.Secret.fromSecretsManager(globalSettingsSecret, 'installation__id'),
+      globalSettings__installation__key: ecs.Secret.fromSecretsManager(globalSettingsSecret, 'installation__key'),
+      globalSettings__yubico__clientId: ecs.Secret.fromSecretsManager(globalSettingsSecret, 'yubico__clientId'),
+      globalSettings__yubico__key: ecs.Secret.fromSecretsManager(globalSettingsSecret, 'yubico__key'),
       // mail
       globalSettings__mail__smtp__host: ecs.Secret.fromSecretsManager(smtpSecret, 'endpoint'),
       globalSettings__mail__smtp__username: ecs.Secret.fromSecretsManager(smtpSecret, 'username'),
       globalSettings__mail__smtp__password: ecs.Secret.fromSecretsManager(smtpSecret, 'password'),
       // others
-      globalSettings__disableUserRegistration: ecs.Secret.fromSecretsManager(globalSettingsSecret, 'globalSettings__disableUserRegistration'),
-      globalSettings__hibpApiKey: ecs.Secret.fromSecretsManager(globalSettingsSecret, 'globalSettings__hibpApiKey'),
-      adminSettings__admins: ecs.Secret.fromSecretsManager(globalSettingsSecret, 'adminSettings__admins'),
+      globalSettings__disableUserRegistration: ecs.Secret.fromSecretsManager(globalSettingsSecret, 'disableUserRegistration'),
+      globalSettings__hibpApiKey: ecs.Secret.fromSecretsManager(globalSettingsSecret, 'hibpApiKey'),
+      adminSettings__admins: ecs.Secret.fromSecretsManager(globalSettingsSecret, 'admins'),
     };
 
     const environment = new Environment(this, 'App', { namespaceName, vpc });
@@ -359,7 +359,7 @@ export class BitwardenStack extends cdk.Stack {
       applicationContainer: {
         image: ecs.ContainerImage.fromRegistry('bitwarden/identity:latest'),
         environment: { ...uidEnv, ...globalEnv },
-        secrets: globalOverrideEnv,
+        secrets: globalEnvSecrets,
       },
     });
     identityService.addVolume(coreAccessPoint, '/etc/bitwarden/core');
@@ -372,7 +372,7 @@ export class BitwardenStack extends cdk.Stack {
       applicationContainer: {
         image: ecs.ContainerImage.fromRegistry('bitwarden/api:latest'),
         environment: { ...uidEnv, ...globalEnv },
-        secrets: globalOverrideEnv,
+        secrets: globalEnvSecrets,
       },
     });
     apiService.addVolume(coreAccessPoint, '/etc/bitwarden/core');
@@ -384,7 +384,7 @@ export class BitwardenStack extends cdk.Stack {
       applicationContainer: {
         image: ecs.ContainerImage.fromRegistry('bitwarden/sso:latest'),
         environment: { ...uidEnv, ...globalEnv },
-        secrets: globalOverrideEnv,
+        secrets: globalEnvSecrets,
       },
     });
     ssoService.addVolume(coreAccessPoint, '/etc/bitwarden/core');
@@ -397,7 +397,7 @@ export class BitwardenStack extends cdk.Stack {
       applicationContainer: {
         image: ecs.ContainerImage.fromRegistry('bitwarden/admin:latest'),
         environment: { ...uidEnv, ...globalEnv },
-        secrets: globalOverrideEnv,
+        secrets: globalEnvSecrets,
       },
       desiredCount: 1,
       minHealthyPercent: 0,
@@ -412,7 +412,7 @@ export class BitwardenStack extends cdk.Stack {
       applicationContainer: {
         image: ecs.ContainerImage.fromRegistry('bitwarden/portal:latest'),
         environment: { ...uidEnv, ...globalEnv },
-        secrets: globalOverrideEnv,
+        secrets: globalEnvSecrets,
       },
     });
     portalService.addVolume(coreAccessPoint, '/etc/bitwarden/core');
@@ -434,7 +434,7 @@ export class BitwardenStack extends cdk.Stack {
       applicationContainer: {
         image: ecs.ContainerImage.fromRegistry('bitwarden/notifications:latest'),
         environment: { ...uidEnv, ...globalEnv },
-        secrets: globalOverrideEnv,
+        secrets: globalEnvSecrets,
       },
     });
 
@@ -445,7 +445,7 @@ export class BitwardenStack extends cdk.Stack {
       applicationContainer: {
         image: ecs.ContainerImage.fromRegistry('bitwarden/events:latest'),
         environment: { ...uidEnv, ...globalEnv },
-        secrets: globalOverrideEnv,
+        secrets: globalEnvSecrets,
       },
     });
 
