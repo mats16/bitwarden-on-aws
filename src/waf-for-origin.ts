@@ -1,40 +1,55 @@
+import * as secretsmanager from '@aws-cdk/aws-secretsmanager';
 import * as wafv2 from '@aws-cdk/aws-wafv2';
 import * as cdk from '@aws-cdk/core';
 
 interface OriginWafProps {
-  preSharedKeyValue: string;
-  resourceArn: string,
-};
+  resourceArn: string;
+  customHeaderKey: string;
+}
 
 export class OriginWaf extends cdk.Construct {
+  customHeaderValue: string;
 
   constructor(scope: cdk.Construct, id: string, props: OriginWafProps) {
     super(scope, id);
 
+    this.customHeaderValue = new secretsmanager.Secret(this, 'OriginCustomHeaderValue', {
+      description: '[Bitwarden] CloudFront origin custom header',
+      generateSecretString: {
+        passwordLength: 50,
+        excludePunctuation: true,
+      },
+    }).secretValue.toString();
+
     const webACL = new wafv2.CfnWebACL(this, 'WebACL', {
+      description: 'Allow from CloudFront',
       scope: 'REGIONAL',
       rules: [
         {
           name: 'VerifyCloudFrontOriginCustomHeaderRule',
           priority: 0,
           statement: {
-            byteMatchStatement: {
-              fieldToMatch: {
-                singleHeader: {
-                  name: 'X-Pre-Shared-Key'
-                }
-              },
-              searchString: props.preSharedKeyValue,
-              textTransformations: [
-                {
-                  priority: 0,
-                  type: 'NONE'
-                }
-              ],
-              positionalConstraint: 'EXACTLY'
-            }
+            notStatement: {
+              statement: {
+                byteMatchStatement: {
+                  fieldToMatch: {
+                    singleHeader: {
+                      name: props.customHeaderKey
+                    }
+                  },
+                  searchString: this.customHeaderValue,
+                  textTransformations: [
+                    {
+                      priority: 0,
+                      type: 'NONE'
+                    }
+                  ],
+                  positionalConstraint: 'EXACTLY'
+                }  
+              }
+            },
           },
-          action: { allow: {} },
+          action: { block: {} },
           visibilityConfig: {
             sampledRequestsEnabled: true,
             cloudWatchMetricsEnabled: true,
@@ -42,7 +57,7 @@ export class OriginWaf extends cdk.Construct {
           },
         },
       ],
-      defaultAction: { block: {} },
+      defaultAction: { allow: {} },
       visibilityConfig: {
         cloudWatchMetricsEnabled: true,
         metricName: 'Bitwarden-Origin-WebACL',

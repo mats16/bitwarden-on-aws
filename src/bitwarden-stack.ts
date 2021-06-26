@@ -225,24 +225,16 @@ export class BitwardenStack extends cdk.Stack {
       defaultTargetGroups: [targetGroup],
     });
 
-    const cloudFrontOriginCustomHeaderValue = new secretsmanager.Secret(this, 'CloudFrontOriginCustomHeaderValue', {
-      description: '[Bitwarden] CloudFront origin custom header',
-      generateSecretString: {
-        passwordLength: 50,
-        excludePunctuation: true,
-      },
+    const originWaf = new OriginWaf(this, 'BitwardenOriginWaf', {
+      resourceArn: loadBalancer.loadBalancerArn.toString(),
+      customHeaderKey: 'X-Pre-Shared-Key'
     });
-
-    new OriginWaf(this, 'BitwardenOriginWaf', {
-      preSharedKeyValue: cloudFrontOriginCustomHeaderValue.secretValue.toString(),
-      resourceArn: loadBalancer.loadBalancerArn,
-    })
 
     const defaultBehavior: cf.BehaviorOptions = {
       origin: new LoadBalancerV2Origin(loadBalancer, {
         protocolPolicy: cf.OriginProtocolPolicy.HTTP_ONLY, httpPort: 8080,
         customHeaders: {
-          'X-Pre-Shared-Key': cloudFrontOriginCustomHeaderValue.secretValue.toString()
+          'X-Pre-Shared-Key': originWaf.customHeaderValue
         }
       }),
       viewerProtocolPolicy: cf.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
