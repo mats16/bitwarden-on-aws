@@ -145,7 +145,7 @@ export class FargateVirtualService extends VirtualService {
         command: ['CMD-SHELL', `curl -f http://localhost:${this.listenerPort}${healthCheckPath} || exit 1`],
         startPeriod: cdk.Duration.seconds(20),
         interval: cdk.Duration.seconds(5),
-        timeout: cdk.Duration.seconds(2),
+        timeout: cdk.Duration.seconds(3),
         retries: 3,
       },
     };
@@ -165,7 +165,7 @@ export class FargateVirtualService extends VirtualService {
     this.ecsTaskDefinition.addContainer('xray-daemon', {
       image: xrayImage,
       cpu: 16,
-      memoryReservationMiB: 128,
+      memoryReservationMiB: 64,
       essential: true,
       portMappings: [{
         containerPort: 2000,
@@ -176,7 +176,7 @@ export class FargateVirtualService extends VirtualService {
 
     this.ecsTaskDefinition.addContainer('cw-agent', {
       image: cloudwatchImage,
-      cpu: 16,
+      cpu: 32,
       memoryReservationMiB: 64,
       essential: true,
       portMappings: [{
@@ -263,8 +263,8 @@ export class FargateVirtualService extends VirtualService {
     const proxyContainer = this.ecsTaskDefinition.addContainer('envoy', {
       image: envoyImage,
       user: '1337',
-      cpu: 96,
-      memoryReservationMiB: 64,
+      cpu: 80,
+      memoryReservationMiB: 128,
       essential: true,
       healthCheck: {
         command: ['CMD-SHELL', 'curl -s http://localhost:9901/server_info | grep state | grep -q LIVE'],

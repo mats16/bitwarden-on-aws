@@ -66,7 +66,7 @@ export class FargateVirtualGateway extends cdk.Construct {
     taskDefinition.addContainer('envoy', {
       image: envoyImage,
       user: '1337',
-      cpu: 224,
+      cpu: 208,
       memoryLimitMiB: 320,
       portMappings: [
         { containerPort: this.listenerPort },
@@ -108,7 +108,7 @@ export class FargateVirtualGateway extends cdk.Construct {
 
     taskDefinition.addContainer('cw-agent', {
       image: cloudwatchImage,
-      cpu: 16,
+      cpu: 32,
       memoryReservationMiB: 64,
       essential: true,
       portMappings: [{
