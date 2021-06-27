@@ -295,7 +295,7 @@ export class FargateVirtualService extends VirtualService {
     });
   };
 
-  addVolume(accessPoint: efs.AccessPoint, containerPath: string) {
+  addVolume(accessPoint: efs.AccessPoint, containerPath: string, readOnly?: 'readOnly') {
     const volumeName = accessPoint.accessPointId;
     this.ecsTaskDefinition.addVolume({
       name: volumeName,
@@ -310,7 +310,7 @@ export class FargateVirtualService extends VirtualService {
     this.applicationContainer.addMountPoints({
       sourceVolume: volumeName,
       containerPath: containerPath,
-      readOnly: false,
+      readOnly: (readOnly === 'readOnly'),
     });
   };
 };

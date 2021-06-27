@@ -92,7 +92,7 @@ export class BitwardenStack extends cdk.Stack {
     });
     const attachmentsAccessPoint = new efs.AccessPoint(this, 'AttachmentsAccessPoint', {
       fileSystem,
-      path: '/bitwarden/attachments',
+      path: '/bitwarden/core/attachments',
       createAcl: efsAcl,
       posixUser: efsPosixUser,
     });
@@ -300,6 +300,13 @@ export class BitwardenStack extends cdk.Stack {
       globalSettings__mail__smtp__ssl: 'false',
       globalSettings__mail__smtp__startTls: 'true',
       globalSettings__mail__smtp__trustServer: 'true',
+      // directory
+      globalSettings__attachment__baseDirectory: '/etc/bitwarden/core/attachments',
+      globalSettings__send__baseDirectory: '/etc/bitwarden/core/attachments/send',
+      globalSettings__dataProtection__directory: '/etc/bitwarden/core/aspnet-dataprotection',
+      // Attachment Base URL
+      globalSettings__attachment__baseUrl: `https://${cdn.distributionDomainName}/attachments`,
+      globalSettings__send__baseUrl: `https://${cdn.distributionDomainName}/attachments/send`,
       // Base Service URI
       globalSettings__baseServiceUri__vault: `https://${cdn.distributionDomainName}`,
       globalSettings__baseServiceUri__api: `https://${cdn.distributionDomainName}/api`,
@@ -353,7 +360,7 @@ export class BitwardenStack extends cdk.Stack {
         environment: { ...uidEnv, ...globalEnv },
       },
     });
-    attachmentsService.addVolume(attachmentsAccessPoint, '/etc/bitwarden/core/attachments');
+    attachmentsService.addVolume(attachmentsAccessPoint, globalEnv.globalSettings__attachment__baseDirectory, 'readOnly');
 
     const identityService = new FargateVirtualService(this, 'Identity', {
       environment,
@@ -402,9 +409,6 @@ export class BitwardenStack extends cdk.Stack {
         environment: { ...uidEnv, ...globalEnv },
         secrets: globalEnvSecrets,
       },
-      desiredCount: 1,
-      minHealthyPercent: 0,
-      maxHealthyPercent: 100,
     });
     adminService.addVolume(coreAccessPoint, '/etc/bitwarden/core');
 
@@ -429,6 +433,7 @@ export class BitwardenStack extends cdk.Stack {
         environment: { ...uidEnv, ...globalEnv },
       },
     });
+    iconsService.addVolume(coreAccessPoint, '/etc/bitwarden/core');
 
     const notificationsService = new FargateVirtualService(this, 'Notifications', {
       environment,
@@ -440,6 +445,7 @@ export class BitwardenStack extends cdk.Stack {
         secrets: globalEnvSecrets,
       },
     });
+    notificationsService.addVolume(coreAccessPoint, '/etc/bitwarden/core');
 
     const eventsService = new FargateVirtualService(this, 'Events', {
       environment,
@@ -451,6 +457,7 @@ export class BitwardenStack extends cdk.Stack {
         secrets: globalEnvSecrets,
       },
     });
+    eventsService.addVolume(coreAccessPoint, '/etc/bitwarden/core');
 
     apiService.addBackends([dbService, emailService, webService, notificationsService, identityService, adminService]);
     identityService.addBackends([dbService, webService, apiService, notificationsService, adminService]);
@@ -466,7 +473,7 @@ export class BitwardenStack extends cdk.Stack {
     gateway.addGatewayRoute('/icons/', iconsService);
     gateway.addGatewayRoute('/notifications/', notificationsService);
     gateway.addGatewayRoute('/events/', eventsService);
-    // need to add rewrite options
+    // need to add rewrite options, but no supported by cdk
     gateway.addGatewayRoute('/identity/', identityService);
     gateway.addGatewayRoute('/sso/', ssoService);
     gateway.addGatewayRoute('/portal/', portalService);

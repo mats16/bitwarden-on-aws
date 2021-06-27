@@ -58,6 +58,7 @@ export class BitwardenWafStack extends cdk.Stack {
               excludedRules: [
                 { name: 'GenericRFI_QUERYARGUMENTS' }, // for FIDO2 WebAuthn
                 { name: 'SizeRestrictions_BODY' }, // for Bitwarden Send (file)
+                { name: 'CrossSiteScripting_BODY' }, // for Bitwarden Send (file)
               ],
             },
           },
