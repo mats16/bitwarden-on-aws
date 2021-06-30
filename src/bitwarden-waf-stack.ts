@@ -212,16 +212,6 @@ export class BitwardenWafStack extends cdk.Stack {
                 },
                 {
                   byteMatchStatement: {
-                    fieldToMatch: { singleHeader: { name: 'sec-fetch-site' } },
-                    positionalConstraint: 'EXACTLY',
-                    searchString: 'same-origin',
-                    textTransformations: [{
-                      priority: 0, type: 'NONE'
-                    }] 
-                  }
-                },
-                {
-                  byteMatchStatement: {
                     fieldToMatch: { singleHeader: { name: 'sec-fetch-dest' } },
                     positionalConstraint: 'EXACTLY',
                     searchString: 'iframe',
