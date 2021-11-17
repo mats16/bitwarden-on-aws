@@ -1,6 +1,6 @@
 const { AwsCdkTypeScriptApp } = require('projen');
 const project = new AwsCdkTypeScriptApp({
-  cdkVersion: '1.110.0',
+  cdkVersion: '1.132.0',
   defaultReleaseBranch: 'main',
   name: 'bitwarden-on-aws',
   cdkDependencies: [

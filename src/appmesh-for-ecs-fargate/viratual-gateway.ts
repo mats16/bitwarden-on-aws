@@ -152,7 +152,7 @@ export class FargateVirtualGateway extends cdk.Construct {
   addGatewayRoute(prefixPath: string, otherService: VirtualService) {
     this.virtualGateway.addGatewayRoute(prefixPath, {
       routeSpec: appmesh.GatewayRouteSpec.http({
-        match: { prefixPath },
+        match: { path: appmesh.HttpGatewayRoutePathMatch.startsWith(prefixPath) },
         routeTarget: otherService.virtualService,
         // need to add rewrite options
       }),

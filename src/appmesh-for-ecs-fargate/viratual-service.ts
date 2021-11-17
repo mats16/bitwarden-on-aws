@@ -238,9 +238,7 @@ export class FargateVirtualService extends VirtualService {
     // Create a virtual node for the name service
     const virtualNode = new appmesh.VirtualNode(this, 'VirtualNode', {
       virtualNodeName: `${serviceName}-${imageTag}`,
-      serviceDiscovery: appmesh.ServiceDiscovery.cloudMap({
-        service: ecsService.cloudMapService!,
-      }),
+      serviceDiscovery: appmesh.ServiceDiscovery.cloudMap(ecsService.cloudMapService!),
       accessLog: appmesh.AccessLog.fromFilePath('/dev/stdout'),
       listeners: [
         appmesh.VirtualNodeListener.http({
