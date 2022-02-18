@@ -1,9 +1,10 @@
-import * as appmesh from '@aws-cdk/aws-appmesh';
-import * as ec2 from '@aws-cdk/aws-ec2';
-import * as ecs from '@aws-cdk/aws-ecs';
-import * as logs from '@aws-cdk/aws-logs';
-import * as servicediscovery from '@aws-cdk/aws-servicediscovery';
-import * as cdk from '@aws-cdk/core';
+import * as appmesh from 'aws-cdk-lib/aws-appmesh';
+import * as ec2 from 'aws-cdk-lib/aws-ec2';
+import * as ecs from 'aws-cdk-lib/aws-ecs';
+import * as logs from 'aws-cdk-lib/aws-logs';
+import * as servicediscovery from 'aws-cdk-lib/aws-servicediscovery';
+import * as cdk from 'aws-cdk-lib/core';
+import { Construct } from 'constructs';
 
 export interface EnvironmentProps {
   readonly namespaceName?: string;
@@ -14,7 +15,7 @@ export interface EnvironmentProps {
   readonly mesh?: appmesh.Mesh;
 };
 
-export class Environment extends cdk.Construct {
+export class Environment extends Construct {
   vpc: ec2.IVpc
   securityGroup: ec2.SecurityGroup
   cluster: ecs.Cluster
@@ -23,7 +24,7 @@ export class Environment extends cdk.Construct {
   namespace: servicediscovery.INamespace
   mesh: appmesh.Mesh;
 
-  constructor(scope: cdk.Construct, id: string, props?: EnvironmentProps) {
+  constructor(scope: Construct, id: string, props?: EnvironmentProps) {
     super(scope, id);
 
     const namespaceName = props?.namespaceName || 'local';

@@ -1,10 +1,10 @@
-import * as appmesh from '@aws-cdk/aws-appmesh';
-import * as ec2 from '@aws-cdk/aws-ec2';
-import * as ecs from '@aws-cdk/aws-ecs';
-import * as efs from '@aws-cdk/aws-efs';
-import * as iam from '@aws-cdk/aws-iam';
-import * as servicediscovery from '@aws-cdk/aws-servicediscovery';
-import * as cdk from '@aws-cdk/core';
+import * as appmesh from 'aws-cdk-lib/aws-appmesh';
+import * as ecs from 'aws-cdk-lib/aws-ecs';
+import * as efs from 'aws-cdk-lib/aws-efs';
+import * as iam from 'aws-cdk-lib/aws-iam';
+import * as servicediscovery from 'aws-cdk-lib/aws-servicediscovery';
+import * as cdk from 'aws-cdk-lib/core';
+import { Construct } from 'constructs';
 import { Environment, envoyImage, xrayImage, cloudwatchImage } from './';
 
 export interface VirtualServiceProps {
@@ -14,14 +14,14 @@ export interface VirtualServiceProps {
   readonly protocol?: 'http' | 'http2' | 'tcp' | 'grpc';
 };
 
-export class VirtualService extends cdk.Construct {
+export class VirtualService extends Construct {
   listenerPort: number;
   protocol: 'http' | 'http2' | 'tcp' | 'grpc';
   virtualService: appmesh.VirtualService;
   virtualRouter: appmesh.VirtualRouter;
   virtualNodes: appmesh.VirtualNode[];
 
-  constructor(scope: cdk.Construct, id: string, props: VirtualServiceProps) {
+  constructor(scope: Construct, id: string, props: VirtualServiceProps) {
     super(scope, id);
 
     const virtualServiceName = props.virtualServiceName; // FQDN
@@ -85,7 +85,7 @@ export class FargateVirtualService extends VirtualService {
   ecsTaskDefinition: ecs.FargateTaskDefinition;
   applicationContainer: ecs.ContainerDefinition;
 
-  constructor(scope: cdk.Construct, id: string, props: FargateVirtualServiceProps) {
+  constructor(scope: Construct, id: string, props: FargateVirtualServiceProps) {
     super(scope, id, props);
 
     const serviceName = id.toLowerCase();
@@ -319,7 +319,7 @@ export interface ExternalVirtualServiceProps extends VirtualServiceProps {
 
 export class ExternalVirtualService extends VirtualService {
 
-  constructor(scope: cdk.Construct, id: string, props: ExternalVirtualServiceProps) {
+  constructor(scope: Construct, id: string, props: ExternalVirtualServiceProps) {
     super(scope, id, props);
 
     const mesh = props.environment.mesh;

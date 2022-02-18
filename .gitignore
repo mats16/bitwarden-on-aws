@@ -17,7 +17,6 @@
 /lib
 /test-reports/
 build/Release
-cdk.context.json
 cdk.out/
 coverage
 jspm_packages/
@@ -35,6 +34,7 @@ yarn-error.log*
 !/.gitattributes
 !/.github/pull_request_template.md
 !/.github/workflows/build.yml
+!/.github/workflows/stale.yml
 !/.github/workflows/upgrade-dependencies.yml
 !/.mergify.yml
 !/.npmignore

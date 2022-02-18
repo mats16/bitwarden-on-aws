@@ -1,8 +1,9 @@
-import * as wafv2 from '@aws-cdk/aws-wafv2';
-import * as cdk from '@aws-cdk/core';
+import * as wafv2 from 'aws-cdk-lib/aws-wafv2';
+import { Stack, StackProps } from 'aws-cdk-lib';
+import { Construct } from 'constructs';
 
-export class BitwardenWafStack extends cdk.Stack {
-  constructor(scope: cdk.Construct, id: string, props: cdk.StackProps) {
+export class BitwardenWafStack extends Stack {
+  constructor(scope: Construct, id: string, props: StackProps) {
     super(scope, id, props);
 
     const webACL = new wafv2.CfnWebACL(this, 'BitwardenWebACL', {

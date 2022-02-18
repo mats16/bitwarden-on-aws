@@ -1,0 +1,18 @@
+{
+  "availability-zones:account=983035974902:region=us-west-2": [
+    "us-west-2a",
+    "us-west-2b",
+    "us-west-2c",
+    "us-west-2d"
+  ],
+  "hosted-zone:account=983035974902:domainName=dev.ma-z.net:region=us-west-2": {
+    "Id": "/hostedzone/ZNTP3EO8KHY0D",
+    "Name": "dev.ma-z.net."
+  },
+  "availability-zones:account=589283126846:region=us-west-2": [
+    "us-west-2a",
+    "us-west-2b",
+    "us-west-2c",
+    "us-west-2d"
+  ]
+}

@@ -9,7 +9,7 @@ const modifyConfig = async (dbSecretArn: string): Promise<ConnectionConfig> => {
   const client = new SecretsManagerClient({});
   const cmd = new GetSecretValueCommand({ SecretId: dbSecretArn });
   const dbSecret = await client.send(cmd);
-  const { host, port, username, password } = JSON.parse(dbSecret.SecretString || '{}');
+  const { host, username, password } = JSON.parse(dbSecret.SecretString || '{}');
   const config: ConnectionConfig = {  
     server: host,
     authentication: {

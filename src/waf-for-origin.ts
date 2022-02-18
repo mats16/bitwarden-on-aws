@@ -1,16 +1,16 @@
-import * as secretsmanager from '@aws-cdk/aws-secretsmanager';
-import * as wafv2 from '@aws-cdk/aws-wafv2';
-import * as cdk from '@aws-cdk/core';
+import * as secretsmanager from 'aws-cdk-lib/aws-secretsmanager';
+import * as wafv2 from 'aws-cdk-lib/aws-wafv2';
+import { Construct } from 'constructs';
 
 interface OriginWafProps {
   resourceArn: string;
   customHeaderKey: string;
 }
 
-export class OriginWaf extends cdk.Construct {
+export class OriginWaf extends Construct {
   customHeaderValue: string;
 
-  constructor(scope: cdk.Construct, id: string, props: OriginWafProps) {
+  constructor(scope: Construct, id: string, props: OriginWafProps) {
     super(scope, id);
 
     this.customHeaderValue = new secretsmanager.Secret(this, 'OriginCustomHeaderValue', {

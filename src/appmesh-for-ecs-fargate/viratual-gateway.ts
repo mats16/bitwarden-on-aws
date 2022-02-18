@@ -1,10 +1,10 @@
-import * as appmesh from '@aws-cdk/aws-appmesh';
-import * as acm from '@aws-cdk/aws-certificatemanager';
-import * as ec2 from '@aws-cdk/aws-ec2';
-import * as ecs from '@aws-cdk/aws-ecs';
-import * as iam from '@aws-cdk/aws-iam';
-import * as servicediscovery from '@aws-cdk/aws-servicediscovery';
-import * as cdk from '@aws-cdk/core';
+import * as appmesh from 'aws-cdk-lib/aws-appmesh';
+import * as ec2 from 'aws-cdk-lib/aws-ec2';
+import * as ecs from 'aws-cdk-lib/aws-ecs';
+import * as iam from 'aws-cdk-lib/aws-iam';
+import * as servicediscovery from 'aws-cdk-lib/aws-servicediscovery';
+import * as cdk from 'aws-cdk-lib/core';
+import { Construct } from 'constructs';
 import { Environment, VirtualService, envoyImage, xrayImage, cloudwatchImage } from './';
 
 interface FargateVirtualGatewayProps {
@@ -15,12 +15,12 @@ interface FargateVirtualGatewayProps {
   readonly maxHealthyPercent?: number;
 }
 
-export class FargateVirtualGateway extends cdk.Construct {
+export class FargateVirtualGateway extends Construct {
   virtualGateway: appmesh.VirtualGateway;
   listenerPort: number;
   ecsService: ecs.FargateService;
 
-  constructor(scope: cdk.Construct, id: string, props: FargateVirtualGatewayProps) {
+  constructor(scope: Construct, id: string, props: FargateVirtualGatewayProps) {
     super(scope, id);
 
     this.listenerPort = props.listenerPort || 8080;
@@ -37,6 +37,7 @@ export class FargateVirtualGateway extends cdk.Construct {
     const awsLogDriver = new ecs.AwsLogDriver({ logGroup: logGroup, streamPrefix: serviceName });
 
     this.virtualGateway = new appmesh.VirtualGateway(this, 'VirtualGateway', {
+      virtualGatewayName: serviceName,
       accessLog: appmesh.AccessLog.fromFilePath('/dev/stdout'),
       listeners: [appmesh.VirtualNodeListener.http({
         port: this.listenerPort,
@@ -149,12 +150,11 @@ export class FargateVirtualGateway extends cdk.Construct {
     this.ecsService.connections.allowTo(appSecurityGroup, ec2.Port.tcp(5000));
   };
 
-  addGatewayRoute(prefixPath: string, otherService: VirtualService) {
+  addGatewayRoute(otherService: VirtualService, prefixPath: string, rewriteTo?: string) {
     this.virtualGateway.addGatewayRoute(prefixPath, {
       routeSpec: appmesh.GatewayRouteSpec.http({
-        match: { path: appmesh.HttpGatewayRoutePathMatch.startsWith(prefixPath) },
         routeTarget: otherService.virtualService,
-        // need to add rewrite options
+        match: { path: appmesh.HttpGatewayRoutePathMatch.startsWith(prefixPath, rewriteTo) },
       }),
     });
   };

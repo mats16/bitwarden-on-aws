@@ -1,17 +1,18 @@
 import * as path from 'path';
 
-import * as cf from '@aws-cdk/aws-cloudfront';
-import { LoadBalancerV2Origin } from '@aws-cdk/aws-cloudfront-origins';
-import * as codebuild from '@aws-cdk/aws-codebuild';
-import * as ec2 from '@aws-cdk/aws-ec2';
-import * as ecs from '@aws-cdk/aws-ecs';
-import * as efs from '@aws-cdk/aws-efs';
-import * as elb from '@aws-cdk/aws-elasticloadbalancingv2';
-import * as rds from '@aws-cdk/aws-rds';
-import { Asset as s3Asset } from '@aws-cdk/aws-s3-assets';
-import * as secretsmanager from '@aws-cdk/aws-secretsmanager';
-import * as cdk from '@aws-cdk/core';
-import * as cr from '@aws-cdk/custom-resources';
+import * as cf from 'aws-cdk-lib/aws-cloudfront';
+import { LoadBalancerV2Origin } from 'aws-cdk-lib/aws-cloudfront-origins';
+import * as codebuild from 'aws-cdk-lib/aws-codebuild';
+import * as ec2 from 'aws-cdk-lib/aws-ec2';
+import * as ecs from 'aws-cdk-lib/aws-ecs';
+import * as efs from 'aws-cdk-lib/aws-efs';
+import * as elb from 'aws-cdk-lib/aws-elasticloadbalancingv2';
+import * as rds from 'aws-cdk-lib/aws-rds';
+import { Asset as s3Asset } from 'aws-cdk-lib/aws-s3-assets';
+import * as secretsmanager from 'aws-cdk-lib/aws-secretsmanager';
+import * as cdk from 'aws-cdk-lib/core';
+import * as cr from 'aws-cdk-lib/custom-resources';
+import { Construct } from 'constructs';
 
 import { SmtpSecret, ManagedIdentity } from 'cdk-ses-helpers';
 import { Environment, FargateVirtualGateway, ExternalVirtualService, FargateVirtualService } from './appmesh-for-ecs-fargate';
@@ -36,7 +37,7 @@ const efsPosixUser: efs.PosixUser = {
 };
 
 export class BitwardenStack extends cdk.Stack {
-  constructor(scope: cdk.Construct, id: string, props: cdk.StackProps = {}) {
+  constructor(scope: Construct, id: string, props: cdk.StackProps = {}) {
     super(scope, id, props);
 
     const identityServerCertificatePasswordSecret = new secretsmanager.Secret(this, 'IdentityServerCertificatePassword', {
@@ -61,10 +62,33 @@ export class BitwardenStack extends cdk.Stack {
       },
     });
 
-    const smtpSecret = new SmtpSecret(this, 'SmtpSecret', { sesRegion: this.region });
-    const sesIdentity = new ManagedIdentity(this, 'SesIdentity', { sesRegion: this.region, subDomainName: `bitwarden-${cdk.Aws.ACCOUNT_ID}` });
+//    const smtpSecret = new SmtpSecret(this, 'SmtpSecret', { sesRegion: this.region });
+//    const sesIdentity = new ManagedIdentity(this, 'SesIdentity', { sesRegion: this.region, subDomainName: `bitwarden-${cdk.Aws.ACCOUNT_ID}` });
 
     const vpc = new ec2.Vpc(this, 'VPC', { natGateways: 1 });
+
+    // 'ALTER DATABASE' is not currently supported in Babelfish
+    //const engine = rds.DatabaseClusterEngine.auroraPostgres({
+    //  version: rds.AuroraPostgresEngineVersion.VER_13_4,
+    //});
+    //const parameterGroup = new rds.ParameterGroup(this, 'Babelfish', {
+    //  engine,
+    //  description: 'Babelfish cluster parameter group for aurora-postgresql13',
+    //  parameters: {
+    //    'rds.babelfish_status': 'on'
+    //  }
+    //});
+    //const dbCluster = new rds.DatabaseCluster(this, 'DBCluster', {
+    //  engine,
+    //  instanceProps: {
+    //    vpc,
+    //    instanceType: ec2.InstanceType.of(ec2.InstanceClass.BURSTABLE4_GRAVITON, ec2.InstanceSize.MEDIUM),
+    //    enablePerformanceInsights: true,
+    //  },
+    //  parameterGroup,
+    //  credentials: rds.Credentials.fromGeneratedSecret('postgres'),
+    //  storageEncrypted: true
+    //});
 
     const db = new rds.DatabaseInstance(this, 'DatabaseInstance', {
       engine: rds.DatabaseInstanceEngine.sqlServerEx({
@@ -76,8 +100,9 @@ export class BitwardenStack extends cdk.Stack {
       vpc,
     });
     new Database(this, 'DefaultDatabase', {
-      db: db,
       databaseName: databaseName,
+      db: db,
+      vpc
     });
 
     const fileSystem = new efs.FileSystem(this, 'FileSystem', {
@@ -102,6 +127,12 @@ export class BitwardenStack extends cdk.Stack {
       createAcl: efsAcl,
       posixUser: efsPosixUser,
     });
+    //const dataprotectionAccessPoint = new efs.AccessPoint(this, 'DataProtectionAccessPoint', {
+    //  fileSystem,
+    //  path: '/bitwarden/core/aspnet-dataprotection',
+    //  createAcl: efsAcl,
+    //  posixUser: efsPosixUser,
+    //});
 
     const efsAsset = new s3Asset(this, 'EfsAsset', { path: 'shared-filesystem/bitwarden' });
     const identityServerCertificateBuildProject = new codebuild.Project(this, 'IdentityServerCertificateBuildProject', {
@@ -171,6 +202,7 @@ export class BitwardenStack extends cdk.Stack {
         generateStringKey: 'internalIdentityKey',
         secretStringTemplate: JSON.stringify({
           sqlServer__connectionString: `Data Source=tcp:${db.dbInstanceEndpointAddress},${db.dbInstanceEndpointPort};Initial Catalog=${databaseName};Persist Security Info=False;User ID=${db.secret?.secretValueFromJson('username')};Password=${db.secret?.secretValueFromJson('password')};MultipleActiveResultSets=False;Connect Timeout=30;Encrypt=True;TrustServerCertificate=True`,
+          //sqlServer__connectionString: `Data Source=tcp:${dbCluster.clusterEndpoint.hostname},1433;Initial Catalog=babelfish_db;Persist Security Info=False;User ID=${dbCluster.secret?.secretValueFromJson('username')};Password=${dbCluster.secret?.secretValueFromJson('password')};MultipleActiveResultSets=False;Connect Timeout=30;Encrypt=True;TrustServerCertificate=True`,
           installation__id: globalSettings.installation__id,
           installation__key: globalSettings.installation__key,
           yubico__clientId: globalSettings.yubico__clientId,
@@ -194,9 +226,9 @@ export class BitwardenStack extends cdk.Stack {
       globalSettings__yubico__clientId: ecs.Secret.fromSecretsManager(globalSettingsSecret, 'yubico__clientId'),
       globalSettings__yubico__key: ecs.Secret.fromSecretsManager(globalSettingsSecret, 'yubico__key'),
       // mail
-      globalSettings__mail__smtp__host: ecs.Secret.fromSecretsManager(smtpSecret, 'endpoint'),
-      globalSettings__mail__smtp__username: ecs.Secret.fromSecretsManager(smtpSecret, 'username'),
-      globalSettings__mail__smtp__password: ecs.Secret.fromSecretsManager(smtpSecret, 'password'),
+//      globalSettings__mail__smtp__host: ecs.Secret.fromSecretsManager(smtpSecret, 'endpoint'),
+//      globalSettings__mail__smtp__username: ecs.Secret.fromSecretsManager(smtpSecret, 'username'),
+//      globalSettings__mail__smtp__password: ecs.Secret.fromSecretsManager(smtpSecret, 'password'),
       // others
       globalSettings__disableUserRegistration: ecs.Secret.fromSecretsManager(globalSettingsSecret, 'disableUserRegistration'),
       globalSettings__hibpApiKey: ecs.Secret.fromSecretsManager(globalSettingsSecret, 'hibpApiKey'),
@@ -205,6 +237,7 @@ export class BitwardenStack extends cdk.Stack {
 
     const environment = new Environment(this, 'App', { namespaceName, vpc });
     environment.securityGroup.connections.allowToDefaultPort(db);
+    //environment.securityGroup.connections.allowTo(dbCluster, ec2.Port.tcp(1433), 'Babelfish');
     environment.securityGroup.connections.allowToDefaultPort(fileSystem);
 
     const gateway = new FargateVirtualGateway(this, 'Gateway', { environment });
@@ -295,11 +328,11 @@ export class BitwardenStack extends cdk.Stack {
       globalSettings__selfHosted: 'true',
       globalSettings__pushRelayBaseUri: 'https://push.bitwarden.com',
       // mail
-      globalSettings__mail__replyToEmail: `no-reply@${sesIdentity.domainName}`,
-      globalSettings__mail__smtp__port: '587',
-      globalSettings__mail__smtp__ssl: 'false',
-      globalSettings__mail__smtp__startTls: 'true',
-      globalSettings__mail__smtp__trustServer: 'true',
+//      globalSettings__mail__replyToEmail: `no-reply@${sesIdentity.domainName}`,
+//      globalSettings__mail__smtp__port: '587',
+//      globalSettings__mail__smtp__ssl: 'false',
+//      globalSettings__mail__smtp__startTls: 'true',
+//      globalSettings__mail__smtp__trustServer: 'true',
       // directory
       globalSettings__attachment__baseDirectory: '/etc/bitwarden/core/attachments',
       globalSettings__send__baseDirectory: '/etc/bitwarden/core/attachments/send',
@@ -330,6 +363,7 @@ export class BitwardenStack extends cdk.Stack {
     const dbService = new ExternalVirtualService(this, 'Database', {
       environment,
       virtualServiceName: db.dbInstanceEndpointAddress,
+      //virtualServiceName: dbCluster.clusterEndpoint.hostname,
       listenerPort: 1433,
       protocol: 'tcp',
     });
@@ -346,7 +380,7 @@ export class BitwardenStack extends cdk.Stack {
       virtualServiceName: `web.svc.${namespaceName}`,
       healthCheckPath: '/',
       applicationContainer: {
-        image: ecs.ContainerImage.fromRegistry('bitwarden/web:latest'),
+        image: ecs.ContainerImage.fromRegistry('983035974902.dkr.ecr.us-west-2.amazonaws.com/bitwarden/web:latest'),
         environment: { ...uidEnv, ...globalEnv },
       },
     });
@@ -356,7 +390,7 @@ export class BitwardenStack extends cdk.Stack {
       virtualServiceName: `attachments.svc.${namespaceName}`,
       healthCheckPath: '/alive',
       applicationContainer: {
-        image: ecs.ContainerImage.fromRegistry('bitwarden/attachments:latest'),
+        image: ecs.ContainerImage.fromRegistry('983035974902.dkr.ecr.us-west-2.amazonaws.com/bitwarden/attachments:latest'),
         environment: { ...uidEnv, ...globalEnv },
       },
     });
@@ -367,7 +401,7 @@ export class BitwardenStack extends cdk.Stack {
       virtualServiceName: `identity.svc.${namespaceName}`,
       healthCheckPath: '/.well-known/openid-configuration',
       applicationContainer: {
-        image: ecs.ContainerImage.fromRegistry('bitwarden/identity:latest'),
+        image: ecs.ContainerImage.fromRegistry('983035974902.dkr.ecr.us-west-2.amazonaws.com/bitwarden/identity:latest'),
         environment: { ...uidEnv, ...globalEnv },
         secrets: globalEnvSecrets,
       },
@@ -380,7 +414,7 @@ export class BitwardenStack extends cdk.Stack {
       virtualServiceName: `api.svc.${namespaceName}`,
       healthCheckPath: '/alive',
       applicationContainer: {
-        image: ecs.ContainerImage.fromRegistry('bitwarden/api:latest'),
+        image: ecs.ContainerImage.fromRegistry('983035974902.dkr.ecr.us-west-2.amazonaws.com/bitwarden/api:latest'),
         environment: { ...uidEnv, ...globalEnv },
         secrets: globalEnvSecrets,
       },
@@ -392,7 +426,7 @@ export class BitwardenStack extends cdk.Stack {
       virtualServiceName: `sso.svc.${namespaceName}`,
       healthCheckPath: '/alive',
       applicationContainer: {
-        image: ecs.ContainerImage.fromRegistry('bitwarden/sso:latest'),
+        image: ecs.ContainerImage.fromRegistry('983035974902.dkr.ecr.us-west-2.amazonaws.com/bitwarden/sso:latest'),
         environment: { ...uidEnv, ...globalEnv },
         secrets: globalEnvSecrets,
       },
@@ -405,7 +439,7 @@ export class BitwardenStack extends cdk.Stack {
       virtualServiceName: `admin.svc.${namespaceName}`,
       healthCheckPath: '/admin/login/',
       applicationContainer: {
-        image: ecs.ContainerImage.fromRegistry('bitwarden/admin:latest'),
+        image: ecs.ContainerImage.fromRegistry('983035974902.dkr.ecr.us-west-2.amazonaws.com/bitwarden/admin:latest'),
         environment: { ...uidEnv, ...globalEnv },
         secrets: globalEnvSecrets,
       },
@@ -417,7 +451,7 @@ export class BitwardenStack extends cdk.Stack {
       virtualServiceName: `portal.svc.${namespaceName}`,
       healthCheckPath: '/alive',
       applicationContainer: {
-        image: ecs.ContainerImage.fromRegistry('bitwarden/portal:latest'),
+        image: ecs.ContainerImage.fromRegistry('983035974902.dkr.ecr.us-west-2.amazonaws.com/bitwarden/portal:latest'),
         environment: { ...uidEnv, ...globalEnv },
         secrets: globalEnvSecrets,
       },
@@ -429,7 +463,7 @@ export class BitwardenStack extends cdk.Stack {
       virtualServiceName: `icons.svc.${namespaceName}`,
       healthCheckPath: '/alive',
       applicationContainer: {
-        image: ecs.ContainerImage.fromRegistry('bitwarden/icons:latest'),
+        image: ecs.ContainerImage.fromRegistry('983035974902.dkr.ecr.us-west-2.amazonaws.com/bitwarden/icons:latest'),
         environment: { ...uidEnv, ...globalEnv },
       },
     });
@@ -440,7 +474,7 @@ export class BitwardenStack extends cdk.Stack {
       virtualServiceName: `notifications.svc.${namespaceName}`,
       healthCheckPath: '/alive',
       applicationContainer: {
-        image: ecs.ContainerImage.fromRegistry('bitwarden/notifications:latest'),
+        image: ecs.ContainerImage.fromRegistry('983035974902.dkr.ecr.us-west-2.amazonaws.com/bitwarden/notifications:latest'),
         environment: { ...uidEnv, ...globalEnv },
         secrets: globalEnvSecrets,
       },
@@ -452,7 +486,7 @@ export class BitwardenStack extends cdk.Stack {
       virtualServiceName: `events.svc.${namespaceName}`,
       healthCheckPath: '/alive',
       applicationContainer: {
-        image: ecs.ContainerImage.fromRegistry('bitwarden/events:latest'),
+        image: ecs.ContainerImage.fromRegistry('983035974902.dkr.ecr.us-west-2.amazonaws.com/bitwarden/events:latest'),
         environment: { ...uidEnv, ...globalEnv },
         secrets: globalEnvSecrets,
       },
@@ -467,17 +501,17 @@ export class BitwardenStack extends cdk.Stack {
     notificationsService.addBackends([dbService, emailService, pushService, webService, apiService, identityService, adminService]);
     eventsService.addBackends([dbService, emailService, pushService, webService, apiService, notificationsService, identityService, adminService]);
 
-    gateway.addGatewayRoute('/', webService);
-    gateway.addGatewayRoute('/attachments/', attachmentsService);
-    gateway.addGatewayRoute('/api/', apiService);
-    gateway.addGatewayRoute('/icons/', iconsService);
-    gateway.addGatewayRoute('/notifications/', notificationsService);
-    gateway.addGatewayRoute('/events/', eventsService);
+    gateway.addGatewayRoute(webService, '/', );
+    gateway.addGatewayRoute(attachmentsService, '/attachments/', );
+    gateway.addGatewayRoute(apiService, '/api/', );
+    gateway.addGatewayRoute(iconsService, '/icons/', );
+    gateway.addGatewayRoute(notificationsService, '/notifications/', );
+    gateway.addGatewayRoute(eventsService, '/events/', );
     // need to add rewrite options, but no supported by cdk
-    gateway.addGatewayRoute('/identity/', identityService);
-    gateway.addGatewayRoute('/sso/', ssoService);
-    gateway.addGatewayRoute('/portal/', portalService);
-    gateway.addGatewayRoute('/admin/', adminService);
+    gateway.addGatewayRoute(identityService, '/identity/', '/identity/');
+    gateway.addGatewayRoute(ssoService, '/sso/', '/sso/');
+    gateway.addGatewayRoute(portalService, '/portal/', '/portal/');
+    gateway.addGatewayRoute(adminService, '/admin/', '/admin/');
 
     this.exportValue(cdn.distributionDomainName, { name: 'BitwardenDistributionDomain' });
 
