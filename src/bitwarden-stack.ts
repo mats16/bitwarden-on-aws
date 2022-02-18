@@ -15,9 +15,9 @@ import * as cr from 'aws-cdk-lib/custom-resources';
 import { Construct } from 'constructs';
 
 import { Environment, FargateVirtualGateway, ExternalVirtualService, FargateVirtualService } from './appmesh-for-ecs-fargate';
+import { ManagedPrefixList } from './resources/managed-prefix-list';
 import { globalSettings, adminSettings, webAclArn } from './settings';
 import { Database } from './sql-server';
-import { OriginWaf } from './waf-for-origin';
 
 const namespaceName = 'bitwarden.local';
 const databaseName = 'vault';
@@ -254,22 +254,18 @@ export class BitwardenStack extends cdk.Stack {
     });
     loadBalancer.connections.allowTo(gateway.ecsService, ec2.Port.tcp(+targetGroup.healthCheck.port!), 'for HealthCheck');
     const listner = loadBalancer.addListener('Listner', {
-      port: 8080,
+      port: 80,
       defaultTargetGroups: [targetGroup],
+      open: false,
     });
 
-    const originWaf = new OriginWaf(this, 'BitwardenOriginWaf', {
-      resourceArn: loadBalancer.loadBalancerArn.toString(),
-      customHeaderKey: 'X-Pre-Shared-Key',
-    });
+    const cfManagedPrefixList = new ManagedPrefixList(this, 'CloudFrontManagedPrefixList', { managedPrefixListName: 'com.amazonaws.global.cloudfront.origin-facing' });
+    loadBalancer.connections.allowFrom(ec2.Peer.prefixList(cfManagedPrefixList.managedPrefixListId), ec2.Port.tcp(80));
 
     const defaultBehavior: cf.BehaviorOptions = {
       origin: new LoadBalancerV2Origin(loadBalancer, {
         protocolPolicy: cf.OriginProtocolPolicy.HTTP_ONLY,
-        httpPort: 8080,
-        customHeaders: {
-          'X-Pre-Shared-Key': originWaf.customHeaderValue,
-        },
+        httpPort: 80,
       }),
       viewerProtocolPolicy: cf.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
       allowedMethods: cf.AllowedMethods.ALLOW_ALL,
