@@ -2,11 +2,12 @@
   "compilerOptions": {
     "alwaysStrict": true,
     "declaration": true,
+    "esModuleInterop": true,
     "experimentalDecorators": true,
     "inlineSourceMap": true,
     "inlineSources": true,
     "lib": [
-      "es2018"
+      "es2019"
     ],
     "module": "CommonJS",
     "noEmitOnError": false,
@@ -14,14 +15,14 @@
     "noImplicitAny": true,
     "noImplicitReturns": true,
     "noImplicitThis": true,
-    "noUnusedLocals": true,
+    "noUnusedLocals": false,
     "noUnusedParameters": true,
     "resolveJsonModule": true,
     "strict": true,
     "strictNullChecks": true,
-    "strictPropertyInitialization": true,
+    "strictPropertyInitialization": false,
     "stripInternal": true,
-    "target": "ES2018"
+    "target": "ES2019"
   },
   "include": [
     ".projenrc.js",

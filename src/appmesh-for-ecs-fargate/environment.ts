@@ -1,9 +1,9 @@
+import * as cdk from 'aws-cdk-lib';
 import * as appmesh from 'aws-cdk-lib/aws-appmesh';
 import * as ec2 from 'aws-cdk-lib/aws-ec2';
 import * as ecs from 'aws-cdk-lib/aws-ecs';
 import * as logs from 'aws-cdk-lib/aws-logs';
 import * as servicediscovery from 'aws-cdk-lib/aws-servicediscovery';
-import * as cdk from 'aws-cdk-lib/core';
 import { Construct } from 'constructs';
 
 export interface EnvironmentProps {
@@ -16,12 +16,12 @@ export interface EnvironmentProps {
 };
 
 export class Environment extends Construct {
-  vpc: ec2.IVpc
-  securityGroup: ec2.SecurityGroup
-  cluster: ecs.Cluster
+  vpc: ec2.IVpc;
+  securityGroup: ec2.SecurityGroup;
+  cluster: ecs.Cluster;
   defaultCapacityProviderStrategies: ecs.CapacityProviderStrategy[];
-  logGroup: logs.ILogGroup
-  namespace: servicediscovery.INamespace
+  logGroup: logs.ILogGroup;
+  namespace: servicediscovery.INamespace;
   mesh: appmesh.Mesh;
 
   constructor(scope: Construct, id: string, props?: EnvironmentProps) {

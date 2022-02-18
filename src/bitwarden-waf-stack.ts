@@ -1,5 +1,5 @@
-import * as wafv2 from 'aws-cdk-lib/aws-wafv2';
 import { Stack, StackProps } from 'aws-cdk-lib';
+import * as wafv2 from 'aws-cdk-lib/aws-wafv2';
 import { Construct } from 'constructs';
 
 export class BitwardenWafStack extends Stack {
@@ -76,10 +76,10 @@ export class BitwardenWafStack extends Stack {
                     positionalConstraint: 'STARTS_WITH',
                     searchString: '/icons/',
                     textTransformations: [{
-                      priority: 0, type: 'NONE'
-                    }]
-                    
-                  }
+                      priority: 0, type: 'NONE',
+                    }],
+
+                  },
                 },
                 {
                   byteMatchStatement: {
@@ -87,12 +87,12 @@ export class BitwardenWafStack extends Stack {
                     positionalConstraint: 'EXACTLY',
                     searchString: 'GET',
                     textTransformations: [{
-                      priority: 0, type: 'NONE'
-                    }]
-                  }
-                }
-              ]
-            }
+                      priority: 0, type: 'NONE',
+                    }],
+                  },
+                },
+              ],
+            },
           },
           action: { allow: {} },
           visibilityConfig: {
@@ -113,9 +113,9 @@ export class BitwardenWafStack extends Stack {
                     positionalConstraint: 'STARTS_WITH',
                     searchString: '/api/sends/',
                     textTransformations: [{
-                      priority: 0, type: 'NONE'
-                    }]
-                  }
+                      priority: 0, type: 'NONE',
+                    }],
+                  },
                 },
                 {
                   byteMatchStatement: {
@@ -123,12 +123,12 @@ export class BitwardenWafStack extends Stack {
                     positionalConstraint: 'EXACTLY',
                     searchString: 'POST',
                     textTransformations: [{
-                      priority: 0, type: 'NONE'
-                    }]
-                  }
+                      priority: 0, type: 'NONE',
+                    }],
+                  },
                 },
-              ]
-            }
+              ],
+            },
           },
           action: { allow: {} },
           visibilityConfig: {
@@ -149,9 +149,9 @@ export class BitwardenWafStack extends Stack {
                     positionalConstraint: 'STARTS_WITH',
                     searchString: '/attachments/send/',
                     textTransformations: [{
-                      priority: 0, type: 'NONE'
-                    }]
-                  }
+                      priority: 0, type: 'NONE',
+                    }],
+                  },
                 },
                 {
                   byteMatchStatement: {
@@ -159,12 +159,12 @@ export class BitwardenWafStack extends Stack {
                     positionalConstraint: 'EXACTLY',
                     searchString: 'GET',
                     textTransformations: [{
-                      priority: 0, type: 'NONE'
-                    }]
-                  }
+                      priority: 0, type: 'NONE',
+                    }],
+                  },
                 },
-              ]
-            }
+              ],
+            },
           },
           action: { allow: {} },
           visibilityConfig: {
@@ -185,10 +185,10 @@ export class BitwardenWafStack extends Stack {
                     positionalConstraint: 'STARTS_WITH',
                     searchString: '/webauthn-connector.html',
                     textTransformations: [{
-                      priority: 0, type: 'NONE'
-                    }]
-                    
-                  }
+                      priority: 0, type: 'NONE',
+                    }],
+
+                  },
                 },
                 {
                   byteMatchStatement: {
@@ -196,10 +196,10 @@ export class BitwardenWafStack extends Stack {
                     positionalConstraint: 'EXACTLY',
                     searchString: 'GET',
                     textTransformations: [{
-                      priority: 0, type: 'NONE'
-                    }]
-                    
-                  }
+                      priority: 0, type: 'NONE',
+                    }],
+
+                  },
                 },
                 {
                   byteMatchStatement: {
@@ -207,9 +207,9 @@ export class BitwardenWafStack extends Stack {
                     positionalConstraint: 'EXACTLY',
                     searchString: 'navigate',
                     textTransformations: [{
-                      priority: 0, type: 'NONE'
-                    }] 
-                  }
+                      priority: 0, type: 'NONE',
+                    }],
+                  },
                 },
                 {
                   byteMatchStatement: {
@@ -217,12 +217,12 @@ export class BitwardenWafStack extends Stack {
                     positionalConstraint: 'EXACTLY',
                     searchString: 'iframe',
                     textTransformations: [{
-                      priority: 0, type: 'NONE'
-                    }] 
-                  }
+                      priority: 0, type: 'NONE',
+                    }],
+                  },
                 },
-              ]
-            }
+              ],
+            },
           },
           action: { allow: {} },
           visibilityConfig: {
@@ -252,15 +252,15 @@ export class BitwardenWafStack extends Stack {
         {
           name: 'Bitwarden-MobileAppUserAgentRule',
           priority: 8,
-          statement:                 {
+          statement: {
             byteMatchStatement: {
               fieldToMatch: { singleHeader: { name: 'user-agent' } },
               positionalConstraint: 'STARTS_WITH',
               searchString: 'Bitwarden_Mobile',
               textTransformations: [{
-                priority: 0, type: 'NONE'
-              }] 
-            }
+                priority: 0, type: 'NONE',
+              }],
+            },
           },
           action: { allow: {} },
           visibilityConfig: {

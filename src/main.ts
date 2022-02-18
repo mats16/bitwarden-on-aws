@@ -1,4 +1,4 @@
-import { App, Environment } from 'aws-cdk-lib/core';
+import { App, Environment } from 'aws-cdk-lib';
 import { BitwardenStack } from './bitwarden-stack';
 import { BitwardenWafStack } from './bitwarden-waf-stack';
 

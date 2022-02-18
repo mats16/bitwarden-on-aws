@@ -1,9 +1,9 @@
+import * as cdk from 'aws-cdk-lib';
 import * as appmesh from 'aws-cdk-lib/aws-appmesh';
 import * as ec2 from 'aws-cdk-lib/aws-ec2';
 import * as ecs from 'aws-cdk-lib/aws-ecs';
 import * as iam from 'aws-cdk-lib/aws-iam';
 import * as servicediscovery from 'aws-cdk-lib/aws-servicediscovery';
-import * as cdk from 'aws-cdk-lib/core';
 import { Construct } from 'constructs';
 import { Environment, VirtualService, envoyImage, xrayImage, cloudwatchImage } from './';
 

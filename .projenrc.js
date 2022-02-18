@@ -4,7 +4,6 @@ const project = new awscdk.AwsCdkTypeScriptApp({
   defaultReleaseBranch: 'main',
   name: 'bitwarden-on-aws',
   deps: [
-    'cdk-ses-helpers@^0.0.2',
     '@aws-sdk/client-secrets-manager',
     'axios',
     'tedious',
@@ -13,6 +12,8 @@ const project = new awscdk.AwsCdkTypeScriptApp({
     'esbuild@0',
     '@types/aws-lambda',
     '@types/tedious',
+    '@types/jest',
+    'jest',
   ],
   tsconfig: {
     compilerOptions: {

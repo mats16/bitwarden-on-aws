@@ -16,65 +16,10 @@ Object {
     },
   },
   "Parameters": Object {
-    "AssetParameters415f67627e55b52905faf07b427a9a5cfd6a275f4d213845a82ee9ec4bfe9ab5ArtifactHashF5960D06": Object {
-      "Description": "Artifact hash for asset \\"415f67627e55b52905faf07b427a9a5cfd6a275f4d213845a82ee9ec4bfe9ab5\\"",
-      "Type": "String",
-    },
-    "AssetParameters415f67627e55b52905faf07b427a9a5cfd6a275f4d213845a82ee9ec4bfe9ab5S3Bucket7DC2EFBF": Object {
-      "Description": "S3 bucket for asset \\"415f67627e55b52905faf07b427a9a5cfd6a275f4d213845a82ee9ec4bfe9ab5\\"",
-      "Type": "String",
-    },
-    "AssetParameters415f67627e55b52905faf07b427a9a5cfd6a275f4d213845a82ee9ec4bfe9ab5S3VersionKeyF7B121B3": Object {
-      "Description": "S3 key for asset version \\"415f67627e55b52905faf07b427a9a5cfd6a275f4d213845a82ee9ec4bfe9ab5\\"",
-      "Type": "String",
-    },
-    "AssetParameters980dad4adbd2486b9660e3fdb5e94a496cfbb12591a5ec9811d7087d8b785723ArtifactHashCD5E72E2": Object {
-      "Description": "Artifact hash for asset \\"980dad4adbd2486b9660e3fdb5e94a496cfbb12591a5ec9811d7087d8b785723\\"",
-      "Type": "String",
-    },
-    "AssetParameters980dad4adbd2486b9660e3fdb5e94a496cfbb12591a5ec9811d7087d8b785723S3BucketFB45DAC0": Object {
-      "Description": "S3 bucket for asset \\"980dad4adbd2486b9660e3fdb5e94a496cfbb12591a5ec9811d7087d8b785723\\"",
-      "Type": "String",
-    },
-    "AssetParameters980dad4adbd2486b9660e3fdb5e94a496cfbb12591a5ec9811d7087d8b785723S3VersionKey8DAEEB9B": Object {
-      "Description": "S3 key for asset version \\"980dad4adbd2486b9660e3fdb5e94a496cfbb12591a5ec9811d7087d8b785723\\"",
-      "Type": "String",
-    },
-    "AssetParameters9a7247db8eb2475f24d65ab3d5a49f4ed08a5503e901bddf6189b27db663e724ArtifactHashEA5AB134": Object {
-      "Description": "Artifact hash for asset \\"9a7247db8eb2475f24d65ab3d5a49f4ed08a5503e901bddf6189b27db663e724\\"",
-      "Type": "String",
-    },
-    "AssetParameters9a7247db8eb2475f24d65ab3d5a49f4ed08a5503e901bddf6189b27db663e724S3Bucket6874831C": Object {
-      "Description": "S3 bucket for asset \\"9a7247db8eb2475f24d65ab3d5a49f4ed08a5503e901bddf6189b27db663e724\\"",
-      "Type": "String",
-    },
-    "AssetParameters9a7247db8eb2475f24d65ab3d5a49f4ed08a5503e901bddf6189b27db663e724S3VersionKey58FE1051": Object {
-      "Description": "S3 key for asset version \\"9a7247db8eb2475f24d65ab3d5a49f4ed08a5503e901bddf6189b27db663e724\\"",
-      "Type": "String",
-    },
-    "AssetParametersa8e070d8fa40c15dc130eaac9c344358e827970b46577e5dc77599fe938887c5ArtifactHash921DC752": Object {
-      "Description": "Artifact hash for asset \\"a8e070d8fa40c15dc130eaac9c344358e827970b46577e5dc77599fe938887c5\\"",
-      "Type": "String",
-    },
-    "AssetParametersa8e070d8fa40c15dc130eaac9c344358e827970b46577e5dc77599fe938887c5S3BucketB925E3B9": Object {
-      "Description": "S3 bucket for asset \\"a8e070d8fa40c15dc130eaac9c344358e827970b46577e5dc77599fe938887c5\\"",
-      "Type": "String",
-    },
-    "AssetParametersa8e070d8fa40c15dc130eaac9c344358e827970b46577e5dc77599fe938887c5S3VersionKey55D533BC": Object {
-      "Description": "S3 key for asset version \\"a8e070d8fa40c15dc130eaac9c344358e827970b46577e5dc77599fe938887c5\\"",
-      "Type": "String",
-    },
-    "AssetParametersf3d3a3cc7f26921b237eff24fc5dd7aef8f0465a1f376b8f7918eb3d4b3e8797ArtifactHashAAFCA968": Object {
-      "Description": "Artifact hash for asset \\"f3d3a3cc7f26921b237eff24fc5dd7aef8f0465a1f376b8f7918eb3d4b3e8797\\"",
-      "Type": "String",
-    },
-    "AssetParametersf3d3a3cc7f26921b237eff24fc5dd7aef8f0465a1f376b8f7918eb3d4b3e8797S3BucketBEE108A9": Object {
-      "Description": "S3 bucket for asset \\"f3d3a3cc7f26921b237eff24fc5dd7aef8f0465a1f376b8f7918eb3d4b3e8797\\"",
-      "Type": "String",
-    },
-    "AssetParametersf3d3a3cc7f26921b237eff24fc5dd7aef8f0465a1f376b8f7918eb3d4b3e8797S3VersionKeyA877E3C9": Object {
-      "Description": "S3 key for asset version \\"f3d3a3cc7f26921b237eff24fc5dd7aef8f0465a1f376b8f7918eb3d4b3e8797\\"",
-      "Type": "String",
+    "BootstrapVersion": Object {
+      "Default": "/cdk-bootstrap/hnb659fds/version",
+      "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]",
+      "Type": "AWS::SSM::Parameter::Value<String>",
     },
   },
   "Resources": Object {
@@ -84,42 +29,8 @@ Object {
       ],
       "Properties": Object {
         "Code": Object {
-          "S3Bucket": Object {
-            "Ref": "AssetParametersf3d3a3cc7f26921b237eff24fc5dd7aef8f0465a1f376b8f7918eb3d4b3e8797S3BucketBEE108A9",
-          },
-          "S3Key": Object {
-            "Fn::Join": Array [
-              "",
-              Array [
-                Object {
-                  "Fn::Select": Array [
-                    0,
-                    Object {
-                      "Fn::Split": Array [
-                        "||",
-                        Object {
-                          "Ref": "AssetParametersf3d3a3cc7f26921b237eff24fc5dd7aef8f0465a1f376b8f7918eb3d4b3e8797S3VersionKeyA877E3C9",
-                        },
-                      ],
-                    },
-                  ],
-                },
-                Object {
-                  "Fn::Select": Array [
-                    1,
-                    Object {
-                      "Fn::Split": Array [
-                        "||",
-                        Object {
-                          "Ref": "AssetParametersf3d3a3cc7f26921b237eff24fc5dd7aef8f0465a1f376b8f7918eb3d4b3e8797S3VersionKeyA877E3C9",
-                        },
-                      ],
-                    },
-                  ],
-                },
-              ],
-            ],
-          },
+          "S3Bucket": "cdk-hnb659fds-assets-123456789012-us-west-2",
+          "S3Key": "4a575666d1c2c6412590d2a56f328e040a81ad1ef59aecee31ae9b393d05f659.zip",
         },
         "Handler": "index.handler",
         "Role": Object {
@@ -182,10 +93,10 @@ Object {
           "Ref": "AppCluster68CC0559",
         },
         "DeploymentConfiguration": Object {
-          "MaximumPercent": 100,
-          "MinimumHealthyPercent": 0,
+          "MaximumPercent": 200,
+          "MinimumHealthyPercent": 50,
         },
-        "DesiredCount": 1,
+        "DesiredCount": 2,
         "EnableECSManagedTags": true,
         "NetworkConfiguration": Object {
           "AwsvpcConfiguration": Object {
@@ -336,38 +247,52 @@ Object {
                 "Value": "https://push.bitwarden.com",
               },
               Object {
-                "Name": "globalSettings__mail__replyToEmail",
+                "Name": "globalSettings__attachment__baseDirectory",
+                "Value": "/etc/bitwarden/core/attachments",
+              },
+              Object {
+                "Name": "globalSettings__send__baseDirectory",
+                "Value": "/etc/bitwarden/core/attachments/send",
+              },
+              Object {
+                "Name": "globalSettings__dataProtection__directory",
+                "Value": "/etc/bitwarden/core/aspnet-dataprotection",
+              },
+              Object {
+                "Name": "globalSettings__attachment__baseUrl",
                 "Value": Object {
                   "Fn::Join": Array [
                     "",
                     Array [
-                      "no-reply@",
+                      "https://",
                       Object {
                         "Fn::GetAtt": Array [
-                          "SesIdentityWorkMailOrg3FDA21A8",
-                          "Alias",
+                          "Distribution830FAC52",
+                          "DomainName",
                         ],
                       },
-                      ".awsapps.com",
+                      "/attachments",
                     ],
                   ],
                 },
               },
               Object {
-                "Name": "globalSettings__mail__smtp__port",
-                "Value": "587",
-              },
-              Object {
-                "Name": "globalSettings__mail__smtp__ssl",
-                "Value": "false",
-              },
-              Object {
-                "Name": "globalSettings__mail__smtp__startTls",
-                "Value": "true",
-              },
-              Object {
-                "Name": "globalSettings__mail__smtp__trustServer",
-                "Value": "true",
+                "Name": "globalSettings__send__baseUrl",
+                "Value": Object {
+                  "Fn::Join": Array [
+                    "",
+                    Array [
+                      "https://",
+                      Object {
+                        "Fn::GetAtt": Array [
+                          "Distribution830FAC52",
+                          "DomainName",
+                        ],
+                      },
+                      "/attachments/send",
+                    ],
+                  ],
+                },
               },
               Object {
                 "Name": "globalSettings__baseServiceUri__vault",
@@ -488,7 +413,7 @@ Object {
               "Interval": 5,
               "Retries": 3,
               "StartPeriod": 20,
-              "Timeout": 2,
+              "Timeout": 3,
             },
             "Image": "983035974902.dkr.ecr.us-west-2.amazonaws.com/bitwarden/admin:latest",
             "LogConfiguration": Object {
@@ -627,48 +552,6 @@ Object {
                 },
               },
               Object {
-                "Name": "globalSettings__mail__smtp__host",
-                "ValueFrom": Object {
-                  "Fn::Join": Array [
-                    "",
-                    Array [
-                      Object {
-                        "Ref": "SmtpSecret8B1841F4",
-                      },
-                      ":endpoint::",
-                    ],
-                  ],
-                },
-              },
-              Object {
-                "Name": "globalSettings__mail__smtp__username",
-                "ValueFrom": Object {
-                  "Fn::Join": Array [
-                    "",
-                    Array [
-                      Object {
-                        "Ref": "SmtpSecret8B1841F4",
-                      },
-                      ":username::",
-                    ],
-                  ],
-                },
-              },
-              Object {
-                "Name": "globalSettings__mail__smtp__password",
-                "ValueFrom": Object {
-                  "Fn::Join": Array [
-                    "",
-                    Array [
-                      Object {
-                        "Ref": "SmtpSecret8B1841F4",
-                      },
-                      ":password::",
-                    ],
-                  ],
-                },
-              },
-              Object {
                 "Name": "globalSettings__disableUserRegistration",
                 "ValueFrom": Object {
                   "Fn::Join": Array [
@@ -733,7 +616,7 @@ Object {
                 "awslogs-stream-prefix": "admin",
               },
             },
-            "MemoryReservation": 128,
+            "MemoryReservation": 64,
             "Name": "xray-daemon",
             "PortMappings": Array [
               Object {
@@ -743,7 +626,7 @@ Object {
             ],
           },
           Object {
-            "Cpu": 16,
+            "Cpu": 32,
             "Environment": Array [
               Object {
                 "Name": "CW_CONFIG_CONTENT",
@@ -755,7 +638,7 @@ Object {
                       Object {
                         "Ref": "AppLogGroupC72EEC8C",
                       },
-                      "\\",\\"log_stream_name\\":\\"etc/bitwarden/logs/admin\\",\\"timestamp_format\\":\\"%Y-%m-%d %H:%M:%S.\\"}]}}}}",
+                      "\\",\\"log_stream_name\\":\\"bitwarden/logs/admin/{hostname}\\",\\"timestamp_format\\":\\"%Y-%m-%d %H:%M:%S.\\",\\"timezone\\":\\"UTC\\"}]}}}}",
                     ],
                   ],
                 },
@@ -790,7 +673,7 @@ Object {
             ],
           },
           Object {
-            "Cpu": 96,
+            "Cpu": 80,
             "Environment": Array [
               Object {
                 "Name": "APPMESH_VIRTUAL_NODE_NAME",
@@ -857,7 +740,7 @@ Object {
                 "awslogs-stream-prefix": "admin",
               },
             },
-            "MemoryReservation": 64,
+            "MemoryReservation": 128,
             "Name": "envoy",
             "Ulimits": Array [
               Object {
@@ -1023,16 +906,6 @@ Object {
                 "Ref": "DuoAKey23F55117",
               },
             },
-            Object {
-              "Action": Array [
-                "secretsmanager:GetSecretValue",
-                "secretsmanager:DescribeSecret",
-              ],
-              "Effect": "Allow",
-              "Resource": Object {
-                "Ref": "SmtpSecret8B1841F4",
-              },
-            },
           ],
           "Version": "2012-10-17",
         },
@@ -1064,24 +937,6 @@ Object {
           "arn:aws:iam::aws:policy/AWSXRayDaemonWriteAccess",
           "arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy",
         ],
-        "Policies": Array [
-          Object {
-            "PolicyDocument": Object {
-              "Statement": Array [
-                Object {
-                  "Action": Array [
-                    "acm:ExportCertificate",
-                    "acm-pca:GetCertificateAuthorityCertificate",
-                  ],
-                  "Effect": "Allow",
-                  "Resource": "*",
-                },
-              ],
-              "Version": "2012-10-17",
-            },
-            "PolicyName": "EnvoyTlsCertificatePolicy",
-          },
-        ],
       },
       "Type": "AWS::IAM::Role",
     },
@@ -1099,60 +954,35 @@ Object {
               "VirtualService": Object {
                 "VirtualServiceName": Object {
                   "Fn::GetAtt": Array [
-                    "DatabaseVirtualService025456E2",
-                    "VirtualServiceName",
+                    "DatabaseInstance24D16791",
+                    "Endpoint.Address",
                   ],
                 },
               },
             },
             Object {
               "VirtualService": Object {
-                "VirtualServiceName": Object {
-                  "Fn::GetAtt": Array [
-                    "EmailVirtualServiceB65FCD74",
-                    "VirtualServiceName",
-                  ],
-                },
+                "VirtualServiceName": "email-smtp.us-west-2.amazonaws.com",
               },
             },
             Object {
               "VirtualService": Object {
-                "VirtualServiceName": Object {
-                  "Fn::GetAtt": Array [
-                    "WebVirtualService8E478A2D",
-                    "VirtualServiceName",
-                  ],
-                },
+                "VirtualServiceName": "web.svc.bitwarden.local",
               },
             },
             Object {
               "VirtualService": Object {
-                "VirtualServiceName": Object {
-                  "Fn::GetAtt": Array [
-                    "ApiVirtualService0B2433C3",
-                    "VirtualServiceName",
-                  ],
-                },
+                "VirtualServiceName": "api.svc.bitwarden.local",
               },
             },
             Object {
               "VirtualService": Object {
-                "VirtualServiceName": Object {
-                  "Fn::GetAtt": Array [
-                    "NotificationsVirtualService853F0457",
-                    "VirtualServiceName",
-                  ],
-                },
+                "VirtualServiceName": "notifications.svc.bitwarden.local",
               },
             },
             Object {
               "VirtualService": Object {
-                "VirtualServiceName": Object {
-                  "Fn::GetAtt": Array [
-                    "IdentityVirtualService0981AD18",
-                    "VirtualServiceName",
-                  ],
-                },
+                "VirtualServiceName": "identity.svc.bitwarden.local",
               },
             },
           ],
@@ -1449,38 +1279,52 @@ Object {
                 "Value": "https://push.bitwarden.com",
               },
               Object {
-                "Name": "globalSettings__mail__replyToEmail",
+                "Name": "globalSettings__attachment__baseDirectory",
+                "Value": "/etc/bitwarden/core/attachments",
+              },
+              Object {
+                "Name": "globalSettings__send__baseDirectory",
+                "Value": "/etc/bitwarden/core/attachments/send",
+              },
+              Object {
+                "Name": "globalSettings__dataProtection__directory",
+                "Value": "/etc/bitwarden/core/aspnet-dataprotection",
+              },
+              Object {
+                "Name": "globalSettings__attachment__baseUrl",
                 "Value": Object {
                   "Fn::Join": Array [
                     "",
                     Array [
-                      "no-reply@",
+                      "https://",
                       Object {
                         "Fn::GetAtt": Array [
-                          "SesIdentityWorkMailOrg3FDA21A8",
-                          "Alias",
+                          "Distribution830FAC52",
+                          "DomainName",
                         ],
                       },
-                      ".awsapps.com",
+                      "/attachments",
                     ],
                   ],
                 },
               },
               Object {
-                "Name": "globalSettings__mail__smtp__port",
-                "Value": "587",
-              },
-              Object {
-                "Name": "globalSettings__mail__smtp__ssl",
-                "Value": "false",
-              },
-              Object {
-                "Name": "globalSettings__mail__smtp__startTls",
-                "Value": "true",
-              },
-              Object {
-                "Name": "globalSettings__mail__smtp__trustServer",
-                "Value": "true",
+                "Name": "globalSettings__send__baseUrl",
+                "Value": Object {
+                  "Fn::Join": Array [
+                    "",
+                    Array [
+                      "https://",
+                      Object {
+                        "Fn::GetAtt": Array [
+                          "Distribution830FAC52",
+                          "DomainName",
+                        ],
+                      },
+                      "/attachments/send",
+                    ],
+                  ],
+                },
               },
               Object {
                 "Name": "globalSettings__baseServiceUri__vault",
@@ -1601,7 +1445,7 @@ Object {
               "Interval": 5,
               "Retries": 3,
               "StartPeriod": 20,
-              "Timeout": 2,
+              "Timeout": 3,
             },
             "Image": "983035974902.dkr.ecr.us-west-2.amazonaws.com/bitwarden/api:latest",
             "LogConfiguration": Object {
@@ -1740,48 +1584,6 @@ Object {
                 },
               },
               Object {
-                "Name": "globalSettings__mail__smtp__host",
-                "ValueFrom": Object {
-                  "Fn::Join": Array [
-                    "",
-                    Array [
-                      Object {
-                        "Ref": "SmtpSecret8B1841F4",
-                      },
-                      ":endpoint::",
-                    ],
-                  ],
-                },
-              },
-              Object {
-                "Name": "globalSettings__mail__smtp__username",
-                "ValueFrom": Object {
-                  "Fn::Join": Array [
-                    "",
-                    Array [
-                      Object {
-                        "Ref": "SmtpSecret8B1841F4",
-                      },
-                      ":username::",
-                    ],
-                  ],
-                },
-              },
-              Object {
-                "Name": "globalSettings__mail__smtp__password",
-                "ValueFrom": Object {
-                  "Fn::Join": Array [
-                    "",
-                    Array [
-                      Object {
-                        "Ref": "SmtpSecret8B1841F4",
-                      },
-                      ":password::",
-                    ],
-                  ],
-                },
-              },
-              Object {
                 "Name": "globalSettings__disableUserRegistration",
                 "ValueFrom": Object {
                   "Fn::Join": Array [
@@ -1846,7 +1648,7 @@ Object {
                 "awslogs-stream-prefix": "api",
               },
             },
-            "MemoryReservation": 128,
+            "MemoryReservation": 64,
             "Name": "xray-daemon",
             "PortMappings": Array [
               Object {
@@ -1856,7 +1658,7 @@ Object {
             ],
           },
           Object {
-            "Cpu": 16,
+            "Cpu": 32,
             "Environment": Array [
               Object {
                 "Name": "CW_CONFIG_CONTENT",
@@ -1868,7 +1670,7 @@ Object {
                       Object {
                         "Ref": "AppLogGroupC72EEC8C",
                       },
-                      "\\",\\"log_stream_name\\":\\"etc/bitwarden/logs/api\\",\\"timestamp_format\\":\\"%Y-%m-%d %H:%M:%S.\\"}]}}}}",
+                      "\\",\\"log_stream_name\\":\\"bitwarden/logs/api/{hostname}\\",\\"timestamp_format\\":\\"%Y-%m-%d %H:%M:%S.\\",\\"timezone\\":\\"UTC\\"}]}}}}",
                     ],
                   ],
                 },
@@ -1903,7 +1705,7 @@ Object {
             ],
           },
           Object {
-            "Cpu": 96,
+            "Cpu": 80,
             "Environment": Array [
               Object {
                 "Name": "APPMESH_VIRTUAL_NODE_NAME",
@@ -1970,7 +1772,7 @@ Object {
                 "awslogs-stream-prefix": "api",
               },
             },
-            "MemoryReservation": 64,
+            "MemoryReservation": 128,
             "Name": "envoy",
             "Ulimits": Array [
               Object {
@@ -2136,16 +1938,6 @@ Object {
                 "Ref": "DuoAKey23F55117",
               },
             },
-            Object {
-              "Action": Array [
-                "secretsmanager:GetSecretValue",
-                "secretsmanager:DescribeSecret",
-              ],
-              "Effect": "Allow",
-              "Resource": Object {
-                "Ref": "SmtpSecret8B1841F4",
-              },
-            },
           ],
           "Version": "2012-10-17",
         },
@@ -2177,24 +1969,6 @@ Object {
           "arn:aws:iam::aws:policy/AWSXRayDaemonWriteAccess",
           "arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy",
         ],
-        "Policies": Array [
-          Object {
-            "PolicyDocument": Object {
-              "Statement": Array [
-                Object {
-                  "Action": Array [
-                    "acm:ExportCertificate",
-                    "acm-pca:GetCertificateAuthorityCertificate",
-                  ],
-                  "Effect": "Allow",
-                  "Resource": "*",
-                },
-              ],
-              "Version": "2012-10-17",
-            },
-            "PolicyName": "EnvoyTlsCertificatePolicy",
-          },
-        ],
       },
       "Type": "AWS::IAM::Role",
     },
@@ -2212,60 +1986,35 @@ Object {
               "VirtualService": Object {
                 "VirtualServiceName": Object {
                   "Fn::GetAtt": Array [
-                    "DatabaseVirtualService025456E2",
-                    "VirtualServiceName",
+                    "DatabaseInstance24D16791",
+                    "Endpoint.Address",
                   ],
                 },
               },
             },
             Object {
               "VirtualService": Object {
-                "VirtualServiceName": Object {
-                  "Fn::GetAtt": Array [
-                    "EmailVirtualServiceB65FCD74",
-                    "VirtualServiceName",
-                  ],
-                },
+                "VirtualServiceName": "email-smtp.us-west-2.amazonaws.com",
               },
             },
             Object {
               "VirtualService": Object {
-                "VirtualServiceName": Object {
-                  "Fn::GetAtt": Array [
-                    "WebVirtualService8E478A2D",
-                    "VirtualServiceName",
-                  ],
-                },
+                "VirtualServiceName": "web.svc.bitwarden.local",
               },
             },
             Object {
               "VirtualService": Object {
-                "VirtualServiceName": Object {
-                  "Fn::GetAtt": Array [
-                    "NotificationsVirtualService853F0457",
-                    "VirtualServiceName",
-                  ],
-                },
+                "VirtualServiceName": "notifications.svc.bitwarden.local",
               },
             },
             Object {
               "VirtualService": Object {
-                "VirtualServiceName": Object {
-                  "Fn::GetAtt": Array [
-                    "IdentityVirtualService0981AD18",
-                    "VirtualServiceName",
-                  ],
-                },
+                "VirtualServiceName": "identity.svc.bitwarden.local",
               },
             },
             Object {
               "VirtualService": Object {
-                "VirtualServiceName": Object {
-                  "Fn::GetAtt": Array [
-                    "AdminVirtualServiceD2E98B99",
-                    "VirtualServiceName",
-                  ],
-                },
+                "VirtualServiceName": "admin.svc.bitwarden.local",
               },
             },
           ],
@@ -2515,7 +2264,7 @@ Object {
             "OwnerUid": "1000",
             "Permissions": "0755",
           },
-          "Path": "/bitwarden/attachments",
+          "Path": "/bitwarden/core/attachments",
         },
       },
       "Type": "AWS::EFS::AccessPoint",
@@ -2692,38 +2441,52 @@ Object {
                 "Value": "https://push.bitwarden.com",
               },
               Object {
-                "Name": "globalSettings__mail__replyToEmail",
+                "Name": "globalSettings__attachment__baseDirectory",
+                "Value": "/etc/bitwarden/core/attachments",
+              },
+              Object {
+                "Name": "globalSettings__send__baseDirectory",
+                "Value": "/etc/bitwarden/core/attachments/send",
+              },
+              Object {
+                "Name": "globalSettings__dataProtection__directory",
+                "Value": "/etc/bitwarden/core/aspnet-dataprotection",
+              },
+              Object {
+                "Name": "globalSettings__attachment__baseUrl",
                 "Value": Object {
                   "Fn::Join": Array [
                     "",
                     Array [
-                      "no-reply@",
+                      "https://",
                       Object {
                         "Fn::GetAtt": Array [
-                          "SesIdentityWorkMailOrg3FDA21A8",
-                          "Alias",
+                          "Distribution830FAC52",
+                          "DomainName",
                         ],
                       },
-                      ".awsapps.com",
+                      "/attachments",
                     ],
                   ],
                 },
               },
               Object {
-                "Name": "globalSettings__mail__smtp__port",
-                "Value": "587",
-              },
-              Object {
-                "Name": "globalSettings__mail__smtp__ssl",
-                "Value": "false",
-              },
-              Object {
-                "Name": "globalSettings__mail__smtp__startTls",
-                "Value": "true",
-              },
-              Object {
-                "Name": "globalSettings__mail__smtp__trustServer",
-                "Value": "true",
+                "Name": "globalSettings__send__baseUrl",
+                "Value": Object {
+                  "Fn::Join": Array [
+                    "",
+                    Array [
+                      "https://",
+                      Object {
+                        "Fn::GetAtt": Array [
+                          "Distribution830FAC52",
+                          "DomainName",
+                        ],
+                      },
+                      "/attachments/send",
+                    ],
+                  ],
+                },
               },
               Object {
                 "Name": "globalSettings__baseServiceUri__vault",
@@ -2844,7 +2607,7 @@ Object {
               "Interval": 5,
               "Retries": 3,
               "StartPeriod": 20,
-              "Timeout": 2,
+              "Timeout": 3,
             },
             "Image": "983035974902.dkr.ecr.us-west-2.amazonaws.com/bitwarden/attachments:latest",
             "LogConfiguration": Object {
@@ -2866,7 +2629,7 @@ Object {
               },
               Object {
                 "ContainerPath": "/etc/bitwarden/core/attachments",
-                "ReadOnly": false,
+                "ReadOnly": true,
                 "SourceVolume": Object {
                   "Ref": "AttachmentsAccessPointDEFCCB32",
                 },
@@ -2901,7 +2664,7 @@ Object {
                 "awslogs-stream-prefix": "attachments",
               },
             },
-            "MemoryReservation": 128,
+            "MemoryReservation": 64,
             "Name": "xray-daemon",
             "PortMappings": Array [
               Object {
@@ -2911,7 +2674,7 @@ Object {
             ],
           },
           Object {
-            "Cpu": 16,
+            "Cpu": 32,
             "Environment": Array [
               Object {
                 "Name": "CW_CONFIG_CONTENT",
@@ -2923,7 +2686,7 @@ Object {
                       Object {
                         "Ref": "AppLogGroupC72EEC8C",
                       },
-                      "\\",\\"log_stream_name\\":\\"etc/bitwarden/logs/attachments\\",\\"timestamp_format\\":\\"%Y-%m-%d %H:%M:%S.\\"}]}}}}",
+                      "\\",\\"log_stream_name\\":\\"bitwarden/logs/attachments/{hostname}\\",\\"timestamp_format\\":\\"%Y-%m-%d %H:%M:%S.\\",\\"timezone\\":\\"UTC\\"}]}}}}",
                     ],
                   ],
                 },
@@ -2958,7 +2721,7 @@ Object {
             ],
           },
           Object {
-            "Cpu": 96,
+            "Cpu": 80,
             "Environment": Array [
               Object {
                 "Name": "APPMESH_VIRTUAL_NODE_NAME",
@@ -3025,7 +2788,7 @@ Object {
                 "awslogs-stream-prefix": "attachments",
               },
             },
-            "MemoryReservation": 64,
+            "MemoryReservation": 128,
             "Name": "envoy",
             "Ulimits": Array [
               Object {
@@ -3182,24 +2945,6 @@ Object {
           "arn:aws:iam::aws:policy/AWSXRayDaemonWriteAccess",
           "arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy",
         ],
-        "Policies": Array [
-          Object {
-            "PolicyDocument": Object {
-              "Statement": Array [
-                Object {
-                  "Action": Array [
-                    "acm:ExportCertificate",
-                    "acm-pca:GetCertificateAuthorityCertificate",
-                  ],
-                  "Effect": "Allow",
-                  "Resource": "*",
-                },
-              ],
-              "Version": "2012-10-17",
-            },
-            "PolicyName": "EnvoyTlsCertificatePolicy",
-          },
-        ],
       },
       "Type": "AWS::IAM::Role",
     },
@@ -3334,6 +3079,7 @@ Object {
       "Type": "AWS::AppMesh::VirtualService",
     },
     "BitwardenOriginWafOriginCustomHeaderValueCB6FF1BE": Object {
+      "DeletionPolicy": "Delete",
       "Properties": Object {
         "Description": "[Bitwarden] CloudFront origin custom header",
         "GenerateSecretString": Object {
@@ -3342,6 +3088,7 @@ Object {
         },
       },
       "Type": "AWS::SecretsManager::Secret",
+      "UpdateReplacePolicy": "Delete",
     },
     "BitwardenOriginWafWebACL55C5C038": Object {
       "Properties": Object {
@@ -3438,172 +3185,6 @@ Object {
       },
       "Type": "AWS::EFS::AccessPoint",
     },
-    "CreateDatabaseFunction6B340979": Object {
-      "DependsOn": Array [
-        "CreateDatabaseFunctionServiceRoleDefaultPolicy1DDD9453",
-        "CreateDatabaseFunctionServiceRole8C4CF902",
-      ],
-      "Properties": Object {
-        "Code": Object {
-          "S3Bucket": Object {
-            "Ref": "AssetParameters9a7247db8eb2475f24d65ab3d5a49f4ed08a5503e901bddf6189b27db663e724S3Bucket6874831C",
-          },
-          "S3Key": Object {
-            "Fn::Join": Array [
-              "",
-              Array [
-                Object {
-                  "Fn::Select": Array [
-                    0,
-                    Object {
-                      "Fn::Split": Array [
-                        "||",
-                        Object {
-                          "Ref": "AssetParameters9a7247db8eb2475f24d65ab3d5a49f4ed08a5503e901bddf6189b27db663e724S3VersionKey58FE1051",
-                        },
-                      ],
-                    },
-                  ],
-                },
-                Object {
-                  "Fn::Select": Array [
-                    1,
-                    Object {
-                      "Fn::Split": Array [
-                        "||",
-                        Object {
-                          "Ref": "AssetParameters9a7247db8eb2475f24d65ab3d5a49f4ed08a5503e901bddf6189b27db663e724S3VersionKey58FE1051",
-                        },
-                      ],
-                    },
-                  ],
-                },
-              ],
-            ],
-          },
-        },
-        "Environment": Object {
-          "Variables": Object {
-            "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
-            "DB_SECRET_ARN": Object {
-              "Ref": "DatabaseInstanceSecretAttachmentF5C7BAE8",
-            },
-          },
-        },
-        "Handler": "index.handler",
-        "Role": Object {
-          "Fn::GetAtt": Array [
-            "CreateDatabaseFunctionServiceRole8C4CF902",
-            "Arn",
-          ],
-        },
-        "Runtime": "nodejs14.x",
-        "VpcConfig": Object {
-          "SecurityGroupIds": Array [
-            Object {
-              "Fn::GetAtt": Array [
-                "CreateDatabaseFunctionSecurityGroup41053E77",
-                "GroupId",
-              ],
-            },
-          ],
-          "SubnetIds": Array [
-            Object {
-              "Ref": "VPCPrivateSubnet1Subnet8BCA10E0",
-            },
-            Object {
-              "Ref": "VPCPrivateSubnet2SubnetCFCDAA7A",
-            },
-            Object {
-              "Ref": "VPCPrivateSubnet3Subnet3EDCD457",
-            },
-          ],
-        },
-      },
-      "Type": "AWS::Lambda::Function",
-    },
-    "CreateDatabaseFunctionSecurityGroup41053E77": Object {
-      "Properties": Object {
-        "GroupDescription": "Automatic security group for Lambda Function testCreateDatabaseFunction3F2E466B",
-        "SecurityGroupEgress": Array [
-          Object {
-            "CidrIp": "0.0.0.0/0",
-            "Description": "Allow all outbound traffic by default",
-            "IpProtocol": "-1",
-          },
-        ],
-        "VpcId": Object {
-          "Ref": "VPCB9E5F0B4",
-        },
-      },
-      "Type": "AWS::EC2::SecurityGroup",
-    },
-    "CreateDatabaseFunctionServiceRole8C4CF902": Object {
-      "Properties": Object {
-        "AssumeRolePolicyDocument": Object {
-          "Statement": Array [
-            Object {
-              "Action": "sts:AssumeRole",
-              "Effect": "Allow",
-              "Principal": Object {
-                "Service": "lambda.amazonaws.com",
-              },
-            },
-          ],
-          "Version": "2012-10-17",
-        },
-        "ManagedPolicyArns": Array [
-          Object {
-            "Fn::Join": Array [
-              "",
-              Array [
-                "arn:",
-                Object {
-                  "Ref": "AWS::Partition",
-                },
-                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
-              ],
-            ],
-          },
-          Object {
-            "Fn::Join": Array [
-              "",
-              Array [
-                "arn:",
-                Object {
-                  "Ref": "AWS::Partition",
-                },
-                ":iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole",
-              ],
-            ],
-          },
-        ],
-      },
-      "Type": "AWS::IAM::Role",
-    },
-    "CreateDatabaseFunctionServiceRoleDefaultPolicy1DDD9453": Object {
-      "Properties": Object {
-        "PolicyDocument": Object {
-          "Statement": Array [
-            Object {
-              "Action": "secretsmanager:GetSecretValue",
-              "Effect": "Allow",
-              "Resource": Object {
-                "Ref": "DatabaseInstanceSecretAttachmentF5C7BAE8",
-              },
-            },
-          ],
-          "Version": "2012-10-17",
-        },
-        "PolicyName": "CreateDatabaseFunctionServiceRoleDefaultPolicy1DDD9453",
-        "Roles": Array [
-          Object {
-            "Ref": "CreateDatabaseFunctionServiceRole8C4CF902",
-          },
-        ],
-      },
-      "Type": "AWS::IAM::Policy",
-    },
     "DatabaseDefaultVirtualNode574DA26A": Object {
       "Properties": Object {
         "MeshName": Object {
@@ -3657,6 +3238,7 @@ Object {
         "DBSubnetGroupName": Object {
           "Ref": "DatabaseInstanceSubnetGroupA4FFF2A4",
         },
+        "EnablePerformanceInsights": true,
         "Engine": "sqlserver-ex",
         "EngineVersion": "15.00",
         "MasterUserPassword": Object {
@@ -3672,6 +3254,7 @@ Object {
           ],
         },
         "MasterUsername": "sa",
+        "PerformanceInsightsRetentionPeriod": 7,
         "StorageType": "gp2",
         "VPCSecurityGroups": Array [
           Object {
@@ -3744,9 +3327,9 @@ Object {
       },
       "Type": "AWS::EC2::SecurityGroupIngress",
     },
-    "DatabaseInstanceSecurityGroupfromtestCreateDatabaseFunctionSecurityGroup36B0974F143313E047F0": Object {
+    "DatabaseInstanceSecurityGroupfromtestDefaultDatabaseCreateDatabaseFunctionSecurityGroup216B2C1A14337B3D2FE5": Object {
       "Properties": Object {
-        "Description": "from testCreateDatabaseFunctionSecurityGroup36B0974F:1433",
+        "Description": "from testDefaultDatabaseCreateDatabaseFunctionSecurityGroup216B2C1A:1433",
         "FromPort": 1433,
         "GroupId": Object {
           "Fn::GetAtt": Array [
@@ -3757,7 +3340,7 @@ Object {
         "IpProtocol": "tcp",
         "SourceSecurityGroupId": Object {
           "Fn::GetAtt": Array [
-            "CreateDatabaseFunctionSecurityGroup41053E77",
+            "DefaultDatabaseCreateDatabaseFunctionSecurityGroup3D6A34B1",
             "GroupId",
           ],
         },
@@ -3874,13 +3457,145 @@ Object {
         "DatabaseName": "vault",
         "ServiceToken": Object {
           "Fn::GetAtt": Array [
-            "CreateDatabaseFunction6B340979",
+            "DefaultDatabaseCreateDatabaseFunction1BF18CAA",
             "Arn",
           ],
         },
       },
       "Type": "AWS::CloudFormation::CustomResource",
       "UpdateReplacePolicy": "Delete",
+    },
+    "DefaultDatabaseCreateDatabaseFunction1BF18CAA": Object {
+      "DependsOn": Array [
+        "DefaultDatabaseCreateDatabaseFunctionServiceRoleDefaultPolicyB56000B7",
+        "DefaultDatabaseCreateDatabaseFunctionServiceRoleB785D055",
+      ],
+      "Properties": Object {
+        "Code": Object {
+          "S3Bucket": "cdk-hnb659fds-assets-123456789012-us-west-2",
+          "S3Key": "37ee9b4044638d9f5194615814755ba2ac5bb0ee4c8f517647dae6572273b2cd.zip",
+        },
+        "Environment": Object {
+          "Variables": Object {
+            "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
+            "DB_SECRET_ARN": Object {
+              "Ref": "DatabaseInstanceSecretAttachmentF5C7BAE8",
+            },
+          },
+        },
+        "Handler": "index.handler",
+        "Role": Object {
+          "Fn::GetAtt": Array [
+            "DefaultDatabaseCreateDatabaseFunctionServiceRoleB785D055",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs14.x",
+        "VpcConfig": Object {
+          "SecurityGroupIds": Array [
+            Object {
+              "Fn::GetAtt": Array [
+                "DefaultDatabaseCreateDatabaseFunctionSecurityGroup3D6A34B1",
+                "GroupId",
+              ],
+            },
+          ],
+          "SubnetIds": Array [
+            Object {
+              "Ref": "VPCPrivateSubnet1Subnet8BCA10E0",
+            },
+            Object {
+              "Ref": "VPCPrivateSubnet2SubnetCFCDAA7A",
+            },
+            Object {
+              "Ref": "VPCPrivateSubnet3Subnet3EDCD457",
+            },
+          ],
+        },
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "DefaultDatabaseCreateDatabaseFunctionSecurityGroup3D6A34B1": Object {
+      "Properties": Object {
+        "GroupDescription": "Automatic security group for Lambda Function testDefaultDatabaseCreateDatabaseFunction6FDB723B",
+        "SecurityGroupEgress": Array [
+          Object {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "Allow all outbound traffic by default",
+            "IpProtocol": "-1",
+          },
+        ],
+        "VpcId": Object {
+          "Ref": "VPCB9E5F0B4",
+        },
+      },
+      "Type": "AWS::EC2::SecurityGroup",
+    },
+    "DefaultDatabaseCreateDatabaseFunctionServiceRoleB785D055": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": Array [
+          Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                "arn:",
+                Object {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+          Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                "arn:",
+                Object {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "DefaultDatabaseCreateDatabaseFunctionServiceRoleDefaultPolicyB56000B7": Object {
+      "Properties": Object {
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "secretsmanager:GetSecretValue",
+              "Effect": "Allow",
+              "Resource": Object {
+                "Ref": "DatabaseInstanceSecretAttachmentF5C7BAE8",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "DefaultDatabaseCreateDatabaseFunctionServiceRoleDefaultPolicyB56000B7",
+        "Roles": Array [
+          Object {
+            "Ref": "DefaultDatabaseCreateDatabaseFunctionServiceRoleB785D055",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
     },
     "Distribution830FAC52": Object {
       "Properties": Object {
@@ -4050,6 +3765,7 @@ Object {
       "Type": "AWS::CloudFront::Distribution",
     },
     "DuoAKey23F55117": Object {
+      "DeletionPolicy": "Delete",
       "Properties": Object {
         "Description": "[Bitwarden] A randomly generated Duo akey.",
         "GenerateSecretString": Object {
@@ -4058,6 +3774,7 @@ Object {
         },
       },
       "Type": "AWS::SecretsManager::Secret",
+      "UpdateReplacePolicy": "Delete",
     },
     "EmailDefaultVirtualNode6EC8A0F3": Object {
       "Properties": Object {
@@ -4356,38 +4073,52 @@ Object {
                 "Value": "https://push.bitwarden.com",
               },
               Object {
-                "Name": "globalSettings__mail__replyToEmail",
+                "Name": "globalSettings__attachment__baseDirectory",
+                "Value": "/etc/bitwarden/core/attachments",
+              },
+              Object {
+                "Name": "globalSettings__send__baseDirectory",
+                "Value": "/etc/bitwarden/core/attachments/send",
+              },
+              Object {
+                "Name": "globalSettings__dataProtection__directory",
+                "Value": "/etc/bitwarden/core/aspnet-dataprotection",
+              },
+              Object {
+                "Name": "globalSettings__attachment__baseUrl",
                 "Value": Object {
                   "Fn::Join": Array [
                     "",
                     Array [
-                      "no-reply@",
+                      "https://",
                       Object {
                         "Fn::GetAtt": Array [
-                          "SesIdentityWorkMailOrg3FDA21A8",
-                          "Alias",
+                          "Distribution830FAC52",
+                          "DomainName",
                         ],
                       },
-                      ".awsapps.com",
+                      "/attachments",
                     ],
                   ],
                 },
               },
               Object {
-                "Name": "globalSettings__mail__smtp__port",
-                "Value": "587",
-              },
-              Object {
-                "Name": "globalSettings__mail__smtp__ssl",
-                "Value": "false",
-              },
-              Object {
-                "Name": "globalSettings__mail__smtp__startTls",
-                "Value": "true",
-              },
-              Object {
-                "Name": "globalSettings__mail__smtp__trustServer",
-                "Value": "true",
+                "Name": "globalSettings__send__baseUrl",
+                "Value": Object {
+                  "Fn::Join": Array [
+                    "",
+                    Array [
+                      "https://",
+                      Object {
+                        "Fn::GetAtt": Array [
+                          "Distribution830FAC52",
+                          "DomainName",
+                        ],
+                      },
+                      "/attachments/send",
+                    ],
+                  ],
+                },
               },
               Object {
                 "Name": "globalSettings__baseServiceUri__vault",
@@ -4508,7 +4239,7 @@ Object {
               "Interval": 5,
               "Retries": 3,
               "StartPeriod": 20,
-              "Timeout": 2,
+              "Timeout": 3,
             },
             "Image": "983035974902.dkr.ecr.us-west-2.amazonaws.com/bitwarden/events:latest",
             "LogConfiguration": Object {
@@ -4527,6 +4258,13 @@ Object {
                 "ContainerPath": "/etc/bitwarden/logs/",
                 "ReadOnly": false,
                 "SourceVolume": "LogVolume",
+              },
+              Object {
+                "ContainerPath": "/etc/bitwarden/core",
+                "ReadOnly": false,
+                "SourceVolume": Object {
+                  "Ref": "CoreAccessPoint2A4FF513",
+                },
               },
             ],
             "Name": "app",
@@ -4640,48 +4378,6 @@ Object {
                 },
               },
               Object {
-                "Name": "globalSettings__mail__smtp__host",
-                "ValueFrom": Object {
-                  "Fn::Join": Array [
-                    "",
-                    Array [
-                      Object {
-                        "Ref": "SmtpSecret8B1841F4",
-                      },
-                      ":endpoint::",
-                    ],
-                  ],
-                },
-              },
-              Object {
-                "Name": "globalSettings__mail__smtp__username",
-                "ValueFrom": Object {
-                  "Fn::Join": Array [
-                    "",
-                    Array [
-                      Object {
-                        "Ref": "SmtpSecret8B1841F4",
-                      },
-                      ":username::",
-                    ],
-                  ],
-                },
-              },
-              Object {
-                "Name": "globalSettings__mail__smtp__password",
-                "ValueFrom": Object {
-                  "Fn::Join": Array [
-                    "",
-                    Array [
-                      Object {
-                        "Ref": "SmtpSecret8B1841F4",
-                      },
-                      ":password::",
-                    ],
-                  ],
-                },
-              },
-              Object {
                 "Name": "globalSettings__disableUserRegistration",
                 "ValueFrom": Object {
                   "Fn::Join": Array [
@@ -4746,7 +4442,7 @@ Object {
                 "awslogs-stream-prefix": "events",
               },
             },
-            "MemoryReservation": 128,
+            "MemoryReservation": 64,
             "Name": "xray-daemon",
             "PortMappings": Array [
               Object {
@@ -4756,7 +4452,7 @@ Object {
             ],
           },
           Object {
-            "Cpu": 16,
+            "Cpu": 32,
             "Environment": Array [
               Object {
                 "Name": "CW_CONFIG_CONTENT",
@@ -4768,7 +4464,7 @@ Object {
                       Object {
                         "Ref": "AppLogGroupC72EEC8C",
                       },
-                      "\\",\\"log_stream_name\\":\\"etc/bitwarden/logs/events\\",\\"timestamp_format\\":\\"%Y-%m-%d %H:%M:%S.\\"}]}}}}",
+                      "\\",\\"log_stream_name\\":\\"bitwarden/logs/events/{hostname}\\",\\"timestamp_format\\":\\"%Y-%m-%d %H:%M:%S.\\",\\"timezone\\":\\"UTC\\"}]}}}}",
                     ],
                   ],
                 },
@@ -4803,7 +4499,7 @@ Object {
             ],
           },
           Object {
-            "Cpu": 96,
+            "Cpu": 80,
             "Environment": Array [
               Object {
                 "Name": "APPMESH_VIRTUAL_NODE_NAME",
@@ -4870,7 +4566,7 @@ Object {
                 "awslogs-stream-prefix": "events",
               },
             },
-            "MemoryReservation": 64,
+            "MemoryReservation": 128,
             "Name": "envoy",
             "Ulimits": Array [
               Object {
@@ -4938,6 +4634,22 @@ Object {
         "Volumes": Array [
           Object {
             "Name": "LogVolume",
+          },
+          Object {
+            "EfsVolumeConfiguration": Object {
+              "AuthorizationConfig": Object {
+                "AccessPointId": Object {
+                  "Ref": "CoreAccessPoint2A4FF513",
+                },
+              },
+              "FileSystemId": Object {
+                "Ref": "FileSystem8A8E25C0",
+              },
+              "TransitEncryption": "ENABLED",
+            },
+            "Name": Object {
+              "Ref": "CoreAccessPoint2A4FF513",
+            },
           },
         ],
       },
@@ -5020,16 +4732,6 @@ Object {
                 "Ref": "DuoAKey23F55117",
               },
             },
-            Object {
-              "Action": Array [
-                "secretsmanager:GetSecretValue",
-                "secretsmanager:DescribeSecret",
-              ],
-              "Effect": "Allow",
-              "Resource": Object {
-                "Ref": "SmtpSecret8B1841F4",
-              },
-            },
           ],
           "Version": "2012-10-17",
         },
@@ -5061,24 +4763,6 @@ Object {
           "arn:aws:iam::aws:policy/AWSXRayDaemonWriteAccess",
           "arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy",
         ],
-        "Policies": Array [
-          Object {
-            "PolicyDocument": Object {
-              "Statement": Array [
-                Object {
-                  "Action": Array [
-                    "acm:ExportCertificate",
-                    "acm-pca:GetCertificateAuthorityCertificate",
-                  ],
-                  "Effect": "Allow",
-                  "Resource": "*",
-                },
-              ],
-              "Version": "2012-10-17",
-            },
-            "PolicyName": "EnvoyTlsCertificatePolicy",
-          },
-        ],
       },
       "Type": "AWS::IAM::Role",
     },
@@ -5096,80 +4780,45 @@ Object {
               "VirtualService": Object {
                 "VirtualServiceName": Object {
                   "Fn::GetAtt": Array [
-                    "DatabaseVirtualService025456E2",
-                    "VirtualServiceName",
+                    "DatabaseInstance24D16791",
+                    "Endpoint.Address",
                   ],
                 },
               },
             },
             Object {
               "VirtualService": Object {
-                "VirtualServiceName": Object {
-                  "Fn::GetAtt": Array [
-                    "EmailVirtualServiceB65FCD74",
-                    "VirtualServiceName",
-                  ],
-                },
+                "VirtualServiceName": "email-smtp.us-west-2.amazonaws.com",
               },
             },
             Object {
               "VirtualService": Object {
-                "VirtualServiceName": Object {
-                  "Fn::GetAtt": Array [
-                    "PushVirtualServiceAC7A0249",
-                    "VirtualServiceName",
-                  ],
-                },
+                "VirtualServiceName": "push.bitwarden.com",
               },
             },
             Object {
               "VirtualService": Object {
-                "VirtualServiceName": Object {
-                  "Fn::GetAtt": Array [
-                    "WebVirtualService8E478A2D",
-                    "VirtualServiceName",
-                  ],
-                },
+                "VirtualServiceName": "web.svc.bitwarden.local",
               },
             },
             Object {
               "VirtualService": Object {
-                "VirtualServiceName": Object {
-                  "Fn::GetAtt": Array [
-                    "ApiVirtualService0B2433C3",
-                    "VirtualServiceName",
-                  ],
-                },
+                "VirtualServiceName": "api.svc.bitwarden.local",
               },
             },
             Object {
               "VirtualService": Object {
-                "VirtualServiceName": Object {
-                  "Fn::GetAtt": Array [
-                    "NotificationsVirtualService853F0457",
-                    "VirtualServiceName",
-                  ],
-                },
+                "VirtualServiceName": "notifications.svc.bitwarden.local",
               },
             },
             Object {
               "VirtualService": Object {
-                "VirtualServiceName": Object {
-                  "Fn::GetAtt": Array [
-                    "IdentityVirtualService0981AD18",
-                    "VirtualServiceName",
-                  ],
-                },
+                "VirtualServiceName": "identity.svc.bitwarden.local",
               },
             },
             Object {
               "VirtualService": Object {
-                "VirtualServiceName": Object {
-                  "Fn::GetAtt": Array [
-                    "AdminVirtualServiceD2E98B99",
-                    "VirtualServiceName",
-                  ],
-                },
+                "VirtualServiceName": "admin.svc.bitwarden.local",
               },
             },
           ],
@@ -5297,6 +4946,7 @@ Object {
     "FileSystem8A8E25C0": Object {
       "DeletionPolicy": "Delete",
       "Properties": Object {
+        "Encrypted": true,
         "FileSystemTags": Array [
           Object {
             "Key": "Name",
@@ -5599,7 +5249,7 @@ Object {
       "Properties": Object {
         "ContainerDefinitions": Array [
           Object {
-            "Cpu": 224,
+            "Cpu": 208,
             "Environment": Array [
               Object {
                 "Name": "APPMESH_VIRTUAL_NODE_NAME",
@@ -5711,7 +5361,7 @@ Object {
             ],
           },
           Object {
-            "Cpu": 16,
+            "Cpu": 32,
             "Environment": Array [
               Object {
                 "Name": "CW_CONFIG_CONTENT",
@@ -5830,24 +5480,6 @@ Object {
           "arn:aws:iam::aws:policy/AWSXRayDaemonWriteAccess",
           "arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy",
         ],
-        "Policies": Array [
-          Object {
-            "PolicyDocument": Object {
-              "Statement": Array [
-                Object {
-                  "Action": Array [
-                    "acm:ExportCertificate",
-                    "acm-pca:GetCertificateAuthorityCertificate",
-                  ],
-                  "Effect": "Allow",
-                  "Resource": "*",
-                },
-              ],
-              "Version": "2012-10-17",
-            },
-            "PolicyName": "EnvoyTlsCertificatePolicy",
-          },
-        ],
       },
       "Type": "AWS::IAM::Role",
     },
@@ -5935,6 +5567,11 @@ Object {
         "Spec": Object {
           "HttpRoute": Object {
             "Action": Object {
+              "Rewrite": Object {
+                "Prefix": Object {
+                  "Value": "/admin/",
+                },
+              },
               "Target": Object {
                 "VirtualService": Object {
                   "VirtualServiceName": Object {
@@ -6120,6 +5757,11 @@ Object {
         "Spec": Object {
           "HttpRoute": Object {
             "Action": Object {
+              "Rewrite": Object {
+                "Prefix": Object {
+                  "Value": "/identity/",
+                },
+              },
               "Target": Object {
                 "VirtualService": Object {
                   "VirtualServiceName": Object {
@@ -6194,6 +5836,11 @@ Object {
         "Spec": Object {
           "HttpRoute": Object {
             "Action": Object {
+              "Rewrite": Object {
+                "Prefix": Object {
+                  "Value": "/portal/",
+                },
+              },
               "Target": Object {
                 "VirtualService": Object {
                   "VirtualServiceName": Object {
@@ -6231,6 +5878,11 @@ Object {
         "Spec": Object {
           "HttpRoute": Object {
             "Action": Object {
+              "Rewrite": Object {
+                "Prefix": Object {
+                  "Value": "/sso/",
+                },
+              },
               "Target": Object {
                 "VirtualService": Object {
                   "VirtualServiceName": Object {
@@ -6257,6 +5909,7 @@ Object {
       "Type": "AWS::AppMesh::GatewayRoute",
     },
     "GlobalSettingsD48A6D36": Object {
+      "DeletionPolicy": "Delete",
       "Properties": Object {
         "Description": "[Bitwarden] Environment Variables",
         "GenerateSecretString": Object {
@@ -6296,6 +5949,7 @@ Object {
         },
       },
       "Type": "AWS::SecretsManager::Secret",
+      "UpdateReplacePolicy": "Delete",
     },
     "IconsDefaultServiceCloudmapService6FF93FF0": Object {
       "Properties": Object {
@@ -6469,38 +6123,52 @@ Object {
                 "Value": "https://push.bitwarden.com",
               },
               Object {
-                "Name": "globalSettings__mail__replyToEmail",
+                "Name": "globalSettings__attachment__baseDirectory",
+                "Value": "/etc/bitwarden/core/attachments",
+              },
+              Object {
+                "Name": "globalSettings__send__baseDirectory",
+                "Value": "/etc/bitwarden/core/attachments/send",
+              },
+              Object {
+                "Name": "globalSettings__dataProtection__directory",
+                "Value": "/etc/bitwarden/core/aspnet-dataprotection",
+              },
+              Object {
+                "Name": "globalSettings__attachment__baseUrl",
                 "Value": Object {
                   "Fn::Join": Array [
                     "",
                     Array [
-                      "no-reply@",
+                      "https://",
                       Object {
                         "Fn::GetAtt": Array [
-                          "SesIdentityWorkMailOrg3FDA21A8",
-                          "Alias",
+                          "Distribution830FAC52",
+                          "DomainName",
                         ],
                       },
-                      ".awsapps.com",
+                      "/attachments",
                     ],
                   ],
                 },
               },
               Object {
-                "Name": "globalSettings__mail__smtp__port",
-                "Value": "587",
-              },
-              Object {
-                "Name": "globalSettings__mail__smtp__ssl",
-                "Value": "false",
-              },
-              Object {
-                "Name": "globalSettings__mail__smtp__startTls",
-                "Value": "true",
-              },
-              Object {
-                "Name": "globalSettings__mail__smtp__trustServer",
-                "Value": "true",
+                "Name": "globalSettings__send__baseUrl",
+                "Value": Object {
+                  "Fn::Join": Array [
+                    "",
+                    Array [
+                      "https://",
+                      Object {
+                        "Fn::GetAtt": Array [
+                          "Distribution830FAC52",
+                          "DomainName",
+                        ],
+                      },
+                      "/attachments/send",
+                    ],
+                  ],
+                },
               },
               Object {
                 "Name": "globalSettings__baseServiceUri__vault",
@@ -6621,7 +6289,7 @@ Object {
               "Interval": 5,
               "Retries": 3,
               "StartPeriod": 20,
-              "Timeout": 2,
+              "Timeout": 3,
             },
             "Image": "983035974902.dkr.ecr.us-west-2.amazonaws.com/bitwarden/icons:latest",
             "LogConfiguration": Object {
@@ -6640,6 +6308,13 @@ Object {
                 "ContainerPath": "/etc/bitwarden/logs/",
                 "ReadOnly": false,
                 "SourceVolume": "LogVolume",
+              },
+              Object {
+                "ContainerPath": "/etc/bitwarden/core",
+                "ReadOnly": false,
+                "SourceVolume": Object {
+                  "Ref": "CoreAccessPoint2A4FF513",
+                },
               },
             ],
             "Name": "app",
@@ -6671,7 +6346,7 @@ Object {
                 "awslogs-stream-prefix": "icons",
               },
             },
-            "MemoryReservation": 128,
+            "MemoryReservation": 64,
             "Name": "xray-daemon",
             "PortMappings": Array [
               Object {
@@ -6681,7 +6356,7 @@ Object {
             ],
           },
           Object {
-            "Cpu": 16,
+            "Cpu": 32,
             "Environment": Array [
               Object {
                 "Name": "CW_CONFIG_CONTENT",
@@ -6693,7 +6368,7 @@ Object {
                       Object {
                         "Ref": "AppLogGroupC72EEC8C",
                       },
-                      "\\",\\"log_stream_name\\":\\"etc/bitwarden/logs/icons\\",\\"timestamp_format\\":\\"%Y-%m-%d %H:%M:%S.\\"}]}}}}",
+                      "\\",\\"log_stream_name\\":\\"bitwarden/logs/icons/{hostname}\\",\\"timestamp_format\\":\\"%Y-%m-%d %H:%M:%S.\\",\\"timezone\\":\\"UTC\\"}]}}}}",
                     ],
                   ],
                 },
@@ -6728,7 +6403,7 @@ Object {
             ],
           },
           Object {
-            "Cpu": 96,
+            "Cpu": 80,
             "Environment": Array [
               Object {
                 "Name": "APPMESH_VIRTUAL_NODE_NAME",
@@ -6795,7 +6470,7 @@ Object {
                 "awslogs-stream-prefix": "icons",
               },
             },
-            "MemoryReservation": 64,
+            "MemoryReservation": 128,
             "Name": "envoy",
             "Ulimits": Array [
               Object {
@@ -6863,6 +6538,22 @@ Object {
         "Volumes": Array [
           Object {
             "Name": "LogVolume",
+          },
+          Object {
+            "EfsVolumeConfiguration": Object {
+              "AuthorizationConfig": Object {
+                "AccessPointId": Object {
+                  "Ref": "CoreAccessPoint2A4FF513",
+                },
+              },
+              "FileSystemId": Object {
+                "Ref": "FileSystem8A8E25C0",
+              },
+              "TransitEncryption": "ENABLED",
+            },
+            "Name": Object {
+              "Ref": "CoreAccessPoint2A4FF513",
+            },
           },
         ],
       },
@@ -6935,24 +6626,6 @@ Object {
           "arn:aws:iam::aws:policy/AWSAppMeshEnvoyAccess",
           "arn:aws:iam::aws:policy/AWSXRayDaemonWriteAccess",
           "arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy",
-        ],
-        "Policies": Array [
-          Object {
-            "PolicyDocument": Object {
-              "Statement": Array [
-                Object {
-                  "Action": Array [
-                    "acm:ExportCertificate",
-                    "acm-pca:GetCertificateAuthorityCertificate",
-                  ],
-                  "Effect": "Allow",
-                  "Resource": "*",
-                },
-              ],
-              "Version": "2012-10-17",
-            },
-            "PolicyName": "EnvoyTlsCertificatePolicy",
-          },
         ],
       },
       "Type": "AWS::IAM::Role",
@@ -7260,52 +6933,7 @@ Object {
               Object {
                 "Ref": "IdentityServerCertificateBuildProjectBD0EF4F6",
               },
-              "\\",\\"sourceTypeOverride\\":\\"S3\\",\\"sourceLocationOverride\\":\\"",
-              Object {
-                "Ref": "AssetParametersa8e070d8fa40c15dc130eaac9c344358e827970b46577e5dc77599fe938887c5S3BucketB925E3B9",
-              },
-              "/",
-              Object {
-                "Fn::Select": Array [
-                  0,
-                  Object {
-                    "Fn::Split": Array [
-                      "||",
-                      Object {
-                        "Ref": "AssetParametersa8e070d8fa40c15dc130eaac9c344358e827970b46577e5dc77599fe938887c5S3VersionKey55D533BC",
-                      },
-                    ],
-                  },
-                ],
-              },
-              Object {
-                "Fn::Select": Array [
-                  1,
-                  Object {
-                    "Fn::Split": Array [
-                      "||",
-                      Object {
-                        "Ref": "AssetParametersa8e070d8fa40c15dc130eaac9c344358e827970b46577e5dc77599fe938887c5S3VersionKey55D533BC",
-                      },
-                    ],
-                  },
-                ],
-              },
-              "\\",\\"idempotencyToken\\":\\"",
-              Object {
-                "Fn::Select": Array [
-                  0,
-                  Object {
-                    "Fn::Split": Array [
-                      "||",
-                      Object {
-                        "Ref": "AssetParametersa8e070d8fa40c15dc130eaac9c344358e827970b46577e5dc77599fe938887c5S3VersionKey55D533BC",
-                      },
-                    ],
-                  },
-                ],
-              },
-              "\${Token[TOKEN\\"},\\"physicalResourceId\\":{\\"responsePath\\":\\"build.arn\\"}}",
+              "\\",\\"sourceTypeOverride\\":\\"S3\\",\\"sourceLocationOverride\\":\\"cdk-hnb659fds-assets-123456789012-us-west-2/abb383aa7ac67661ff64ae0a217f7fd6edcf4ba87ab1395360b21b210a338216.zip\\",\\"idempotencyToken\\":\\"abb383aa7ac67661ff64ae0a217f7fd6edcf4ba87ab1395360b21b210a338216\\"},\\"physicalResourceId\\":{\\"responsePath\\":\\"build.arn\\"}}",
             ],
           ],
         },
@@ -7324,52 +6952,7 @@ Object {
               Object {
                 "Ref": "IdentityServerCertificateBuildProjectBD0EF4F6",
               },
-              "\\",\\"sourceTypeOverride\\":\\"S3\\",\\"sourceLocationOverride\\":\\"",
-              Object {
-                "Ref": "AssetParametersa8e070d8fa40c15dc130eaac9c344358e827970b46577e5dc77599fe938887c5S3BucketB925E3B9",
-              },
-              "/",
-              Object {
-                "Fn::Select": Array [
-                  0,
-                  Object {
-                    "Fn::Split": Array [
-                      "||",
-                      Object {
-                        "Ref": "AssetParametersa8e070d8fa40c15dc130eaac9c344358e827970b46577e5dc77599fe938887c5S3VersionKey55D533BC",
-                      },
-                    ],
-                  },
-                ],
-              },
-              Object {
-                "Fn::Select": Array [
-                  1,
-                  Object {
-                    "Fn::Split": Array [
-                      "||",
-                      Object {
-                        "Ref": "AssetParametersa8e070d8fa40c15dc130eaac9c344358e827970b46577e5dc77599fe938887c5S3VersionKey55D533BC",
-                      },
-                    ],
-                  },
-                ],
-              },
-              "\\",\\"idempotencyToken\\":\\"",
-              Object {
-                "Fn::Select": Array [
-                  0,
-                  Object {
-                    "Fn::Split": Array [
-                      "||",
-                      Object {
-                        "Ref": "AssetParametersa8e070d8fa40c15dc130eaac9c344358e827970b46577e5dc77599fe938887c5S3VersionKey55D533BC",
-                      },
-                    ],
-                  },
-                ],
-              },
-              "\${Token[TOKEN\\"},\\"physicalResourceId\\":{\\"responsePath\\":\\"build.arn\\"}}",
+              "\\",\\"sourceTypeOverride\\":\\"S3\\",\\"sourceLocationOverride\\":\\"cdk-hnb659fds-assets-123456789012-us-west-2/abb383aa7ac67661ff64ae0a217f7fd6edcf4ba87ab1395360b21b210a338216.zip\\",\\"idempotencyToken\\":\\"abb383aa7ac67661ff64ae0a217f7fd6edcf4ba87ab1395360b21b210a338216\\"},\\"physicalResourceId\\":{\\"responsePath\\":\\"build.arn\\"}}",
             ],
           ],
         },
@@ -7405,6 +6988,9 @@ Object {
       "Properties": Object {
         "Artifacts": Object {
           "Type": "NO_ARTIFACTS",
+        },
+        "Cache": Object {
+          "Type": "NO_CACHE",
         },
         "Description": "[Bitwarden] Generate identity certificate",
         "EncryptionKey": "alias/aws/s3",
@@ -7463,43 +7049,7 @@ Object {
           ],
         },
         "Source": Object {
-          "Location": Object {
-            "Fn::Join": Array [
-              "",
-              Array [
-                Object {
-                  "Ref": "AssetParametersa8e070d8fa40c15dc130eaac9c344358e827970b46577e5dc77599fe938887c5S3BucketB925E3B9",
-                },
-                "/",
-                Object {
-                  "Fn::Select": Array [
-                    0,
-                    Object {
-                      "Fn::Split": Array [
-                        "||",
-                        Object {
-                          "Ref": "AssetParametersa8e070d8fa40c15dc130eaac9c344358e827970b46577e5dc77599fe938887c5S3VersionKey55D533BC",
-                        },
-                      ],
-                    },
-                  ],
-                },
-                Object {
-                  "Fn::Select": Array [
-                    1,
-                    Object {
-                      "Fn::Split": Array [
-                        "||",
-                        Object {
-                          "Ref": "AssetParametersa8e070d8fa40c15dc130eaac9c344358e827970b46577e5dc77599fe938887c5S3VersionKey55D533BC",
-                        },
-                      ],
-                    },
-                  ],
-                },
-              ],
-            ],
-          },
+          "Location": "cdk-hnb659fds-assets-123456789012-us-west-2/abb383aa7ac67661ff64ae0a217f7fd6edcf4ba87ab1395360b21b210a338216.zip",
           "Type": "S3",
         },
         "VpcConfig": Object {
@@ -7595,10 +7145,7 @@ Object {
                       Object {
                         "Ref": "AWS::Partition",
                       },
-                      ":s3:::",
-                      Object {
-                        "Ref": "AssetParametersa8e070d8fa40c15dc130eaac9c344358e827970b46577e5dc77599fe938887c5S3BucketB925E3B9",
-                      },
+                      ":s3:::cdk-hnb659fds-assets-123456789012-us-west-2",
                     ],
                   ],
                 },
@@ -7610,37 +7157,7 @@ Object {
                       Object {
                         "Ref": "AWS::Partition",
                       },
-                      ":s3:::",
-                      Object {
-                        "Ref": "AssetParametersa8e070d8fa40c15dc130eaac9c344358e827970b46577e5dc77599fe938887c5S3BucketB925E3B9",
-                      },
-                      "/",
-                      Object {
-                        "Fn::Select": Array [
-                          0,
-                          Object {
-                            "Fn::Split": Array [
-                              "||",
-                              Object {
-                                "Ref": "AssetParametersa8e070d8fa40c15dc130eaac9c344358e827970b46577e5dc77599fe938887c5S3VersionKey55D533BC",
-                              },
-                            ],
-                          },
-                        ],
-                      },
-                      Object {
-                        "Fn::Select": Array [
-                          1,
-                          Object {
-                            "Fn::Split": Array [
-                              "||",
-                              Object {
-                                "Ref": "AssetParametersa8e070d8fa40c15dc130eaac9c344358e827970b46577e5dc77599fe938887c5S3VersionKey55D533BC",
-                              },
-                            ],
-                          },
-                        ],
-                      },
+                      ":s3:::cdk-hnb659fds-assets-123456789012-us-west-2/abb383aa7ac67661ff64ae0a217f7fd6edcf4ba87ab1395360b21b210a338216.zip",
                     ],
                   ],
                 },
@@ -7849,6 +7366,7 @@ Object {
       "Type": "AWS::EC2::SecurityGroup",
     },
     "IdentityServerCertificatePassword04BFE426": Object {
+      "DeletionPolicy": "Delete",
       "Properties": Object {
         "Description": "[Bitwarden] Identity Server Certificate Password",
         "GenerateSecretString": Object {
@@ -7857,6 +7375,7 @@ Object {
         },
       },
       "Type": "AWS::SecretsManager::Secret",
+      "UpdateReplacePolicy": "Delete",
     },
     "IdentityTaskDefinition24B337AE": Object {
       "Properties": Object {
@@ -7891,38 +7410,52 @@ Object {
                 "Value": "https://push.bitwarden.com",
               },
               Object {
-                "Name": "globalSettings__mail__replyToEmail",
+                "Name": "globalSettings__attachment__baseDirectory",
+                "Value": "/etc/bitwarden/core/attachments",
+              },
+              Object {
+                "Name": "globalSettings__send__baseDirectory",
+                "Value": "/etc/bitwarden/core/attachments/send",
+              },
+              Object {
+                "Name": "globalSettings__dataProtection__directory",
+                "Value": "/etc/bitwarden/core/aspnet-dataprotection",
+              },
+              Object {
+                "Name": "globalSettings__attachment__baseUrl",
                 "Value": Object {
                   "Fn::Join": Array [
                     "",
                     Array [
-                      "no-reply@",
+                      "https://",
                       Object {
                         "Fn::GetAtt": Array [
-                          "SesIdentityWorkMailOrg3FDA21A8",
-                          "Alias",
+                          "Distribution830FAC52",
+                          "DomainName",
                         ],
                       },
-                      ".awsapps.com",
+                      "/attachments",
                     ],
                   ],
                 },
               },
               Object {
-                "Name": "globalSettings__mail__smtp__port",
-                "Value": "587",
-              },
-              Object {
-                "Name": "globalSettings__mail__smtp__ssl",
-                "Value": "false",
-              },
-              Object {
-                "Name": "globalSettings__mail__smtp__startTls",
-                "Value": "true",
-              },
-              Object {
-                "Name": "globalSettings__mail__smtp__trustServer",
-                "Value": "true",
+                "Name": "globalSettings__send__baseUrl",
+                "Value": Object {
+                  "Fn::Join": Array [
+                    "",
+                    Array [
+                      "https://",
+                      Object {
+                        "Fn::GetAtt": Array [
+                          "Distribution830FAC52",
+                          "DomainName",
+                        ],
+                      },
+                      "/attachments/send",
+                    ],
+                  ],
+                },
               },
               Object {
                 "Name": "globalSettings__baseServiceUri__vault",
@@ -8043,7 +7576,7 @@ Object {
               "Interval": 5,
               "Retries": 3,
               "StartPeriod": 20,
-              "Timeout": 2,
+              "Timeout": 3,
             },
             "Image": "983035974902.dkr.ecr.us-west-2.amazonaws.com/bitwarden/identity:latest",
             "LogConfiguration": Object {
@@ -8189,48 +7722,6 @@ Object {
                 },
               },
               Object {
-                "Name": "globalSettings__mail__smtp__host",
-                "ValueFrom": Object {
-                  "Fn::Join": Array [
-                    "",
-                    Array [
-                      Object {
-                        "Ref": "SmtpSecret8B1841F4",
-                      },
-                      ":endpoint::",
-                    ],
-                  ],
-                },
-              },
-              Object {
-                "Name": "globalSettings__mail__smtp__username",
-                "ValueFrom": Object {
-                  "Fn::Join": Array [
-                    "",
-                    Array [
-                      Object {
-                        "Ref": "SmtpSecret8B1841F4",
-                      },
-                      ":username::",
-                    ],
-                  ],
-                },
-              },
-              Object {
-                "Name": "globalSettings__mail__smtp__password",
-                "ValueFrom": Object {
-                  "Fn::Join": Array [
-                    "",
-                    Array [
-                      Object {
-                        "Ref": "SmtpSecret8B1841F4",
-                      },
-                      ":password::",
-                    ],
-                  ],
-                },
-              },
-              Object {
                 "Name": "globalSettings__disableUserRegistration",
                 "ValueFrom": Object {
                   "Fn::Join": Array [
@@ -8295,7 +7786,7 @@ Object {
                 "awslogs-stream-prefix": "identity",
               },
             },
-            "MemoryReservation": 128,
+            "MemoryReservation": 64,
             "Name": "xray-daemon",
             "PortMappings": Array [
               Object {
@@ -8305,7 +7796,7 @@ Object {
             ],
           },
           Object {
-            "Cpu": 16,
+            "Cpu": 32,
             "Environment": Array [
               Object {
                 "Name": "CW_CONFIG_CONTENT",
@@ -8317,7 +7808,7 @@ Object {
                       Object {
                         "Ref": "AppLogGroupC72EEC8C",
                       },
-                      "\\",\\"log_stream_name\\":\\"etc/bitwarden/logs/identity\\",\\"timestamp_format\\":\\"%Y-%m-%d %H:%M:%S.\\"}]}}}}",
+                      "\\",\\"log_stream_name\\":\\"bitwarden/logs/identity/{hostname}\\",\\"timestamp_format\\":\\"%Y-%m-%d %H:%M:%S.\\",\\"timezone\\":\\"UTC\\"}]}}}}",
                     ],
                   ],
                 },
@@ -8352,7 +7843,7 @@ Object {
             ],
           },
           Object {
-            "Cpu": 96,
+            "Cpu": 80,
             "Environment": Array [
               Object {
                 "Name": "APPMESH_VIRTUAL_NODE_NAME",
@@ -8419,7 +7910,7 @@ Object {
                 "awslogs-stream-prefix": "identity",
               },
             },
-            "MemoryReservation": 64,
+            "MemoryReservation": 128,
             "Name": "envoy",
             "Ulimits": Array [
               Object {
@@ -8601,16 +8092,6 @@ Object {
                 "Ref": "DuoAKey23F55117",
               },
             },
-            Object {
-              "Action": Array [
-                "secretsmanager:GetSecretValue",
-                "secretsmanager:DescribeSecret",
-              ],
-              "Effect": "Allow",
-              "Resource": Object {
-                "Ref": "SmtpSecret8B1841F4",
-              },
-            },
           ],
           "Version": "2012-10-17",
         },
@@ -8642,24 +8123,6 @@ Object {
           "arn:aws:iam::aws:policy/AWSXRayDaemonWriteAccess",
           "arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy",
         ],
-        "Policies": Array [
-          Object {
-            "PolicyDocument": Object {
-              "Statement": Array [
-                Object {
-                  "Action": Array [
-                    "acm:ExportCertificate",
-                    "acm-pca:GetCertificateAuthorityCertificate",
-                  ],
-                  "Effect": "Allow",
-                  "Resource": "*",
-                },
-              ],
-              "Version": "2012-10-17",
-            },
-            "PolicyName": "EnvoyTlsCertificatePolicy",
-          },
-        ],
       },
       "Type": "AWS::IAM::Role",
     },
@@ -8677,50 +8140,30 @@ Object {
               "VirtualService": Object {
                 "VirtualServiceName": Object {
                   "Fn::GetAtt": Array [
-                    "DatabaseVirtualService025456E2",
-                    "VirtualServiceName",
+                    "DatabaseInstance24D16791",
+                    "Endpoint.Address",
                   ],
                 },
               },
             },
             Object {
               "VirtualService": Object {
-                "VirtualServiceName": Object {
-                  "Fn::GetAtt": Array [
-                    "WebVirtualService8E478A2D",
-                    "VirtualServiceName",
-                  ],
-                },
+                "VirtualServiceName": "web.svc.bitwarden.local",
               },
             },
             Object {
               "VirtualService": Object {
-                "VirtualServiceName": Object {
-                  "Fn::GetAtt": Array [
-                    "ApiVirtualService0B2433C3",
-                    "VirtualServiceName",
-                  ],
-                },
+                "VirtualServiceName": "api.svc.bitwarden.local",
               },
             },
             Object {
               "VirtualService": Object {
-                "VirtualServiceName": Object {
-                  "Fn::GetAtt": Array [
-                    "NotificationsVirtualService853F0457",
-                    "VirtualServiceName",
-                  ],
-                },
+                "VirtualServiceName": "notifications.svc.bitwarden.local",
               },
             },
             Object {
               "VirtualService": Object {
-                "VirtualServiceName": Object {
-                  "Fn::GetAtt": Array [
-                    "AdminVirtualServiceD2E98B99",
-                    "VirtualServiceName",
-                  ],
-                },
+                "VirtualServiceName": "admin.svc.bitwarden.local",
               },
             },
           ],
@@ -9175,38 +8618,52 @@ Object {
                 "Value": "https://push.bitwarden.com",
               },
               Object {
-                "Name": "globalSettings__mail__replyToEmail",
+                "Name": "globalSettings__attachment__baseDirectory",
+                "Value": "/etc/bitwarden/core/attachments",
+              },
+              Object {
+                "Name": "globalSettings__send__baseDirectory",
+                "Value": "/etc/bitwarden/core/attachments/send",
+              },
+              Object {
+                "Name": "globalSettings__dataProtection__directory",
+                "Value": "/etc/bitwarden/core/aspnet-dataprotection",
+              },
+              Object {
+                "Name": "globalSettings__attachment__baseUrl",
                 "Value": Object {
                   "Fn::Join": Array [
                     "",
                     Array [
-                      "no-reply@",
+                      "https://",
                       Object {
                         "Fn::GetAtt": Array [
-                          "SesIdentityWorkMailOrg3FDA21A8",
-                          "Alias",
+                          "Distribution830FAC52",
+                          "DomainName",
                         ],
                       },
-                      ".awsapps.com",
+                      "/attachments",
                     ],
                   ],
                 },
               },
               Object {
-                "Name": "globalSettings__mail__smtp__port",
-                "Value": "587",
-              },
-              Object {
-                "Name": "globalSettings__mail__smtp__ssl",
-                "Value": "false",
-              },
-              Object {
-                "Name": "globalSettings__mail__smtp__startTls",
-                "Value": "true",
-              },
-              Object {
-                "Name": "globalSettings__mail__smtp__trustServer",
-                "Value": "true",
+                "Name": "globalSettings__send__baseUrl",
+                "Value": Object {
+                  "Fn::Join": Array [
+                    "",
+                    Array [
+                      "https://",
+                      Object {
+                        "Fn::GetAtt": Array [
+                          "Distribution830FAC52",
+                          "DomainName",
+                        ],
+                      },
+                      "/attachments/send",
+                    ],
+                  ],
+                },
               },
               Object {
                 "Name": "globalSettings__baseServiceUri__vault",
@@ -9327,7 +8784,7 @@ Object {
               "Interval": 5,
               "Retries": 3,
               "StartPeriod": 20,
-              "Timeout": 2,
+              "Timeout": 3,
             },
             "Image": "983035974902.dkr.ecr.us-west-2.amazonaws.com/bitwarden/notifications:latest",
             "LogConfiguration": Object {
@@ -9346,6 +8803,13 @@ Object {
                 "ContainerPath": "/etc/bitwarden/logs/",
                 "ReadOnly": false,
                 "SourceVolume": "LogVolume",
+              },
+              Object {
+                "ContainerPath": "/etc/bitwarden/core",
+                "ReadOnly": false,
+                "SourceVolume": Object {
+                  "Ref": "CoreAccessPoint2A4FF513",
+                },
               },
             ],
             "Name": "app",
@@ -9459,48 +8923,6 @@ Object {
                 },
               },
               Object {
-                "Name": "globalSettings__mail__smtp__host",
-                "ValueFrom": Object {
-                  "Fn::Join": Array [
-                    "",
-                    Array [
-                      Object {
-                        "Ref": "SmtpSecret8B1841F4",
-                      },
-                      ":endpoint::",
-                    ],
-                  ],
-                },
-              },
-              Object {
-                "Name": "globalSettings__mail__smtp__username",
-                "ValueFrom": Object {
-                  "Fn::Join": Array [
-                    "",
-                    Array [
-                      Object {
-                        "Ref": "SmtpSecret8B1841F4",
-                      },
-                      ":username::",
-                    ],
-                  ],
-                },
-              },
-              Object {
-                "Name": "globalSettings__mail__smtp__password",
-                "ValueFrom": Object {
-                  "Fn::Join": Array [
-                    "",
-                    Array [
-                      Object {
-                        "Ref": "SmtpSecret8B1841F4",
-                      },
-                      ":password::",
-                    ],
-                  ],
-                },
-              },
-              Object {
                 "Name": "globalSettings__disableUserRegistration",
                 "ValueFrom": Object {
                   "Fn::Join": Array [
@@ -9565,7 +8987,7 @@ Object {
                 "awslogs-stream-prefix": "notifications",
               },
             },
-            "MemoryReservation": 128,
+            "MemoryReservation": 64,
             "Name": "xray-daemon",
             "PortMappings": Array [
               Object {
@@ -9575,7 +8997,7 @@ Object {
             ],
           },
           Object {
-            "Cpu": 16,
+            "Cpu": 32,
             "Environment": Array [
               Object {
                 "Name": "CW_CONFIG_CONTENT",
@@ -9587,7 +9009,7 @@ Object {
                       Object {
                         "Ref": "AppLogGroupC72EEC8C",
                       },
-                      "\\",\\"log_stream_name\\":\\"etc/bitwarden/logs/notifications\\",\\"timestamp_format\\":\\"%Y-%m-%d %H:%M:%S.\\"}]}}}}",
+                      "\\",\\"log_stream_name\\":\\"bitwarden/logs/notifications/{hostname}\\",\\"timestamp_format\\":\\"%Y-%m-%d %H:%M:%S.\\",\\"timezone\\":\\"UTC\\"}]}}}}",
                     ],
                   ],
                 },
@@ -9622,7 +9044,7 @@ Object {
             ],
           },
           Object {
-            "Cpu": 96,
+            "Cpu": 80,
             "Environment": Array [
               Object {
                 "Name": "APPMESH_VIRTUAL_NODE_NAME",
@@ -9689,7 +9111,7 @@ Object {
                 "awslogs-stream-prefix": "notifications",
               },
             },
-            "MemoryReservation": 64,
+            "MemoryReservation": 128,
             "Name": "envoy",
             "Ulimits": Array [
               Object {
@@ -9757,6 +9179,22 @@ Object {
         "Volumes": Array [
           Object {
             "Name": "LogVolume",
+          },
+          Object {
+            "EfsVolumeConfiguration": Object {
+              "AuthorizationConfig": Object {
+                "AccessPointId": Object {
+                  "Ref": "CoreAccessPoint2A4FF513",
+                },
+              },
+              "FileSystemId": Object {
+                "Ref": "FileSystem8A8E25C0",
+              },
+              "TransitEncryption": "ENABLED",
+            },
+            "Name": Object {
+              "Ref": "CoreAccessPoint2A4FF513",
+            },
           },
         ],
       },
@@ -9839,16 +9277,6 @@ Object {
                 "Ref": "DuoAKey23F55117",
               },
             },
-            Object {
-              "Action": Array [
-                "secretsmanager:GetSecretValue",
-                "secretsmanager:DescribeSecret",
-              ],
-              "Effect": "Allow",
-              "Resource": Object {
-                "Ref": "SmtpSecret8B1841F4",
-              },
-            },
           ],
           "Version": "2012-10-17",
         },
@@ -9880,24 +9308,6 @@ Object {
           "arn:aws:iam::aws:policy/AWSXRayDaemonWriteAccess",
           "arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy",
         ],
-        "Policies": Array [
-          Object {
-            "PolicyDocument": Object {
-              "Statement": Array [
-                Object {
-                  "Action": Array [
-                    "acm:ExportCertificate",
-                    "acm-pca:GetCertificateAuthorityCertificate",
-                  ],
-                  "Effect": "Allow",
-                  "Resource": "*",
-                },
-              ],
-              "Version": "2012-10-17",
-            },
-            "PolicyName": "EnvoyTlsCertificatePolicy",
-          },
-        ],
       },
       "Type": "AWS::IAM::Role",
     },
@@ -9915,70 +9325,40 @@ Object {
               "VirtualService": Object {
                 "VirtualServiceName": Object {
                   "Fn::GetAtt": Array [
-                    "DatabaseVirtualService025456E2",
-                    "VirtualServiceName",
+                    "DatabaseInstance24D16791",
+                    "Endpoint.Address",
                   ],
                 },
               },
             },
             Object {
               "VirtualService": Object {
-                "VirtualServiceName": Object {
-                  "Fn::GetAtt": Array [
-                    "EmailVirtualServiceB65FCD74",
-                    "VirtualServiceName",
-                  ],
-                },
+                "VirtualServiceName": "email-smtp.us-west-2.amazonaws.com",
               },
             },
             Object {
               "VirtualService": Object {
-                "VirtualServiceName": Object {
-                  "Fn::GetAtt": Array [
-                    "PushVirtualServiceAC7A0249",
-                    "VirtualServiceName",
-                  ],
-                },
+                "VirtualServiceName": "push.bitwarden.com",
               },
             },
             Object {
               "VirtualService": Object {
-                "VirtualServiceName": Object {
-                  "Fn::GetAtt": Array [
-                    "WebVirtualService8E478A2D",
-                    "VirtualServiceName",
-                  ],
-                },
+                "VirtualServiceName": "web.svc.bitwarden.local",
               },
             },
             Object {
               "VirtualService": Object {
-                "VirtualServiceName": Object {
-                  "Fn::GetAtt": Array [
-                    "ApiVirtualService0B2433C3",
-                    "VirtualServiceName",
-                  ],
-                },
+                "VirtualServiceName": "api.svc.bitwarden.local",
               },
             },
             Object {
               "VirtualService": Object {
-                "VirtualServiceName": Object {
-                  "Fn::GetAtt": Array [
-                    "IdentityVirtualService0981AD18",
-                    "VirtualServiceName",
-                  ],
-                },
+                "VirtualServiceName": "identity.svc.bitwarden.local",
               },
             },
             Object {
               "VirtualService": Object {
-                "VirtualServiceName": Object {
-                  "Fn::GetAtt": Array [
-                    "AdminVirtualServiceD2E98B99",
-                    "VirtualServiceName",
-                  ],
-                },
+                "VirtualServiceName": "admin.svc.bitwarden.local",
               },
             },
           ],
@@ -10104,6 +9484,7 @@ Object {
       "Type": "AWS::AppMesh::VirtualService",
     },
     "OidcIdentityClientKey1B84FFF1": Object {
+      "DeletionPolicy": "Delete",
       "Properties": Object {
         "Description": "[Bitwarden] A randomly generated OpenID Connect client key.",
         "GenerateSecretString": Object {
@@ -10112,6 +9493,7 @@ Object {
         },
       },
       "Type": "AWS::SecretsManager::Secret",
+      "UpdateReplacePolicy": "Delete",
     },
     "PortalDefaultService40C3B1CF": Object {
       "Properties": Object {
@@ -10285,38 +9667,52 @@ Object {
                 "Value": "https://push.bitwarden.com",
               },
               Object {
-                "Name": "globalSettings__mail__replyToEmail",
+                "Name": "globalSettings__attachment__baseDirectory",
+                "Value": "/etc/bitwarden/core/attachments",
+              },
+              Object {
+                "Name": "globalSettings__send__baseDirectory",
+                "Value": "/etc/bitwarden/core/attachments/send",
+              },
+              Object {
+                "Name": "globalSettings__dataProtection__directory",
+                "Value": "/etc/bitwarden/core/aspnet-dataprotection",
+              },
+              Object {
+                "Name": "globalSettings__attachment__baseUrl",
                 "Value": Object {
                   "Fn::Join": Array [
                     "",
                     Array [
-                      "no-reply@",
+                      "https://",
                       Object {
                         "Fn::GetAtt": Array [
-                          "SesIdentityWorkMailOrg3FDA21A8",
-                          "Alias",
+                          "Distribution830FAC52",
+                          "DomainName",
                         ],
                       },
-                      ".awsapps.com",
+                      "/attachments",
                     ],
                   ],
                 },
               },
               Object {
-                "Name": "globalSettings__mail__smtp__port",
-                "Value": "587",
-              },
-              Object {
-                "Name": "globalSettings__mail__smtp__ssl",
-                "Value": "false",
-              },
-              Object {
-                "Name": "globalSettings__mail__smtp__startTls",
-                "Value": "true",
-              },
-              Object {
-                "Name": "globalSettings__mail__smtp__trustServer",
-                "Value": "true",
+                "Name": "globalSettings__send__baseUrl",
+                "Value": Object {
+                  "Fn::Join": Array [
+                    "",
+                    Array [
+                      "https://",
+                      Object {
+                        "Fn::GetAtt": Array [
+                          "Distribution830FAC52",
+                          "DomainName",
+                        ],
+                      },
+                      "/attachments/send",
+                    ],
+                  ],
+                },
               },
               Object {
                 "Name": "globalSettings__baseServiceUri__vault",
@@ -10437,7 +9833,7 @@ Object {
               "Interval": 5,
               "Retries": 3,
               "StartPeriod": 20,
-              "Timeout": 2,
+              "Timeout": 3,
             },
             "Image": "983035974902.dkr.ecr.us-west-2.amazonaws.com/bitwarden/portal:latest",
             "LogConfiguration": Object {
@@ -10576,48 +9972,6 @@ Object {
                 },
               },
               Object {
-                "Name": "globalSettings__mail__smtp__host",
-                "ValueFrom": Object {
-                  "Fn::Join": Array [
-                    "",
-                    Array [
-                      Object {
-                        "Ref": "SmtpSecret8B1841F4",
-                      },
-                      ":endpoint::",
-                    ],
-                  ],
-                },
-              },
-              Object {
-                "Name": "globalSettings__mail__smtp__username",
-                "ValueFrom": Object {
-                  "Fn::Join": Array [
-                    "",
-                    Array [
-                      Object {
-                        "Ref": "SmtpSecret8B1841F4",
-                      },
-                      ":username::",
-                    ],
-                  ],
-                },
-              },
-              Object {
-                "Name": "globalSettings__mail__smtp__password",
-                "ValueFrom": Object {
-                  "Fn::Join": Array [
-                    "",
-                    Array [
-                      Object {
-                        "Ref": "SmtpSecret8B1841F4",
-                      },
-                      ":password::",
-                    ],
-                  ],
-                },
-              },
-              Object {
                 "Name": "globalSettings__disableUserRegistration",
                 "ValueFrom": Object {
                   "Fn::Join": Array [
@@ -10682,7 +10036,7 @@ Object {
                 "awslogs-stream-prefix": "portal",
               },
             },
-            "MemoryReservation": 128,
+            "MemoryReservation": 64,
             "Name": "xray-daemon",
             "PortMappings": Array [
               Object {
@@ -10692,7 +10046,7 @@ Object {
             ],
           },
           Object {
-            "Cpu": 16,
+            "Cpu": 32,
             "Environment": Array [
               Object {
                 "Name": "CW_CONFIG_CONTENT",
@@ -10704,7 +10058,7 @@ Object {
                       Object {
                         "Ref": "AppLogGroupC72EEC8C",
                       },
-                      "\\",\\"log_stream_name\\":\\"etc/bitwarden/logs/portal\\",\\"timestamp_format\\":\\"%Y-%m-%d %H:%M:%S.\\"}]}}}}",
+                      "\\",\\"log_stream_name\\":\\"bitwarden/logs/portal/{hostname}\\",\\"timestamp_format\\":\\"%Y-%m-%d %H:%M:%S.\\",\\"timezone\\":\\"UTC\\"}]}}}}",
                     ],
                   ],
                 },
@@ -10739,7 +10093,7 @@ Object {
             ],
           },
           Object {
-            "Cpu": 96,
+            "Cpu": 80,
             "Environment": Array [
               Object {
                 "Name": "APPMESH_VIRTUAL_NODE_NAME",
@@ -10806,7 +10160,7 @@ Object {
                 "awslogs-stream-prefix": "portal",
               },
             },
-            "MemoryReservation": 64,
+            "MemoryReservation": 128,
             "Name": "envoy",
             "Ulimits": Array [
               Object {
@@ -10972,16 +10326,6 @@ Object {
                 "Ref": "DuoAKey23F55117",
               },
             },
-            Object {
-              "Action": Array [
-                "secretsmanager:GetSecretValue",
-                "secretsmanager:DescribeSecret",
-              ],
-              "Effect": "Allow",
-              "Resource": Object {
-                "Ref": "SmtpSecret8B1841F4",
-              },
-            },
           ],
           "Version": "2012-10-17",
         },
@@ -11013,24 +10357,6 @@ Object {
           "arn:aws:iam::aws:policy/AWSXRayDaemonWriteAccess",
           "arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy",
         ],
-        "Policies": Array [
-          Object {
-            "PolicyDocument": Object {
-              "Statement": Array [
-                Object {
-                  "Action": Array [
-                    "acm:ExportCertificate",
-                    "acm-pca:GetCertificateAuthorityCertificate",
-                  ],
-                  "Effect": "Allow",
-                  "Resource": "*",
-                },
-              ],
-              "Version": "2012-10-17",
-            },
-            "PolicyName": "EnvoyTlsCertificatePolicy",
-          },
-        ],
       },
       "Type": "AWS::IAM::Role",
     },
@@ -11048,60 +10374,35 @@ Object {
               "VirtualService": Object {
                 "VirtualServiceName": Object {
                   "Fn::GetAtt": Array [
-                    "DatabaseVirtualService025456E2",
-                    "VirtualServiceName",
+                    "DatabaseInstance24D16791",
+                    "Endpoint.Address",
                   ],
                 },
               },
             },
             Object {
               "VirtualService": Object {
-                "VirtualServiceName": Object {
-                  "Fn::GetAtt": Array [
-                    "WebVirtualService8E478A2D",
-                    "VirtualServiceName",
-                  ],
-                },
+                "VirtualServiceName": "web.svc.bitwarden.local",
               },
             },
             Object {
               "VirtualService": Object {
-                "VirtualServiceName": Object {
-                  "Fn::GetAtt": Array [
-                    "ApiVirtualService0B2433C3",
-                    "VirtualServiceName",
-                  ],
-                },
+                "VirtualServiceName": "api.svc.bitwarden.local",
               },
             },
             Object {
               "VirtualService": Object {
-                "VirtualServiceName": Object {
-                  "Fn::GetAtt": Array [
-                    "NotificationsVirtualService853F0457",
-                    "VirtualServiceName",
-                  ],
-                },
+                "VirtualServiceName": "notifications.svc.bitwarden.local",
               },
             },
             Object {
               "VirtualService": Object {
-                "VirtualServiceName": Object {
-                  "Fn::GetAtt": Array [
-                    "IdentityVirtualService0981AD18",
-                    "VirtualServiceName",
-                  ],
-                },
+                "VirtualServiceName": "identity.svc.bitwarden.local",
               },
             },
             Object {
               "VirtualService": Object {
-                "VirtualServiceName": Object {
-                  "Fn::GetAtt": Array [
-                    "AdminVirtualServiceD2E98B99",
-                    "VirtualServiceName",
-                  ],
-                },
+                "VirtualServiceName": "admin.svc.bitwarden.local",
               },
             },
           ],
@@ -11527,38 +10828,52 @@ Object {
                 "Value": "https://push.bitwarden.com",
               },
               Object {
-                "Name": "globalSettings__mail__replyToEmail",
+                "Name": "globalSettings__attachment__baseDirectory",
+                "Value": "/etc/bitwarden/core/attachments",
+              },
+              Object {
+                "Name": "globalSettings__send__baseDirectory",
+                "Value": "/etc/bitwarden/core/attachments/send",
+              },
+              Object {
+                "Name": "globalSettings__dataProtection__directory",
+                "Value": "/etc/bitwarden/core/aspnet-dataprotection",
+              },
+              Object {
+                "Name": "globalSettings__attachment__baseUrl",
                 "Value": Object {
                   "Fn::Join": Array [
                     "",
                     Array [
-                      "no-reply@",
+                      "https://",
                       Object {
                         "Fn::GetAtt": Array [
-                          "SesIdentityWorkMailOrg3FDA21A8",
-                          "Alias",
+                          "Distribution830FAC52",
+                          "DomainName",
                         ],
                       },
-                      ".awsapps.com",
+                      "/attachments",
                     ],
                   ],
                 },
               },
               Object {
-                "Name": "globalSettings__mail__smtp__port",
-                "Value": "587",
-              },
-              Object {
-                "Name": "globalSettings__mail__smtp__ssl",
-                "Value": "false",
-              },
-              Object {
-                "Name": "globalSettings__mail__smtp__startTls",
-                "Value": "true",
-              },
-              Object {
-                "Name": "globalSettings__mail__smtp__trustServer",
-                "Value": "true",
+                "Name": "globalSettings__send__baseUrl",
+                "Value": Object {
+                  "Fn::Join": Array [
+                    "",
+                    Array [
+                      "https://",
+                      Object {
+                        "Fn::GetAtt": Array [
+                          "Distribution830FAC52",
+                          "DomainName",
+                        ],
+                      },
+                      "/attachments/send",
+                    ],
+                  ],
+                },
               },
               Object {
                 "Name": "globalSettings__baseServiceUri__vault",
@@ -11679,7 +10994,7 @@ Object {
               "Interval": 5,
               "Retries": 3,
               "StartPeriod": 20,
-              "Timeout": 2,
+              "Timeout": 3,
             },
             "Image": "983035974902.dkr.ecr.us-west-2.amazonaws.com/bitwarden/sso:latest",
             "LogConfiguration": Object {
@@ -11825,48 +11140,6 @@ Object {
                 },
               },
               Object {
-                "Name": "globalSettings__mail__smtp__host",
-                "ValueFrom": Object {
-                  "Fn::Join": Array [
-                    "",
-                    Array [
-                      Object {
-                        "Ref": "SmtpSecret8B1841F4",
-                      },
-                      ":endpoint::",
-                    ],
-                  ],
-                },
-              },
-              Object {
-                "Name": "globalSettings__mail__smtp__username",
-                "ValueFrom": Object {
-                  "Fn::Join": Array [
-                    "",
-                    Array [
-                      Object {
-                        "Ref": "SmtpSecret8B1841F4",
-                      },
-                      ":username::",
-                    ],
-                  ],
-                },
-              },
-              Object {
-                "Name": "globalSettings__mail__smtp__password",
-                "ValueFrom": Object {
-                  "Fn::Join": Array [
-                    "",
-                    Array [
-                      Object {
-                        "Ref": "SmtpSecret8B1841F4",
-                      },
-                      ":password::",
-                    ],
-                  ],
-                },
-              },
-              Object {
                 "Name": "globalSettings__disableUserRegistration",
                 "ValueFrom": Object {
                   "Fn::Join": Array [
@@ -11931,7 +11204,7 @@ Object {
                 "awslogs-stream-prefix": "sso",
               },
             },
-            "MemoryReservation": 128,
+            "MemoryReservation": 64,
             "Name": "xray-daemon",
             "PortMappings": Array [
               Object {
@@ -11941,7 +11214,7 @@ Object {
             ],
           },
           Object {
-            "Cpu": 16,
+            "Cpu": 32,
             "Environment": Array [
               Object {
                 "Name": "CW_CONFIG_CONTENT",
@@ -11953,7 +11226,7 @@ Object {
                       Object {
                         "Ref": "AppLogGroupC72EEC8C",
                       },
-                      "\\",\\"log_stream_name\\":\\"etc/bitwarden/logs/sso\\",\\"timestamp_format\\":\\"%Y-%m-%d %H:%M:%S.\\"}]}}}}",
+                      "\\",\\"log_stream_name\\":\\"bitwarden/logs/sso/{hostname}\\",\\"timestamp_format\\":\\"%Y-%m-%d %H:%M:%S.\\",\\"timezone\\":\\"UTC\\"}]}}}}",
                     ],
                   ],
                 },
@@ -11988,7 +11261,7 @@ Object {
             ],
           },
           Object {
-            "Cpu": 96,
+            "Cpu": 80,
             "Environment": Array [
               Object {
                 "Name": "APPMESH_VIRTUAL_NODE_NAME",
@@ -12055,7 +11328,7 @@ Object {
                 "awslogs-stream-prefix": "sso",
               },
             },
-            "MemoryReservation": 64,
+            "MemoryReservation": 128,
             "Name": "envoy",
             "Ulimits": Array [
               Object {
@@ -12237,16 +11510,6 @@ Object {
                 "Ref": "DuoAKey23F55117",
               },
             },
-            Object {
-              "Action": Array [
-                "secretsmanager:GetSecretValue",
-                "secretsmanager:DescribeSecret",
-              ],
-              "Effect": "Allow",
-              "Resource": Object {
-                "Ref": "SmtpSecret8B1841F4",
-              },
-            },
           ],
           "Version": "2012-10-17",
         },
@@ -12278,24 +11541,6 @@ Object {
           "arn:aws:iam::aws:policy/AWSXRayDaemonWriteAccess",
           "arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy",
         ],
-        "Policies": Array [
-          Object {
-            "PolicyDocument": Object {
-              "Statement": Array [
-                Object {
-                  "Action": Array [
-                    "acm:ExportCertificate",
-                    "acm-pca:GetCertificateAuthorityCertificate",
-                  ],
-                  "Effect": "Allow",
-                  "Resource": "*",
-                },
-              ],
-              "Version": "2012-10-17",
-            },
-            "PolicyName": "EnvoyTlsCertificatePolicy",
-          },
-        ],
       },
       "Type": "AWS::IAM::Role",
     },
@@ -12313,60 +11558,35 @@ Object {
               "VirtualService": Object {
                 "VirtualServiceName": Object {
                   "Fn::GetAtt": Array [
-                    "DatabaseVirtualService025456E2",
-                    "VirtualServiceName",
+                    "DatabaseInstance24D16791",
+                    "Endpoint.Address",
                   ],
                 },
               },
             },
             Object {
               "VirtualService": Object {
-                "VirtualServiceName": Object {
-                  "Fn::GetAtt": Array [
-                    "WebVirtualService8E478A2D",
-                    "VirtualServiceName",
-                  ],
-                },
+                "VirtualServiceName": "web.svc.bitwarden.local",
               },
             },
             Object {
               "VirtualService": Object {
-                "VirtualServiceName": Object {
-                  "Fn::GetAtt": Array [
-                    "ApiVirtualService0B2433C3",
-                    "VirtualServiceName",
-                  ],
-                },
+                "VirtualServiceName": "api.svc.bitwarden.local",
               },
             },
             Object {
               "VirtualService": Object {
-                "VirtualServiceName": Object {
-                  "Fn::GetAtt": Array [
-                    "NotificationsVirtualService853F0457",
-                    "VirtualServiceName",
-                  ],
-                },
+                "VirtualServiceName": "notifications.svc.bitwarden.local",
               },
             },
             Object {
               "VirtualService": Object {
-                "VirtualServiceName": Object {
-                  "Fn::GetAtt": Array [
-                    "IdentityVirtualService0981AD18",
-                    "VirtualServiceName",
-                  ],
-                },
+                "VirtualServiceName": "identity.svc.bitwarden.local",
               },
             },
             Object {
               "VirtualService": Object {
-                "VirtualServiceName": Object {
-                  "Fn::GetAtt": Array [
-                    "AdminVirtualServiceD2E98B99",
-                    "VirtualServiceName",
-                  ],
-                },
+                "VirtualServiceName": "admin.svc.bitwarden.local",
               },
             },
           ],
@@ -12491,381 +11711,18 @@ Object {
       },
       "Type": "AWS::AppMesh::VirtualService",
     },
-    "SesIdentityCreateWorkMailOrgHandler1AFE4462": Object {
-      "DependsOn": Array [
-        "SesIdentityCreateWorkMailOrgHandlerServiceRoleDefaultPolicyE06F7F0E",
-        "SesIdentityCreateWorkMailOrgHandlerServiceRole1C9551EA",
-      ],
-      "Properties": Object {
-        "Code": Object {
-          "S3Bucket": Object {
-            "Ref": "AssetParameters980dad4adbd2486b9660e3fdb5e94a496cfbb12591a5ec9811d7087d8b785723S3BucketFB45DAC0",
-          },
-          "S3Key": Object {
-            "Fn::Join": Array [
-              "",
-              Array [
-                Object {
-                  "Fn::Select": Array [
-                    0,
-                    Object {
-                      "Fn::Split": Array [
-                        "||",
-                        Object {
-                          "Ref": "AssetParameters980dad4adbd2486b9660e3fdb5e94a496cfbb12591a5ec9811d7087d8b785723S3VersionKey8DAEEB9B",
-                        },
-                      ],
-                    },
-                  ],
-                },
-                Object {
-                  "Fn::Select": Array [
-                    1,
-                    Object {
-                      "Fn::Split": Array [
-                        "||",
-                        Object {
-                          "Ref": "AssetParameters980dad4adbd2486b9660e3fdb5e94a496cfbb12591a5ec9811d7087d8b785723S3VersionKey8DAEEB9B",
-                        },
-                      ],
-                    },
-                  ],
-                },
-              ],
-            ],
-          },
-        },
-        "Description": "[cdk-ses-helpers] Create WorkMail Organization Handler",
-        "Environment": Object {
-          "Variables": Object {
-            "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
-          },
-        },
-        "Handler": "index.handler",
-        "Role": Object {
-          "Fn::GetAtt": Array [
-            "SesIdentityCreateWorkMailOrgHandlerServiceRole1C9551EA",
-            "Arn",
-          ],
-        },
-        "Runtime": "nodejs14.x",
-      },
-      "Type": "AWS::Lambda::Function",
-    },
-    "SesIdentityCreateWorkMailOrgHandlerServiceRole1C9551EA": Object {
-      "Properties": Object {
-        "AssumeRolePolicyDocument": Object {
-          "Statement": Array [
-            Object {
-              "Action": "sts:AssumeRole",
-              "Effect": "Allow",
-              "Principal": Object {
-                "Service": "lambda.amazonaws.com",
-              },
-            },
-          ],
-          "Version": "2012-10-17",
-        },
-        "ManagedPolicyArns": Array [
-          Object {
-            "Fn::Join": Array [
-              "",
-              Array [
-                "arn:",
-                Object {
-                  "Ref": "AWS::Partition",
-                },
-                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
-              ],
-            ],
-          },
-        ],
-      },
-      "Type": "AWS::IAM::Role",
-    },
-    "SesIdentityCreateWorkMailOrgHandlerServiceRoleDefaultPolicyE06F7F0E": Object {
-      "Properties": Object {
-        "PolicyDocument": Object {
-          "Statement": Array [
-            Object {
-              "Action": Array [
-                "workmail:DescribeOrganization",
-                "workmail:CreateOrganization",
-                "workmail:DeleteOrganization",
-                "ses:DescribeActiveReceiptRuleSet",
-                "ses:SetActiveReceiptRuleSet",
-                "ses:CreateReceiptRuleSet",
-                "ses:CreateReceiptRule",
-                "ses:DeleteReceiptRule",
-                "ses:VerifyDomainIdentity",
-                "ses:VerifyDomainDkim",
-                "ses:SetIdentityEmailNotificationEnabled",
-                "ses:PutIdentityPolicy",
-                "ses:DeleteIdentityPolicy",
-                "ses:DeleteIdentity",
-                "ds:DescribeDirectories",
-                "ds:CreateIdentityPoolDirectory",
-                "ds:DeleteDirectory",
-                "ds:ListAuthorizedApplications",
-                "ds:CreateAlias",
-                "ds:AuthorizeApplication",
-                "ds:UnauthorizeApplication",
-              ],
-              "Effect": "Allow",
-              "Resource": "*",
-            },
-          ],
-          "Version": "2012-10-17",
-        },
-        "PolicyName": "SesIdentityCreateWorkMailOrgHandlerServiceRoleDefaultPolicyE06F7F0E",
-        "Roles": Array [
-          Object {
-            "Ref": "SesIdentityCreateWorkMailOrgHandlerServiceRole1C9551EA",
-          },
-        ],
-      },
-      "Type": "AWS::IAM::Policy",
-    },
-    "SesIdentityWorkMailOrg3FDA21A8": Object {
-      "DeletionPolicy": "Delete",
-      "Properties": Object {
-        "Alias": Object {
-          "Fn::Join": Array [
-            "",
-            Array [
-              "bitwarden-",
-              Object {
-                "Ref": "AWS::AccountId",
-              },
-            ],
-          ],
-        },
-        "Region": "us-west-2",
-        "ServiceToken": Object {
-          "Fn::GetAtt": Array [
-            "SesIdentityCreateWorkMailOrgHandler1AFE4462",
-            "Arn",
-          ],
-        },
-      },
-      "Type": "AWS::CloudFormation::CustomResource",
-      "UpdateReplacePolicy": "Delete",
-    },
-    "SmtpSecret8B1841F4": Object {
-      "Properties": Object {
-        "Description": "[cdk-ses-helpers] SES SMTP Credentials",
-        "GenerateSecretString": Object {
-          "GenerateStringKey": "password",
-          "SecretStringTemplate": Object {
-            "Fn::Join": Array [
-              "",
-              Array [
-                "{\\"access_key\\":\\"",
-                Object {
-                  "Ref": "SmtpUserAccessKey8814798F",
-                },
-                "\\",\\"secret_access_key\\":\\"",
-                Object {
-                  "Fn::GetAtt": Array [
-                    "SmtpUserAccessKey8814798F",
-                    "SecretAccessKey",
-                  ],
-                },
-                "\\"}",
-              ],
-            ],
-          },
-        },
-      },
-      "Type": "AWS::SecretsManager::Secret",
-    },
-    "SmtpSecretGeneratePasswordHandler8233C0B2": Object {
-      "DependsOn": Array [
-        "SmtpSecretGeneratePasswordHandlerServiceRoleDefaultPolicyB8DA955E",
-        "SmtpSecretGeneratePasswordHandlerServiceRoleBBF60C68",
-      ],
-      "Properties": Object {
-        "Code": Object {
-          "S3Bucket": Object {
-            "Ref": "AssetParameters415f67627e55b52905faf07b427a9a5cfd6a275f4d213845a82ee9ec4bfe9ab5S3Bucket7DC2EFBF",
-          },
-          "S3Key": Object {
-            "Fn::Join": Array [
-              "",
-              Array [
-                Object {
-                  "Fn::Select": Array [
-                    0,
-                    Object {
-                      "Fn::Split": Array [
-                        "||",
-                        Object {
-                          "Ref": "AssetParameters415f67627e55b52905faf07b427a9a5cfd6a275f4d213845a82ee9ec4bfe9ab5S3VersionKeyF7B121B3",
-                        },
-                      ],
-                    },
-                  ],
-                },
-                Object {
-                  "Fn::Select": Array [
-                    1,
-                    Object {
-                      "Fn::Split": Array [
-                        "||",
-                        Object {
-                          "Ref": "AssetParameters415f67627e55b52905faf07b427a9a5cfd6a275f4d213845a82ee9ec4bfe9ab5S3VersionKeyF7B121B3",
-                        },
-                      ],
-                    },
-                  ],
-                },
-              ],
-            ],
-          },
-        },
-        "Description": "[cdk-ses-helpers] Generate SMTP Password Handler",
-        "Environment": Object {
-          "Variables": Object {
-            "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
-            "SECRET_ARN": Object {
-              "Ref": "SmtpSecret8B1841F4",
-            },
-          },
-        },
-        "Handler": "index.handler",
-        "Role": Object {
-          "Fn::GetAtt": Array [
-            "SmtpSecretGeneratePasswordHandlerServiceRoleBBF60C68",
-            "Arn",
-          ],
-        },
-        "Runtime": "nodejs14.x",
-      },
-      "Type": "AWS::Lambda::Function",
-    },
-    "SmtpSecretGeneratePasswordHandlerServiceRoleBBF60C68": Object {
-      "Properties": Object {
-        "AssumeRolePolicyDocument": Object {
-          "Statement": Array [
-            Object {
-              "Action": "sts:AssumeRole",
-              "Effect": "Allow",
-              "Principal": Object {
-                "Service": "lambda.amazonaws.com",
-              },
-            },
-          ],
-          "Version": "2012-10-17",
-        },
-        "ManagedPolicyArns": Array [
-          Object {
-            "Fn::Join": Array [
-              "",
-              Array [
-                "arn:",
-                Object {
-                  "Ref": "AWS::Partition",
-                },
-                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
-              ],
-            ],
-          },
-        ],
-      },
-      "Type": "AWS::IAM::Role",
-    },
-    "SmtpSecretGeneratePasswordHandlerServiceRoleDefaultPolicyB8DA955E": Object {
-      "Properties": Object {
-        "PolicyDocument": Object {
-          "Statement": Array [
-            Object {
-              "Action": Array [
-                "secretsmanager:GetSecretValue",
-                "secretsmanager:UpdateSecret",
-              ],
-              "Effect": "Allow",
-              "Resource": Object {
-                "Ref": "SmtpSecret8B1841F4",
-              },
-            },
-          ],
-          "Version": "2012-10-17",
-        },
-        "PolicyName": "SmtpSecretGeneratePasswordHandlerServiceRoleDefaultPolicyB8DA955E",
-        "Roles": Array [
-          Object {
-            "Ref": "SmtpSecretGeneratePasswordHandlerServiceRoleBBF60C68",
-          },
-        ],
-      },
-      "Type": "AWS::IAM::Policy",
-    },
-    "SmtpSecretSmtpPasswordDB187DBE": Object {
-      "DeletionPolicy": "Delete",
-      "Properties": Object {
-        "SecretArn": Object {
-          "Ref": "SmtpSecret8B1841F4",
-        },
-        "ServiceToken": Object {
-          "Fn::GetAtt": Array [
-            "SmtpSecretGeneratePasswordHandler8233C0B2",
-            "Arn",
-          ],
-        },
-        "SesRegion": "us-west-2",
-      },
-      "Type": "AWS::CloudFormation::CustomResource",
-      "UpdateReplacePolicy": "Delete",
-    },
-    "SmtpUser17EE1BF6": Object {
-      "Type": "AWS::IAM::User",
-    },
-    "SmtpUserAccessKey8814798F": Object {
-      "Properties": Object {
-        "UserName": Object {
-          "Ref": "SmtpUser17EE1BF6",
-        },
-      },
-      "Type": "AWS::IAM::AccessKey",
-    },
-    "SmtpUserAmazonSesSendingAccessF8337C6F": Object {
-      "Properties": Object {
-        "PolicyDocument": Object {
-          "Statement": Array [
-            Object {
-              "Action": "ses:SendRawEmail",
-              "Effect": "Allow",
-              "Resource": Object {
-                "Fn::Join": Array [
-                  "",
-                  Array [
-                    "arn:aws:ses:us-west-2:",
-                    Object {
-                      "Ref": "AWS::AccountId",
-                    },
-                    ":*",
-                  ],
-                ],
-              },
-            },
-          ],
-          "Version": "2012-10-17",
-        },
-        "PolicyName": "AmazonSesSendingAccess",
-        "Users": Array [
-          Object {
-            "Ref": "SmtpUser17EE1BF6",
-          },
-        ],
-      },
-      "Type": "AWS::IAM::Policy",
-    },
     "TargetGroup3D7CD9B8": Object {
       "Properties": Object {
         "HealthCheckPath": "/server_info",
         "HealthCheckPort": "9901",
         "Port": 8080,
         "Protocol": "HTTP",
+        "TargetGroupAttributes": Array [
+          Object {
+            "Key": "stickiness.enabled",
+            "Value": "false",
+          },
+        ],
         "TargetType": "ip",
         "VpcId": Object {
           "Ref": "VPCB9E5F0B4",
@@ -13495,38 +12352,52 @@ Object {
                 "Value": "https://push.bitwarden.com",
               },
               Object {
-                "Name": "globalSettings__mail__replyToEmail",
+                "Name": "globalSettings__attachment__baseDirectory",
+                "Value": "/etc/bitwarden/core/attachments",
+              },
+              Object {
+                "Name": "globalSettings__send__baseDirectory",
+                "Value": "/etc/bitwarden/core/attachments/send",
+              },
+              Object {
+                "Name": "globalSettings__dataProtection__directory",
+                "Value": "/etc/bitwarden/core/aspnet-dataprotection",
+              },
+              Object {
+                "Name": "globalSettings__attachment__baseUrl",
                 "Value": Object {
                   "Fn::Join": Array [
                     "",
                     Array [
-                      "no-reply@",
+                      "https://",
                       Object {
                         "Fn::GetAtt": Array [
-                          "SesIdentityWorkMailOrg3FDA21A8",
-                          "Alias",
+                          "Distribution830FAC52",
+                          "DomainName",
                         ],
                       },
-                      ".awsapps.com",
+                      "/attachments",
                     ],
                   ],
                 },
               },
               Object {
-                "Name": "globalSettings__mail__smtp__port",
-                "Value": "587",
-              },
-              Object {
-                "Name": "globalSettings__mail__smtp__ssl",
-                "Value": "false",
-              },
-              Object {
-                "Name": "globalSettings__mail__smtp__startTls",
-                "Value": "true",
-              },
-              Object {
-                "Name": "globalSettings__mail__smtp__trustServer",
-                "Value": "true",
+                "Name": "globalSettings__send__baseUrl",
+                "Value": Object {
+                  "Fn::Join": Array [
+                    "",
+                    Array [
+                      "https://",
+                      Object {
+                        "Fn::GetAtt": Array [
+                          "Distribution830FAC52",
+                          "DomainName",
+                        ],
+                      },
+                      "/attachments/send",
+                    ],
+                  ],
+                },
               },
               Object {
                 "Name": "globalSettings__baseServiceUri__vault",
@@ -13647,7 +12518,7 @@ Object {
               "Interval": 5,
               "Retries": 3,
               "StartPeriod": 20,
-              "Timeout": 2,
+              "Timeout": 3,
             },
             "Image": "983035974902.dkr.ecr.us-west-2.amazonaws.com/bitwarden/web:latest",
             "LogConfiguration": Object {
@@ -13697,7 +12568,7 @@ Object {
                 "awslogs-stream-prefix": "web",
               },
             },
-            "MemoryReservation": 128,
+            "MemoryReservation": 64,
             "Name": "xray-daemon",
             "PortMappings": Array [
               Object {
@@ -13707,7 +12578,7 @@ Object {
             ],
           },
           Object {
-            "Cpu": 16,
+            "Cpu": 32,
             "Environment": Array [
               Object {
                 "Name": "CW_CONFIG_CONTENT",
@@ -13719,7 +12590,7 @@ Object {
                       Object {
                         "Ref": "AppLogGroupC72EEC8C",
                       },
-                      "\\",\\"log_stream_name\\":\\"etc/bitwarden/logs/web\\",\\"timestamp_format\\":\\"%Y-%m-%d %H:%M:%S.\\"}]}}}}",
+                      "\\",\\"log_stream_name\\":\\"bitwarden/logs/web/{hostname}\\",\\"timestamp_format\\":\\"%Y-%m-%d %H:%M:%S.\\",\\"timezone\\":\\"UTC\\"}]}}}}",
                     ],
                   ],
                 },
@@ -13754,7 +12625,7 @@ Object {
             ],
           },
           Object {
-            "Cpu": 96,
+            "Cpu": 80,
             "Environment": Array [
               Object {
                 "Name": "APPMESH_VIRTUAL_NODE_NAME",
@@ -13821,7 +12692,7 @@ Object {
                 "awslogs-stream-prefix": "web",
               },
             },
-            "MemoryReservation": 64,
+            "MemoryReservation": 128,
             "Name": "envoy",
             "Ulimits": Array [
               Object {
@@ -13962,24 +12833,6 @@ Object {
           "arn:aws:iam::aws:policy/AWSXRayDaemonWriteAccess",
           "arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy",
         ],
-        "Policies": Array [
-          Object {
-            "PolicyDocument": Object {
-              "Statement": Array [
-                Object {
-                  "Action": Array [
-                    "acm:ExportCertificate",
-                    "acm-pca:GetCertificateAuthorityCertificate",
-                  ],
-                  "Effect": "Allow",
-                  "Resource": "*",
-                },
-              ],
-              "Version": "2012-10-17",
-            },
-            "PolicyName": "EnvoyTlsCertificatePolicy",
-          },
-        ],
       },
       "Type": "AWS::IAM::Role",
     },
@@ -14114,6 +12967,7 @@ Object {
       "Type": "AWS::AppMesh::VirtualService",
     },
     "testDatabaseInstanceSecret7C71F07D3fdaad7efa858a3daf9490cf0a702aeb": Object {
+      "DeletionPolicy": "Delete",
       "Properties": Object {
         "Description": Object {
           "Fn::Join": Array [
@@ -14134,6 +12988,34 @@ Object {
         },
       },
       "Type": "AWS::SecretsManager::Secret",
+      "UpdateReplacePolicy": "Delete",
+    },
+  },
+  "Rules": Object {
+    "CheckBootstrapVersion": Object {
+      "Assertions": Array [
+        Object {
+          "Assert": Object {
+            "Fn::Not": Array [
+              Object {
+                "Fn::Contains": Array [
+                  Array [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                  ],
+                  Object {
+                    "Ref": "BootstrapVersion",
+                  },
+                ],
+              },
+            ],
+          },
+          "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI.",
+        },
+      ],
     },
   },
 }

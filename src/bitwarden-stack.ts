@@ -1,5 +1,6 @@
 import * as path from 'path';
 
+import * as cdk from 'aws-cdk-lib';
 import * as cf from 'aws-cdk-lib/aws-cloudfront';
 import { LoadBalancerV2Origin } from 'aws-cdk-lib/aws-cloudfront-origins';
 import * as codebuild from 'aws-cdk-lib/aws-codebuild';
@@ -10,11 +11,9 @@ import * as elb from 'aws-cdk-lib/aws-elasticloadbalancingv2';
 import * as rds from 'aws-cdk-lib/aws-rds';
 import { Asset as s3Asset } from 'aws-cdk-lib/aws-s3-assets';
 import * as secretsmanager from 'aws-cdk-lib/aws-secretsmanager';
-import * as cdk from 'aws-cdk-lib/core';
 import * as cr from 'aws-cdk-lib/custom-resources';
 import { Construct } from 'constructs';
 
-import { SmtpSecret, ManagedIdentity } from 'cdk-ses-helpers';
 import { Environment, FargateVirtualGateway, ExternalVirtualService, FargateVirtualService } from './appmesh-for-ecs-fargate';
 import { globalSettings, adminSettings, webAclArn } from './settings';
 import { Database } from './sql-server';
@@ -102,7 +101,7 @@ export class BitwardenStack extends cdk.Stack {
     new Database(this, 'DefaultDatabase', {
       databaseName: databaseName,
       db: db,
-      vpc
+      vpc,
     });
 
     const fileSystem = new efs.FileSystem(this, 'FileSystem', {
@@ -501,12 +500,12 @@ export class BitwardenStack extends cdk.Stack {
     notificationsService.addBackends([dbService, emailService, pushService, webService, apiService, identityService, adminService]);
     eventsService.addBackends([dbService, emailService, pushService, webService, apiService, notificationsService, identityService, adminService]);
 
-    gateway.addGatewayRoute(webService, '/', );
-    gateway.addGatewayRoute(attachmentsService, '/attachments/', );
-    gateway.addGatewayRoute(apiService, '/api/', );
-    gateway.addGatewayRoute(iconsService, '/icons/', );
-    gateway.addGatewayRoute(notificationsService, '/notifications/', );
-    gateway.addGatewayRoute(eventsService, '/events/', );
+    gateway.addGatewayRoute(webService, '/' );
+    gateway.addGatewayRoute(attachmentsService, '/attachments/' );
+    gateway.addGatewayRoute(apiService, '/api/' );
+    gateway.addGatewayRoute(iconsService, '/icons/' );
+    gateway.addGatewayRoute(notificationsService, '/notifications/' );
+    gateway.addGatewayRoute(eventsService, '/events/' );
     // need to add rewrite options, but no supported by cdk
     gateway.addGatewayRoute(identityService, '/identity/', '/identity/');
     gateway.addGatewayRoute(ssoService, '/sso/', '/sso/');
