@@ -61,8 +61,8 @@ export class BitwardenStack extends cdk.Stack {
       },
     });
 
-//    const smtpSecret = new SmtpSecret(this, 'SmtpSecret', { sesRegion: this.region });
-//    const sesIdentity = new ManagedIdentity(this, 'SesIdentity', { sesRegion: this.region, subDomainName: `bitwarden-${cdk.Aws.ACCOUNT_ID}` });
+    //    const smtpSecret = new SmtpSecret(this, 'SmtpSecret', { sesRegion: this.region });
+    //    const sesIdentity = new ManagedIdentity(this, 'SesIdentity', { sesRegion: this.region, subDomainName: `bitwarden-${cdk.Aws.ACCOUNT_ID}` });
 
     const vpc = new ec2.Vpc(this, 'VPC', { natGateways: 1 });
 
@@ -225,9 +225,9 @@ export class BitwardenStack extends cdk.Stack {
       globalSettings__yubico__clientId: ecs.Secret.fromSecretsManager(globalSettingsSecret, 'yubico__clientId'),
       globalSettings__yubico__key: ecs.Secret.fromSecretsManager(globalSettingsSecret, 'yubico__key'),
       // mail
-//      globalSettings__mail__smtp__host: ecs.Secret.fromSecretsManager(smtpSecret, 'endpoint'),
-//      globalSettings__mail__smtp__username: ecs.Secret.fromSecretsManager(smtpSecret, 'username'),
-//      globalSettings__mail__smtp__password: ecs.Secret.fromSecretsManager(smtpSecret, 'password'),
+      //      globalSettings__mail__smtp__host: ecs.Secret.fromSecretsManager(smtpSecret, 'endpoint'),
+      //      globalSettings__mail__smtp__username: ecs.Secret.fromSecretsManager(smtpSecret, 'username'),
+      //      globalSettings__mail__smtp__password: ecs.Secret.fromSecretsManager(smtpSecret, 'password'),
       // others
       globalSettings__disableUserRegistration: ecs.Secret.fromSecretsManager(globalSettingsSecret, 'disableUserRegistration'),
       globalSettings__hibpApiKey: ecs.Secret.fromSecretsManager(globalSettingsSecret, 'hibpApiKey'),
@@ -323,11 +323,11 @@ export class BitwardenStack extends cdk.Stack {
       globalSettings__selfHosted: 'true',
       globalSettings__pushRelayBaseUri: 'https://push.bitwarden.com',
       // mail
-//      globalSettings__mail__replyToEmail: `no-reply@${sesIdentity.domainName}`,
-//      globalSettings__mail__smtp__port: '587',
-//      globalSettings__mail__smtp__ssl: 'false',
-//      globalSettings__mail__smtp__startTls: 'true',
-//      globalSettings__mail__smtp__trustServer: 'true',
+      //      globalSettings__mail__replyToEmail: `no-reply@${sesIdentity.domainName}`,
+      //      globalSettings__mail__smtp__port: '587',
+      //      globalSettings__mail__smtp__ssl: 'false',
+      //      globalSettings__mail__smtp__startTls: 'true',
+      //      globalSettings__mail__smtp__trustServer: 'true',
       // directory
       globalSettings__attachment__baseDirectory: '/etc/bitwarden/core/attachments',
       globalSettings__send__baseDirectory: '/etc/bitwarden/core/attachments/send',

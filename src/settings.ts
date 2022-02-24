@@ -16,4 +16,4 @@ export const adminSettings = {
   admins: 'mats.kazuki@gmail.com',
 };
 
-export const webAclArn: string = 'arn:aws:wafv2:us-east-1:983035974902:global/webacl/BitwardenWebACL-NlsvLO3PmG33/913b80be-ecfa-4c3f-9254-a82f6f536879'
+export const webAclArn: string = 'arn:aws:wafv2:us-east-1:983035974902:global/webacl/BitwardenWebACL-NlsvLO3PmG33/913b80be-ecfa-4c3f-9254-a82f6f536879';

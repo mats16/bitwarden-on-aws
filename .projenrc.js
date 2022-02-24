@@ -4,13 +4,14 @@ const project = new awscdk.AwsCdkTypeScriptApp({
   defaultReleaseBranch: 'main',
   name: 'bitwarden-on-aws',
   deps: [
+    '@aws-sdk/client-ec2',
     '@aws-sdk/client-secrets-manager',
+    '@types/aws-lambda',
     'axios',
     'tedious',
   ],
   devDeps: [
     'esbuild@0',
-    '@types/aws-lambda',
     '@types/tedious',
     '@types/jest',
     'jest',

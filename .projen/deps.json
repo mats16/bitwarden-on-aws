@@ -1,10 +1,6 @@
 {
   "dependencies": [
     {
-      "name": "@types/aws-lambda",
-      "type": "build"
-    },
-    {
       "name": "@types/jest",
       "type": "build"
     },
@@ -89,7 +85,15 @@
       "type": "build"
     },
     {
+      "name": "@aws-sdk/client-ec2",
+      "type": "runtime"
+    },
+    {
       "name": "@aws-sdk/client-secrets-manager",
+      "type": "runtime"
+    },
+    {
+      "name": "@types/aws-lambda",
       "type": "runtime"
     },
     {
