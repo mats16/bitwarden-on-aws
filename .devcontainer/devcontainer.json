@@ -1,6 +1,7 @@
 {
     "image": "public.ecr.aws/mats/devcontainer-for-aws:latest",
     "extensions": [
-        "dbaeumer.vscode-eslint"
+        "dbaeumer.vscode-eslint",
+        "mhutchie.git-graph"
     ]
 }
