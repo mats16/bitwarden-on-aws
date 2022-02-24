@@ -22,7 +22,7 @@ export class Database extends cdk.CustomResource {
     const dbSecretArn: string = db.secret!.secretFullArn!;
 
     const createDatabaseFunction = new NodejsFunction(scope, `${id}-CreateDatabaseFunction`, {
-      entry: './lambda-packages/create_database_handler/index.ts',
+      entry: './src/functions/create-database/index.ts',
       handler: 'handler',
       runtime: lambda.Runtime.NODEJS_14_X,
       environment: {

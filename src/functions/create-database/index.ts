@@ -1,56 +1,56 @@
-import { CloudFormationCustomResourceHandler } from 'aws-lambda'
-import { SecretsManagerClient, GetSecretValueCommand } from "@aws-sdk/client-secrets-manager";
+import { SecretsManagerClient, GetSecretValueCommand } from '@aws-sdk/client-secrets-manager';
+import { CloudFormationCustomResourceHandler } from 'aws-lambda';
+import axios from 'axios';
 import { Connection, ConnectionConfig, Request } from 'tedious';
-import axios from "axios";
 
-const dbSecretArn: string = process.env.DB_SECRET_ARN;
+const dbSecretArn: string = process.env.DB_SECRET_ARN!;
 
-const modifyConfig = async (dbSecretArn: string): Promise<ConnectionConfig> => {
+const modifyConfig = async (secretArn: string): Promise<ConnectionConfig> => {
   const client = new SecretsManagerClient({});
-  const cmd = new GetSecretValueCommand({ SecretId: dbSecretArn });
+  const cmd = new GetSecretValueCommand({ SecretId: secretArn });
   const dbSecret = await client.send(cmd);
   const { host, username, password } = JSON.parse(dbSecret.SecretString || '{}');
-  const config: ConnectionConfig = {  
+  const config: ConnectionConfig = {
     server: host,
     authentication: {
-        type: 'default',
-        options: {
-            userName: username,
-            password: password
-        }
+      type: 'default',
+      options: {
+        userName: username,
+        password: password,
+      },
     },
     options: {
-        encrypt: false,
-    }
+      encrypt: false,
+    },
   };
-  return config
+  return config;
 };
 
 const modifyConnection = async (config: ConnectionConfig): Promise<Connection> => {
-  const connection = new Connection(config)
+  const connection = new Connection(config);
   await new Promise(function(resolve, reject) {
     connection.on('connect', err => {
-        if (err) {
-            reject(err)
-        } else {
-            resolve(connection)
-        }
+      if (err) {
+        reject(err);
+      } else {
+        resolve(connection);
+      }
     });
-    connection.connect()
+    connection.connect();
   });
 
-  return connection
+  return connection;
 };
 
 const execSql = async (connection: Connection, sql: string): Promise<any> => {
   const p = new Promise(function(resolve, reject) {
     const request = new Request(sql, (err, rowCount) => {
-        if (err) {
-          console.info(err);
-          resolve(err)
-        }
-        console.log(`Success: ${sql}`);
-        resolve(rowCount);
+      if (err) {
+        console.info(err);
+        resolve(err);
+      }
+      console.log(`Success: ${sql}`);
+      resolve(rowCount);
     });
     connection.execSql(request);
   });
@@ -67,14 +67,14 @@ export const handler: CloudFormationCustomResourceHandler = async (event) => {
     RequestId: event.RequestId,
     StackId: event.StackId,
     LogicalResourceId: event.LogicalResourceId,
-    PhysicalResourceId: `${config.server}/${databaseName}`
-  }
+    PhysicalResourceId: `${config.server}/${databaseName}`,
+  };
 
   try {
     if (event.RequestType === 'Create') {
       await execSql(connection, `CREATE DATABASE ${databaseName};`);
     } else if (event.RequestType === 'Update') {
-      const oldDatabaseName = event.OldResourceProperties.DatabaseName
+      const oldDatabaseName = event.OldResourceProperties.DatabaseName;
       await execSql(connection, `CREATE DATABASE ${databaseName};`);
       await execSql(connection, `DROP DATABASE ${oldDatabaseName};`);
     } else if (event.RequestType === 'Delete') {
@@ -85,10 +85,9 @@ export const handler: CloudFormationCustomResourceHandler = async (event) => {
     if (event.RequestType === 'Create' || event.RequestType === 'Update') {
       const reason = JSON.stringify(e);
       response.Status = 'FAILED';
-      response['Reason'] = reason;
     };
   } finally {
     connection.close();
-    await axios.put(event.ResponseURL, response, { headers: { "Content-Type": "application/json" } });
+    await axios.put(event.ResponseURL, response, { headers: { 'Content-Type': 'application/json' } });
   };
 };

@@ -3572,7 +3572,7 @@ Object {
       "Properties": Object {
         "Code": Object {
           "S3Bucket": "cdk-hnb659fds-assets-123456789012-us-west-2",
-          "S3Key": "37ee9b4044638d9f5194615814755ba2ac5bb0ee4c8f517647dae6572273b2cd.zip",
+          "S3Key": "5fc13d72913372e4e78f19b6f217f9b9aab43a9942e271bb6c4f24d42952a3e3.zip",
         },
         "Environment": Object {
           "Variables": Object {
@@ -7015,7 +7015,7 @@ Object {
               Object {
                 "Ref": "IdentityServerCertificateBuildProjectBD0EF4F6",
               },
-              "\\",\\"sourceTypeOverride\\":\\"S3\\",\\"sourceLocationOverride\\":\\"cdk-hnb659fds-assets-123456789012-us-west-2/abb383aa7ac67661ff64ae0a217f7fd6edcf4ba87ab1395360b21b210a338216.zip\\",\\"idempotencyToken\\":\\"abb383aa7ac67661ff64ae0a217f7fd6edcf4ba87ab1395360b21b210a338216\\"},\\"physicalResourceId\\":{\\"responsePath\\":\\"build.arn\\"}}",
+              "\\",\\"sourceTypeOverride\\":\\"S3\\",\\"sourceLocationOverride\\":\\"cdk-hnb659fds-assets-123456789012-us-west-2/8f79295706973f705d6c99acb7e1940d76146366b61fe9d82af3adb9c00ff378.zip\\",\\"idempotencyToken\\":\\"8f79295706973f705d6c99acb7e1940d76146366b61fe9d82af3adb9c00ff378\\"},\\"physicalResourceId\\":{\\"responsePath\\":\\"build.arn\\"}}",
             ],
           ],
         },
@@ -7034,7 +7034,7 @@ Object {
               Object {
                 "Ref": "IdentityServerCertificateBuildProjectBD0EF4F6",
               },
-              "\\",\\"sourceTypeOverride\\":\\"S3\\",\\"sourceLocationOverride\\":\\"cdk-hnb659fds-assets-123456789012-us-west-2/abb383aa7ac67661ff64ae0a217f7fd6edcf4ba87ab1395360b21b210a338216.zip\\",\\"idempotencyToken\\":\\"abb383aa7ac67661ff64ae0a217f7fd6edcf4ba87ab1395360b21b210a338216\\"},\\"physicalResourceId\\":{\\"responsePath\\":\\"build.arn\\"}}",
+              "\\",\\"sourceTypeOverride\\":\\"S3\\",\\"sourceLocationOverride\\":\\"cdk-hnb659fds-assets-123456789012-us-west-2/8f79295706973f705d6c99acb7e1940d76146366b61fe9d82af3adb9c00ff378.zip\\",\\"idempotencyToken\\":\\"8f79295706973f705d6c99acb7e1940d76146366b61fe9d82af3adb9c00ff378\\"},\\"physicalResourceId\\":{\\"responsePath\\":\\"build.arn\\"}}",
             ],
           ],
         },
@@ -7131,7 +7131,7 @@ Object {
           ],
         },
         "Source": Object {
-          "Location": "cdk-hnb659fds-assets-123456789012-us-west-2/abb383aa7ac67661ff64ae0a217f7fd6edcf4ba87ab1395360b21b210a338216.zip",
+          "Location": "cdk-hnb659fds-assets-123456789012-us-west-2/8f79295706973f705d6c99acb7e1940d76146366b61fe9d82af3adb9c00ff378.zip",
           "Type": "S3",
         },
         "VpcConfig": Object {
@@ -7239,7 +7239,7 @@ Object {
                       Object {
                         "Ref": "AWS::Partition",
                       },
-                      ":s3:::cdk-hnb659fds-assets-123456789012-us-west-2/abb383aa7ac67661ff64ae0a217f7fd6edcf4ba87ab1395360b21b210a338216.zip",
+                      ":s3:::cdk-hnb659fds-assets-123456789012-us-west-2/8f79295706973f705d6c99acb7e1940d76146366b61fe9d82af3adb9c00ff378.zip",
                     ],
                   ],
                 },
